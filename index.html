@@ -815,8 +815,16 @@
                 btn.classList.remove('active');
             });
             
-            // تفعيل الزر المضغوط
-            event.target.classList.add('active');
+            // تفعيل الزر المضغوط - ملاحظة: لازم نحدد الحدث
+            const activeBtn = Array.from(document.querySelectorAll('.tab-btn')).find(
+                btn => btn.textContent.includes(tabId === 'home' ? 'الرئيسية' : 
+                                              tabId === 'about' ? 'عن الجمعية' :
+                                              tabId === 'projects' ? 'المشاريع' :
+                                              tabId === 'donations' ? 'التبرعات' : 'اتصل بنا')
+            );
+            if (activeBtn) {
+                activeBtn.classList.add('active');
+            }
         }
 
         // دوال النماذج
@@ -846,14 +854,8 @@
 
         // تحديث الأرقام العربية
         document.addEventListener('DOMContentLoaded', () => {
-            // تحويل الأرقام إلى العربية
-            const numberElements = document.querySelectorAll('.number');
-            numberElements.forEach(el => {
-                const num = el.innerText.replace(/[٠-٩]/g, '');
-                if (num) {
-                    el.innerText = new Intl.NumberFormat('ar-EG').format(parseInt(num.replace(/,/g, '')));
-                }
-            });
+            // الأرقام العربية موجودة بالفعل في HTML
+            console.log('الصفحة جاهزة');
         });
     </script>
 </body>
