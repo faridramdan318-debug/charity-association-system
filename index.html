@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
-    <title>الجمعية الخيرية · النظام المتكامل</title>
+    <title>نظام المحافظ · ٢٨ محفظة</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         * {
@@ -14,232 +14,278 @@
         }
         
         body {
-            background: #f8fafc;
+            background: #f0f7f4;
             min-height: 100vh;
-            color: #2d3748;
+            color: #1e293b;
         }
 
-        /* شريط التبويبات العلوي */
-        .top-nav {
-            background: linear-gradient(135deg, #059669 0%, #10b981 100%);
+        /* شريط العنوان */
+        .header {
+            background: linear-gradient(135deg, #0d9488, #14b8a6);
             color: white;
-            padding: 15px;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
+            padding: 20px;
+            text-align: center;
             box-shadow: 0 4px 20px rgba(0,0,0,0.1);
         }
 
-        .top-nav h1 {
-            font-size: 1.5rem;
-            margin-bottom: 10px;
-            text-align: center;
+        .header h1 {
+            font-size: 2rem;
+            margin-bottom: 5px;
         }
 
-        .nav-tabs {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-            flex-wrap: wrap;
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
         }
 
-        .tab-btn {
-            padding: 12px 25px;
-            border: none;
-            border-radius: 50px;
-            background: rgba(255,255,255,0.2);
-            color: white;
-            font-size: 1rem;
-            font-weight: bold;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .tab-btn:hover {
-            background: rgba(255,255,255,0.3);
-            transform: translateY(-2px);
-        }
-
-        .tab-btn.active {
-            background: white;
-            color: #059669;
-        }
-
-        /* الحاويات */
+        /* الحاوية الرئيسية */
         .container {
-            max-width: 1200px;
+            max-width: 1400px;
             margin: 30px auto;
             padding: 0 20px;
         }
 
-        /* المحتوى الرئيسي */
-        .tab-content {
-            display: none;
-            animation: fadeIn 0.5s ease;
-        }
-
-        .tab-content.active {
-            display: block;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* البطاقات */
-        .card {
-            background: white;
-            border-radius: 30px;
-            padding: 30px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
-            margin-bottom: 30px;
-        }
-
-        .card-header {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            margin-bottom: 25px;
-        }
-
-        .card-header i {
-            font-size: 2rem;
-            color: #059669;
-        }
-
-        .card-header h2 {
-            color: #1e293b;
-            font-size: 1.8rem;
-        }
-
-        /* الشبكات */
-        .grid-2 {
+        /* إحصائيات سريعة */
+        .quick-stats {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 25px;
-        }
-
-        .grid-3 {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 25px;
-        }
-
-        @media (max-width: 768px) {
-            .grid-2, .grid-3 {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        /* إحصائيات */
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            grid-template-columns: repeat(4, 1fr);
             gap: 20px;
             margin-bottom: 30px;
         }
 
-        .stat-card {
+        .stat-box {
             background: white;
             border-radius: 25px;
-            padding: 25px;
-            display: flex;
-            align-items: center;
-            gap: 20px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
-            transition: transform 0.3s ease;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
         }
 
-        .stat-card:hover {
-            transform: translateY(-5px);
+        .stat-box i {
+            font-size: 2rem;
+            color: #0d9488;
+            margin-bottom: 10px;
         }
 
-        .stat-icon {
-            width: 60px;
-            height: 60px;
-            border-radius: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 28px;
-            color: white;
-        }
-
-        .stat-icon.families { background: linear-gradient(135deg, #059669, #10b981); }
-        .stat-icon.donations { background: linear-gradient(135deg, #f59e0b, #fbbf24); }
-        .stat-icon.projects { background: linear-gradient(135deg, #3b82f6, #60a5fa); }
-        .stat-icon.volunteers { background: linear-gradient(135deg, #8b5cf6, #a78bfa); }
-
-        .stat-info h3 {
+        .stat-box h3 {
             color: #64748b;
             font-size: 0.9rem;
             margin-bottom: 5px;
         }
 
-        .stat-info .number {
+        .stat-box .number {
             font-size: 1.8rem;
+            font-weight: bold;
+            color: #0d9488;
+        }
+
+        @media (max-width: 768px) {
+            .quick-stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        /* شبكة المحافظ */
+        .regions-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+
+        .region-card {
+            background: white;
+            border-radius: 30px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+
+        .region-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+        }
+
+        .region-header {
+            background: linear-gradient(135deg, #0d9488, #14b8a6);
+            color: white;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .region-icon {
+            width: 60px;
+            height: 60px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+        }
+
+        .region-title h3 {
+            font-size: 1.3rem;
+            margin-bottom: 5px;
+        }
+
+        .region-title p {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        .region-content {
+            padding: 20px;
+        }
+
+        /* قائمة الأشخاص */
+        .people-list {
+            margin: 15px 0;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        .person-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            background: #f8fafc;
+            border-radius: 15px;
+            margin-bottom: 8px;
+        }
+
+        .person-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .person-name {
             font-weight: bold;
             color: #1e293b;
         }
 
-        /* قائمة المشاريع */
-        .projects-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 25px;
+        .person-help {
+            background: #0d9488;
+            color: white;
+            padding: 3px 10px;
+            border-radius: 50px;
+            font-size: 0.8rem;
         }
 
-        .project-card {
-            background: white;
-            border-radius: 25px;
-            overflow: hidden;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+        .person-actions button {
+            background: none;
+            border: none;
+            color: #94a3b8;
+            cursor: pointer;
+            margin: 0 5px;
+            transition: color 0.3s ease;
+        }
+
+        .person-actions button:hover {
+            color: #dc2626;
+        }
+
+        /* أزرار التحكم */
+        .region-actions {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .btn {
+            padding: 12px;
+            border: none;
+            border-radius: 15px;
+            font-weight: bold;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
             transition: all 0.3s ease;
         }
 
-        .project-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        .btn-add {
+            background: #e0f2e9;
+            color: #0d9488;
         }
 
-        .project-header {
-            background: linear-gradient(135deg, #059669, #10b981);
+        .btn-help {
+            background: #0d9488;
             color: white;
-            padding: 20px;
-            text-align: center;
         }
 
-        .project-header i {
-            font-size: 2.5rem;
-            margin-bottom: 10px;
+        .btn:hover {
+            transform: translateY(-2px);
+            filter: brightness(0.95);
         }
 
-        .project-body {
-            padding: 20px;
-        }
-
-        .project-progress {
-            margin: 15px 0;
-        }
-
-        .progress-bar {
-            height: 10px;
-            background: #e2e8f0;
-            border-radius: 5px;
-            overflow: hidden;
-        }
-
-        .progress-fill {
+        /* المودال */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
             height: 100%;
-            background: linear-gradient(90deg, #059669, #10b981);
-            width: 75%;
+            background: rgba(0,0,0,0.5);
+            backdrop-filter: blur(5px);
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
         }
 
-        /* نماذج */
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 30px;
+            padding: 30px;
+            width: 90%;
+            max-width: 500px;
+            animation: slideUp 0.3s ease;
+        }
+
+        @keyframes slideUp {
+            from { transform: translateY(50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .modal-header h2 {
+            color: #0d9488;
+        }
+
+        .close-modal {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #f1f5f9;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .close-modal:hover {
+            background: #e2e8f0;
+            transform: rotate(90deg);
+        }
+
         .form-group {
             margin-bottom: 20px;
         }
@@ -248,7 +294,7 @@
             display: block;
             margin-bottom: 8px;
             color: #475569;
-            font-weight: 600;
+            font-weight: bold;
         }
 
         .form-control {
@@ -257,149 +303,26 @@
             border: 2px solid #e2e8f0;
             border-radius: 15px;
             font-size: 1rem;
-            transition: all 0.3s ease;
         }
 
         .form-control:focus {
             outline: none;
-            border-color: #059669;
-            box-shadow: 0 0 0 4px rgba(5,150,105,0.1);
+            border-color: #0d9488;
         }
 
-        /* أزرار */
-        .btn {
-            padding: 15px 30px;
+        .btn-save {
+            width: 100%;
+            padding: 15px;
+            background: #0d9488;
+            color: white;
             border: none;
-            border-radius: 50px;
+            border-radius: 15px;
+            font-size: 1.1rem;
             font-weight: bold;
             cursor: pointer;
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            transition: all 0.3s ease;
-            font-size: 1rem;
         }
 
-        .btn-primary {
-            background: linear-gradient(135deg, #059669, #10b981);
-            color: white;
-        }
-
-        .btn-secondary {
-            background: #e2e8f0;
-            color: #475569;
-        }
-
-        .btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-        }
-
-        /* جدول التبرعات */
-        .donations-table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-
-        .donations-table th {
-            background: #f1f5f9;
-            padding: 15px;
-            text-align: center;
-            font-weight: bold;
-            color: #475569;
-        }
-
-        .donations-table td {
-            padding: 15px;
-            border-bottom: 1px solid #e2e8f0;
-            text-align: center;
-        }
-
-        .donations-table tr:hover {
-            background: #f8fafc;
-        }
-
-        .badge {
-            padding: 5px 15px;
-            border-radius: 50px;
-            font-size: 0.9rem;
-            font-weight: bold;
-        }
-
-        .badge-success {
-            background: #d1fae5;
-            color: #065f46;
-        }
-
-        .badge-warning {
-            background: #fed7aa;
-            color: #92400e;
-        }
-
-        /* قسم الاتصال */
-        .contact-info {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-        }
-
-        .contact-item {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            padding: 15px;
-            background: #f8fafc;
-            border-radius: 15px;
-        }
-
-        .contact-item i {
-            width: 40px;
-            height: 40px;
-            background: #059669;
-            color: white;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        /* تذييل الصفحة */
-        footer {
-            background: white;
-            padding: 30px 20px;
-            text-align: center;
-            margin-top: 50px;
-            box-shadow: 0 -5px 20px rgba(0,0,0,0.05);
-        }
-
-        .social-links {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            margin: 20px 0;
-        }
-
-        .social-links a {
-            width: 45px;
-            height: 45px;
-            background: #f1f5f9;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #059669;
-            font-size: 1.3rem;
-            transition: all 0.3s ease;
-        }
-
-        .social-links a:hover {
-            background: #059669;
-            color: white;
-            transform: translateY(-3px);
-        }
-
-        /* إشعارات */
-        .toast-message {
+        .toast {
             position: fixed;
             bottom: 30px;
             right: 30px;
@@ -410,452 +333,414 @@
             display: flex;
             align-items: center;
             gap: 10px;
-            z-index: 2000;
-            animation: slideInRight 0.3s ease;
+            z-index: 3000;
+            animation: slideRight 0.3s ease;
         }
 
-        @keyframes slideInRight {
+        @keyframes slideRight {
             from { transform: translateX(100px); opacity: 0; }
             to { transform: translateX(0); opacity: 1; }
         }
     </style>
 </head>
 <body>
-    <!-- شريط التنقل العلوي -->
-    <div class="top-nav">
-        <h1><i class="fas fa-hand-holding-heart"></i> الجمعية الخيرية · النظام المتكامل</h1>
-        <div class="nav-tabs">
-            <button class="tab-btn active" onclick="showTab('home')">
-                <i class="fas fa-home"></i> الرئيسية
-            </button>
-            <button class="tab-btn" onclick="showTab('about')">
-                <i class="fas fa-info-circle"></i> عن الجمعية
-            </button>
-            <button class="tab-btn" onclick="showTab('projects')">
-                <i class="fas fa-project-diagram"></i> المشاريع
-            </button>
-            <button class="tab-btn" onclick="showTab('donations')">
-                <i class="fas fa-donate"></i> التبرعات
-            </button>
-            <button class="tab-btn" onclick="showTab('contact')">
-                <i class="fas fa-envelope"></i> اتصل بنا
-            </button>
-        </div>
+    <div class="header">
+        <h1><i class="fas fa-map-marked-alt"></i> نظام المحافظ · ٢٨ محفظة</h1>
+        <p>إدارة المناطق والمستفيدين والمساعدات</p>
     </div>
 
     <div class="container">
-        <!-- الصفحة الرئيسية -->
-        <div id="home" class="tab-content active">
-            <!-- الإحصائيات -->
-            <div class="stats-grid">
-                <div class="stat-card">
-                    <div class="stat-icon families">
-                        <i class="fas fa-users"></i>
-                    </div>
-                    <div class="stat-info">
-                        <h3>الأسر المستفيدة</h3>
-                        <div class="number" id="familiesCount">١٬٢٥٠</div>
-                    </div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-icon donations">
-                        <i class="fas fa-hand-holding-heart"></i>
-                    </div>
-                    <div class="stat-info">
-                        <h3>إجمالي التبرعات</h3>
-                        <div class="number" id="donationsTotal">٢٬٥٠٠٬٠٠٠</div>
-                    </div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-icon projects">
-                        <i class="fas fa-project-diagram"></i>
-                    </div>
-                    <div class="stat-info">
-                        <h3>المشاريع الجارية</h3>
-                        <div class="number" id="projectsCount">١٢</div>
-                    </div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-icon volunteers">
-                        <i class="fas fa-hands-helping"></i>
-                    </div>
-                    <div class="stat-info">
-                        <h3>المتطوعين</h3>
-                        <div class="number" id="volunteersCount">٨٥</div>
-                    </div>
-                </div>
+        <!-- إحصائيات سريعة -->
+        <div class="quick-stats">
+            <div class="stat-box">
+                <i class="fas fa-map-marker-alt"></i>
+                <h3>إجمالي المحافظ</h3>
+                <div class="number" id="totalRegions">٢٨</div>
             </div>
-
-            <!-- بطاقة الترحيب -->
-            <div class="card">
-                <div class="card-header">
-                    <i class="fas fa-sun"></i>
-                    <h2>مرحباً بكم في الجمعية الخيرية</h2>
-                </div>
-                <p style="font-size: 1.2rem; line-height: 1.8; color: #475569; margin-bottom: 20px;">
-                    نعمل معاً من أجل تقديم المساعدة والدعم للمحتاجين، ونسعى لتحقيق التنمية المستدامة 
-                    في مجتمعنا من خلال مشاريعنا الخيرية المتنوعة. بفضل دعمكم وتبرعاتكم استطعنا 
-                    تغيير حياة آلاف الأسر نحو الأفضل.
-                </p>
-                <div style="display: flex; gap: 15px; flex-wrap: wrap;">
-                    <button class="btn btn-primary" onclick="showTab('donations')">
-                        <i class="fas fa-donate"></i> تبرع الآن
-                    </button>
-                    <button class="btn btn-secondary" onclick="showTab('projects')">
-                        <i class="fas fa-project-diagram"></i> مشاريعنا
-                    </button>
-                </div>
+            <div class="stat-box">
+                <i class="fas fa-users"></i>
+                <h3>إجمالي المستفيدين</h3>
+                <div class="number" id="totalPeople">٠</div>
             </div>
-
-            <!-- آخر الأخبار -->
-            <div class="card">
-                <div class="card-header">
-                    <i class="fas fa-newspaper"></i>
-                    <h2>آخر الأخبار</h2>
-                </div>
-                <div class="grid-2">
-                    <div class="project-card">
-                        <div class="project-header">
-                            <i class="fas fa-home"></i>
-                            <h3>مشروع إسكان الأسر</h3>
-                        </div>
-                        <div class="project-body">
-                            <p>تم الانتهاء من بناء 50 وحدة سكنية للأسر المحتاجة</p>
-                            <div class="project-progress">
-                                <div class="progress-bar">
-                                    <div class="progress-fill" style="width: 100%"></div>
-                                </div>
-                                <p style="margin-top: 5px;">مكتمل ١٠٠٪</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="project-card">
-                        <div class="project-header">
-                            <i class="fas fa-utensils"></i>
-                            <h3>موائد الرحمن</h3>
-                        </div>
-                        <div class="project-body">
-                            <p>توزيع ١٠٠٠ وجبة يومياً طوال شهر رمضان</p>
-                            <div class="project-progress">
-                                <div class="progress-bar">
-                                    <div class="progress-fill" style="width: 60%"></div>
-                                </div>
-                                <p style="margin-top: 5px;">جاري ٦٠٪</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+            <div class="stat-box">
+                <i class="fas fa-gift"></i>
+                <h3>إجمالي المساعدات</h3>
+                <div class="number" id="totalHelps">٠</div>
+            </div>
+            <div class="stat-box">
+                <i class="fas fa-check-circle"></i>
+                <h3>المحافظ النشطة</h3>
+                <div class="number" id="activeRegions">٢٨</div>
             </div>
         </div>
 
-        <!-- صفحة عن الجمعية -->
-        <div id="about" class="tab-content">
-            <div class="card">
-                <div class="card-header">
-                    <i class="fas fa-history"></i>
-                    <h2>تاريخنا ورسالتنا</h2>
-                </div>
-                <p style="font-size: 1.1rem; line-height: 1.8; margin-bottom: 20px;">
-                    تأسست الجمعية الخيرية عام ٢٠٠٠ بهدف تقديم المساعدة والدعم للأسر المحتاجة والأيتام 
-                    والأرامل في جميع أنحاء الجمهورية. على مدار أكثر من ٢٥ عاماً، استطعنا بفضل دعم 
-                    المحسنين والمتبرعين تقديم المساعدة لآلاف الأسر وإحداث فرق حقيقي في حياة الكثيرين.
-                </p>
-                <div class="grid-2" style="margin-top: 30px;">
-                    <div>
-                        <h3 style="color: #059669; margin-bottom: 15px;">رؤيتنا</h3>
-                        <p>الريادة في العمل الخيري والتنموي لتحقيق مجتمع متكافل ومتماسك.</p>
-                    </div>
-                    <div>
-                        <h3 style="color: #059669; margin-bottom: 15px;">رسالتنا</h3>
-                        <p>تقديم المساعدة والدعم للمحتاجين وتمكين الأسر من الاعتماد على نفسها.</p>
-                    </div>
-                </div>
-            </div>
+        <!-- شبكة المحافظ (المناطق) -->
+        <div id="regionsGrid" class="regions-grid"></div>
+    </div>
 
-            <div class="card">
-                <div class="card-header">
-                    <i class="fas fa-bullseye"></i>
-                    <h2>أهدافنا</h2>
-                </div>
-                <div class="grid-3">
-                    <div style="text-align: center; padding: 20px;">
-                        <i class="fas fa-heartbeat" style="font-size: 3rem; color: #059669; margin-bottom: 15px;"></i>
-                        <h3>الرعاية الصحية</h3>
-                        <p>توفير العلاج والدعم الصحي للمحتاجين</p>
-                    </div>
-                    <div style="text-align: center; padding: 20px;">
-                        <i class="fas fa-graduation-cap" style="font-size: 3rem; color: #059669; margin-bottom: 15px;"></i>
-                        <h3>الدعم التعليمي</h3>
-                        <p>مساعدة الطلاب غير القادرين على مواصلة التعليم</p>
-                    </div>
-                    <div style="text-align: center; padding: 20px;">
-                        <i class="fas fa-home" style="font-size: 3rem; color: #059669; margin-bottom: 15px;"></i>
-                        <h3>المساعدات السكنية</h3>
-                        <p>توفير مسكن ملائم للأسر المحتاجة</p>
-                    </div>
+    <!-- مودال إضافة شخص -->
+    <div id="addPersonModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2><i class="fas fa-user-plus"></i> إضافة مستفيد جديد</h2>
+                <div class="close-modal" onclick="closeModal('addPersonModal')">
+                    <i class="fas fa-times"></i>
                 </div>
             </div>
-        </div>
-
-        <!-- صفحة المشاريع -->
-        <div id="projects" class="tab-content">
-            <div class="card">
-                <div class="card-header">
-                    <i class="fas fa-project-diagram"></i>
-                    <h2>مشاريعنا الحالية</h2>
+            <form onsubmit="addPerson(event)">
+                <input type="hidden" id="currentRegionId">
+                <div class="form-group">
+                    <label>الاسم</label>
+                    <input type="text" class="form-control" id="personName" required placeholder="مثال: محمد أحمد">
                 </div>
-                <div class="projects-grid">
-                    <div class="project-card">
-                        <div class="project-header">
-                            <i class="fas fa-home"></i>
-                            <h3>مشروع إسكان الأسر</h3>
-                        </div>
-                        <div class="project-body">
-                            <p>بناء ١٠٠ وحدة سكنية للأسر المحتاجة في المناطق الأكثر احتياجاً.</p>
-                            <div class="project-progress">
-                                <div class="progress-bar">
-                                    <div class="progress-fill" style="width: 75%"></div>
-                                </div>
-                                <p>تم جمع ٧٥٪ من التبرعات</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="project-card">
-                        <div class="project-header">
-                            <i class="fas fa-utensils"></i>
-                            <h3>موائد الرحمن</h3>
-                        </div>
-                        <div class="project-body">
-                            <p>توزيع وجبات إفطار يومية طوال شهر رمضان المبارك.</p>
-                            <div class="project-progress">
-                                <div class="progress-bar">
-                                    <div class="progress-fill" style="width: 60%"></div>
-                                </div>
-                                <p>تم جمع ٦٠٪ من التبرعات</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="project-card">
-                        <div class="project-header">
-                            <i class="fas fa-graduation-cap"></i>
-                            <h3>دعم التعليم</h3>
-                        </div>
-                        <div class="project-body">
-                            <p>كفالة ٢٠٠ طالب وطالبة في المراحل التعليمية المختلفة.</p>
-                            <div class="project-progress">
-                                <div class="progress-bar">
-                                    <div class="progress-fill" style="width: 40%"></div>
-                                </div>
-                                <p>تم جمع ٤٠٪ من التبرعات</p>
-                            </div>
-                        </div>
-                    </div>
+                <div class="form-group">
+                    <label>رقم الهاتف</label>
+                    <input type="text" class="form-control" id="personPhone" placeholder="٠١٢٣٤٥٦٧٨٩">
                 </div>
-            </div>
-        </div>
-
-        <!-- صفحة التبرعات -->
-        <div id="donations" class="tab-content">
-            <div class="card">
-                <div class="card-header">
-                    <i class="fas fa-hand-holding-heart"></i>
-                    <h2>تبرعاتكم تسعدهم</h2>
+                <div class="form-group">
+                    <label>ملاحظات</label>
+                    <textarea class="form-control" id="personNotes" rows="2" placeholder="أي معلومات إضافية..."></textarea>
                 </div>
-                <form onsubmit="addDonation(event)">
-                    <div class="grid-2">
-                        <div class="form-group">
-                            <label>الاسم</label>
-                            <input type="text" class="form-control" id="donorName" placeholder="الاسم (اختياري)">
-                        </div>
-                        <div class="form-group">
-                            <label>المبلغ (جنيه)</label>
-                            <input type="number" class="form-control" id="donationAmount" placeholder="١٠٠٠" required>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label>نوع التبرع</label>
-                        <select class="form-control" id="donationType">
-                            <option>نقدي</option>
-                            <option>غذائي</option>
-                            <option>كسوة</option>
-                            <option>علاج</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label>ملاحظات</label>
-                        <textarea class="form-control" rows="3" placeholder="أي ملاحظات إضافية..."></textarea>
-                    </div>
-                    <button type="submit" class="btn btn-primary">
-                        <i class="fas fa-donate"></i> تسجيل التبرع
-                    </button>
-                </form>
-            </div>
-
-            <div class="card">
-                <div class="card-header">
-                    <i class="fas fa-history"></i>
-                    <h2>آخر التبرعات</h2>
-                </div>
-                <table class="donations-table">
-                    <thead>
-                        <tr>
-                            <th>الاسم</th>
-                            <th>المبلغ</th>
-                            <th>النوع</th>
-                            <th>التاريخ</th>
-                            <th>الحالة</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>محمد أحمد</td>
-                            <td>١٠٬٠٠٠ جنيه</td>
-                            <td>نقدي</td>
-                            <td>٢٠٢٦-٠٣-١٥</td>
-                            <td><span class="badge badge-success">مكتمل</span></td>
-                        </tr>
-                        <tr>
-                            <td>فاطمة علي</td>
-                            <td>٥٬٠٠٠ جنيه</td>
-                            <td>غذائي</td>
-                            <td>٢٠٢٦-٠٣-١٤</td>
-                            <td><span class="badge badge-success">مكتمل</span></td>
-                        </tr>
-                        <tr>
-                            <td>خالد محمود</td>
-                            <td>٢٬٥٠٠ جنيه</td>
-                            <td>كسوة</td>
-                            <td>٢٠٢٦-٠٣-١٣</td>
-                            <td><span class="badge badge-warning">قيد التنفيذ</span></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-
-        <!-- صفحة اتصل بنا -->
-        <div id="contact" class="tab-content">
-            <div class="card">
-                <div class="card-header">
-                    <i class="fas fa-envelope"></i>
-                    <h2>تواصل معنا</h2>
-                </div>
-                <div class="grid-2">
-                    <div>
-                        <div class="contact-info">
-                            <div class="contact-item">
-                                <i class="fas fa-map-marker-alt"></i>
-                                <div>
-                                    <h3>العنوان</h3>
-                                    <p>شارع الخير - المدينة المنورة - السعودية</p>
-                                </div>
-                            </div>
-                            <div class="contact-item">
-                                <i class="fas fa-phone"></i>
-                                <div>
-                                    <h3>الهاتف</h3>
-                                    <p>٠١٢ ٣٤٥ ٦٧٨٩</p>
-                                </div>
-                            </div>
-                            <div class="contact-item">
-                                <i class="fas fa-envelope"></i>
-                                <div>
-                                    <h3>البريد الإلكتروني</h3>
-                                    <p>info@charity.org</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div>
-                        <form onsubmit="sendMessage(event)">
-                            <div class="form-group">
-                                <input type="text" class="form-control" placeholder="الاسم" required>
-                            </div>
-                            <div class="form-group">
-                                <input type="email" class="form-control" placeholder="البريد الإلكتروني" required>
-                            </div>
-                            <div class="form-group">
-                                <textarea class="form-control" rows="5" placeholder="رسالتك..." required></textarea>
-                            </div>
-                            <button type="submit" class="btn btn-primary">
-                                <i class="fas fa-paper-plane"></i> إرسال
-                            </button>
-                        </form>
-                    </div>
-                </div>
-            </div>
+                <button type="submit" class="btn-save">
+                    <i class="fas fa-save"></i> حفظ المستفيد
+                </button>
+            </form>
         </div>
     </div>
 
-    <!-- تذييل الصفحة -->
-    <footer>
-        <div class="social-links">
-            <a href="#"><i class="fab fa-facebook-f"></i></a>
-            <a href="#"><i class="fab fa-twitter"></i></a>
-            <a href="#"><i class="fab fa-instagram"></i></a>
-            <a href="#"><i class="fab fa-youtube"></i></a>
+    <!-- مودال إضافة مساعدة -->
+    <div id="addHelpModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2><i class="fas fa-gift"></i> إضافة مساعدة</h2>
+                <div class="close-modal" onclick="closeModal('addHelpModal')">
+                    <i class="fas fa-times"></i>
+                </div>
+            </div>
+            <form onsubmit="addHelp(event)">
+                <input type="hidden" id="helpRegionId">
+                <div class="form-group">
+                    <label>المستفيد</label>
+                    <select class="form-control" id="helpPersonId" required>
+                        <option value="">اختر المستفيد...</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>نوع المساعدة</label>
+                    <select class="form-control" id="helpType" required>
+                        <option value="نقدي">💰 نقدي</option>
+                        <option value="غذائي">🍞 غذائي</option>
+                        <option value="كسوة">👕 كسوة</option>
+                        <option value="علاج">💊 علاج</option>
+                        <option value="تعليم">📚 تعليم</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>القيمة (جنيه)</label>
+                    <input type="number" class="form-control" id="helpAmount" placeholder="١٠٠٠" required>
+                </div>
+                <div class="form-group">
+                    <label>ملاحظات</label>
+                    <textarea class="form-control" id="helpNotes" rows="2" placeholder="تفاصيل المساعدة..."></textarea>
+                </div>
+                <button type="submit" class="btn-save">
+                    <i class="fas fa-gift"></i> تسجيل المساعدة
+                </button>
+            </form>
         </div>
-        <p>جميع الحقوق محفوظة للجمعية الخيرية © ٢٠٢٦</p>
-        <p style="color: #94a3b8; margin-top: 10px;">نسعد بخدمتكم على مدار الساعة</p>
-    </footer>
+    </div>
 
     <script>
-        // دوال التنقل بين التبويبات
-        function showTab(tabId) {
-            // إخفاء كل التبويبات
-            document.querySelectorAll('.tab-content').forEach(tab => {
-                tab.classList.remove('active');
-            });
+        // ==============================================
+        // أسماء المناطق (٢٨ محفظة)
+        // ==============================================
+        const regionNames = [
+            "المنطقة الأولى", "المنطقة الثانية", "المنطقة الثالثة", "المنطقة الرابعة",
+            "المنطقة الخامسة", "المنطقة السادسة", "المنطقة السابعة", "المنطقة الثامنة",
+            "المنطقة التاسعة", "المنطقة العاشرة", "المنطقة الحادية عشرة", "المنطقة الثانية عشرة",
+            "المنطقة الثالثة عشرة", "المنطقة الرابعة عشرة", "المنطقة الخامسة عشرة", "المنطقة السادسة عشرة",
+            "المنطقة السابعة عشرة", "المنطقة الثامنة عشرة", "المنطقة التاسعة عشرة", "المنطقة العشرون",
+            "المنطقة الحادية والعشرون", "المنطقة الثانية والعشرون", "المنطقة الثالثة والعشرون", "المنطقة الرابعة والعشرون",
+            "المنطقة الخامسة والعشرون", "المنطقة السادسة والعشرون", "المنطقة السابعة والعشرون", "المنطقة الثامنة والعشرون"
+        ];
+
+        // ==============================================
+        // البيانات
+        // ==============================================
+        let regions = [];
+        let people = [];
+        let helps = [];
+
+        // تهيئة المناطق
+        function initRegions() {
+            regions = regionNames.map((name, index) => ({
+                id: index + 1,
+                name: name,
+                icon: getRegionIcon(index)
+            }));
+        }
+
+        // أيقونات مختلفة للمناطق
+        function getRegionIcon(index) {
+            const icons = ['🏘️', '🏙️', '🌆', '🌇', '🏞️', '🌳', '🏡', '🕌', '⛲', '🏛️', 
+                          '🏘️', '🏙️', '🌆', '🌇', '🏞️', '🌳', '🏡', '🕌', '⛲', '🏛️',
+                          '🏘️', '🏙️', '🌆', '🌇', '🏞️', '🌳', '🏡', '🕌'];
+            return icons[index % icons.length];
+        }
+
+        // ==============================================
+        // دوال المساعدة
+        // ==============================================
+        function getPeopleInRegion(regionId) {
+            return people.filter(p => p.regionId === regionId);
+        }
+
+        function getHelpsCount() {
+            return helps.length;
+        }
+
+        function getHelpsForPerson(personId) {
+            return helps.filter(h => h.personId === personId);
+        }
+
+        function getTotalHelpsAmount() {
+            return helps.reduce((sum, h) => sum + (h.amount || 0), 0);
+        }
+
+        // ==============================================
+        // عرض المحافظ
+        // ==============================================
+        function renderRegions() {
+            const grid = document.getElementById('regionsGrid');
+            if (!grid) return;
+
+            grid.innerHTML = regions.map(region => {
+                const regionPeople = getPeopleInRegion(region.id);
+                const peopleCount = regionPeople.length;
+                const helpsCount = regionPeople.reduce((sum, p) => sum + getHelpsForPerson(p.id).length, 0);
+
+                return `
+                <div class="region-card" data-region-id="${region.id}">
+                    <div class="region-header">
+                        <div class="region-icon">${region.icon}</div>
+                        <div class="region-title">
+                            <h3>${region.name}</h3>
+                            <p>👥 ${peopleCount} مستفيد | 🎁 ${helpsCount} مساعدة</p>
+                        </div>
+                    </div>
+                    <div class="region-content">
+                        <div class="people-list" id="people-${region.id}">
+                            ${regionPeople.length > 0 ? regionPeople.map(person => `
+                                <div class="person-item">
+                                    <div class="person-info">
+                                        <span class="person-name">${person.name}</span>
+                                        ${getHelpsForPerson(person.id).length > 0 ? 
+                                            `<span class="person-help">${getHelpsForPerson(person.id).length}</span>` : ''}
+                                    </div>
+                                    <div class="person-actions">
+                                        <button onclick="showPersonHelps('${person.id}')" title="عرض المساعدات">
+                                            <i class="fas fa-eye"></i>
+                                        </button>
+                                        <button onclick="deletePerson('${person.id}')" title="حذف">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            `).join('') : `
+                                <div style="text-align: center; color: #94a3b8; padding: 15px;">
+                                    لا يوجد مستفيدين
+                                </div>
+                            `}
+                        </div>
+                        <div class="region-actions">
+                            <button class="btn btn-add" onclick="openAddPersonModal(${region.id})">
+                                <i class="fas fa-user-plus"></i> إضافة مستفيد
+                            </button>
+                            <button class="btn btn-help" onclick="openAddHelpModal(${region.id})">
+                                <i class="fas fa-gift"></i> إضافة مساعدة
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                `;
+            }).join('');
+
+            updateStats();
+        }
+
+        // تحديث الإحصائيات
+        function updateStats() {
+            document.getElementById('totalRegions').innerText = '٢٨';
+            document.getElementById('totalPeople').innerText = people.length.toLocaleString('ar-EG');
+            document.getElementById('totalHelps').innerText = helps.length.toLocaleString('ar-EG');
+            document.getElementById('activeRegions').innerText = '٢٨';
+        }
+
+        // تحديث قائمة الأشخاص في منطقة معينة
+        function updatePeopleInRegion(regionId) {
+            const peopleContainer = document.getElementById(`people-${regionId}`);
+            if (!peopleContainer) return;
+
+            const regionPeople = getPeopleInRegion(regionId);
             
-            // إظهار التبويب المحدد
-            document.getElementById(tabId).classList.add('active');
+            peopleContainer.innerHTML = regionPeople.length > 0 ? regionPeople.map(person => `
+                <div class="person-item">
+                    <div class="person-info">
+                        <span class="person-name">${person.name}</span>
+                        ${getHelpsForPerson(person.id).length > 0 ? 
+                            `<span class="person-help">${getHelpsForPerson(person.id).length}</span>` : ''}
+                    </div>
+                    <div class="person-actions">
+                        <button onclick="showPersonHelps('${person.id}')" title="عرض المساعدات">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                        <button onclick="deletePerson('${person.id}')" title="حذف">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                </div>
+            `).join('') : `
+                <div style="text-align: center; color: #94a3b8; padding: 15px;">
+                    لا يوجد مستفيدين
+                </div>
+            `;
+
+            updateStats();
+        }
+
+        // تحديث قائمة المستفيدين في مودال المساعدة
+        function updateHelpPersonSelect(regionId) {
+            const select = document.getElementById('helpPersonId');
+            const regionPeople = getPeopleInRegion(regionId);
             
-            // تحديث حالة الأزرار
-            document.querySelectorAll('.tab-btn').forEach(btn => {
-                btn.classList.remove('active');
-            });
+            select.innerHTML = '<option value="">اختر المستفيد...</option>' + 
+                regionPeople.map(p => `<option value="${p.id}">${p.name}</option>`).join('');
+        }
+
+        // ==============================================
+        // العمليات الرئيسية
+        // ==============================================
+        function openAddPersonModal(regionId) {
+            document.getElementById('currentRegionId').value = regionId;
+            document.getElementById('addPersonModal').classList.add('active');
+        }
+
+        function openAddHelpModal(regionId) {
+            document.getElementById('helpRegionId').value = regionId;
+            updateHelpPersonSelect(regionId);
+            document.getElementById('addHelpModal').classList.add('active');
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.remove('active');
+        }
+
+        function addPerson(e) {
+            e.preventDefault();
             
-            // تفعيل الزر المضغوط - ملاحظة: لازم نحدد الحدث
-            const activeBtn = Array.from(document.querySelectorAll('.tab-btn')).find(
-                btn => btn.textContent.includes(tabId === 'home' ? 'الرئيسية' : 
-                                              tabId === 'about' ? 'عن الجمعية' :
-                                              tabId === 'projects' ? 'المشاريع' :
-                                              tabId === 'donations' ? 'التبرعات' : 'اتصل بنا')
-            );
-            if (activeBtn) {
-                activeBtn.classList.add('active');
+            const regionId = parseInt(document.getElementById('currentRegionId').value);
+            const name = document.getElementById('personName').value;
+            const phone = document.getElementById('personPhone').value;
+            const notes = document.getElementById('personNotes').value;
+
+            const newPerson = {
+                id: Date.now().toString(),
+                regionId: regionId,
+                name: name,
+                phone: phone,
+                notes: notes,
+                date: new Date().toISOString().split('T')[0]
+            };
+
+            people.push(newPerson);
+            updatePeopleInRegion(regionId);
+            
+            closeModal('addPersonModal');
+            e.target.reset();
+            showToast('✅ تم إضافة المستفيد بنجاح');
+        }
+
+        function addHelp(e) {
+            e.preventDefault();
+            
+            const regionId = parseInt(document.getElementById('helpRegionId').value);
+            const personId = document.getElementById('helpPersonId').value;
+            const type = document.getElementById('helpType').value;
+            const amount = parseFloat(document.getElementById('helpAmount').value);
+            const notes = document.getElementById('helpNotes').value;
+
+            const newHelp = {
+                id: Date.now().toString(),
+                personId: personId,
+                regionId: regionId,
+                type: type,
+                amount: amount,
+                notes: notes,
+                date: new Date().toISOString().split('T')[0]
+            };
+
+            helps.push(newHelp);
+            updatePeopleInRegion(regionId);
+            
+            closeModal('addHelpModal');
+            e.target.reset();
+            showToast('✅ تم تسجيل المساعدة بنجاح');
+        }
+
+        function deletePerson(personId) {
+            if (confirm('⚠️ هل أنت متأكد من حذف هذا المستفيد؟')) {
+                const person = people.find(p => p.id === personId);
+                if (person) {
+                    const regionId = person.regionId;
+                    people = people.filter(p => p.id !== personId);
+                    helps = helps.filter(h => h.personId !== personId);
+                    updatePeopleInRegion(regionId);
+                    showToast('✅ تم حذف المستفيد وجميع مساعداته');
+                }
             }
         }
 
-        // دوال النماذج
-        function addDonation(e) {
-            e.preventDefault();
-            showToast('تم تسجيل التبرع بنجاح، جزاك الله خيراً', 'success');
-            e.target.reset();
-        }
-
-        function sendMessage(e) {
-            e.preventDefault();
-            showToast('تم إرسال رسالتك، سنتواصل معك قريباً', 'success');
-            e.target.reset();
-        }
-
-        // دالة عرض الإشعارات
-        function showToast(message, type = 'success') {
-            const toast = document.createElement('div');
-            toast.className = 'toast-message';
-            toast.innerHTML = `<i class="fas fa-${type === 'success' ? 'check-circle' : 'info-circle'}" style="color: ${type === 'success' ? '#10b981' : '#f59e0b'}"></i> ${message}`;
-            document.body.appendChild(toast);
+        function showPersonHelps(personId) {
+            const person = people.find(p => p.id === personId);
+            const personHelps = helps.filter(h => h.personId === personId);
             
-            setTimeout(() => {
-                toast.remove();
-            }, 3000);
+            if (personHelps.length === 0) {
+                alert(`📋 لا توجد مساعدات لـ ${person.name}`);
+                return;
+            }
+
+            let message = `📋 مساعدات ${person.name}:\n\n`;
+            personHelps.forEach(h => {
+                message += `📅 ${h.date}\n`;
+                message += `🎁 ${h.type}: ${h.amount} جنيه\n`;
+                if (h.notes) message += `📝 ${h.notes}\n`;
+                message += '─'.repeat(20) + '\n';
+            });
+
+            alert(message);
         }
 
-        // تحديث الأرقام العربية
+        function showToast(message) {
+            const toast = document.createElement('div');
+            toast.className = 'toast';
+            toast.innerHTML = `<i class="fas fa-check-circle" style="color: #0d9488"></i> ${message}`;
+            document.body.appendChild(toast);
+            setTimeout(() => toast.remove(), 3000);
+        }
+
+        // ==============================================
+        // بدء التشغيل
+        // ==============================================
         document.addEventListener('DOMContentLoaded', () => {
-            // الأرقام العربية موجودة بالفعل في HTML
-            console.log('الصفحة جاهزة');
+            initRegions();
+            renderRegions();
+
+            // إغلاق المودال عند الضغط خارجها
+            document.querySelectorAll('.modal').forEach(modal => {
+                modal.addEventListener('click', (e) => {
+                    if (e.target === modal) modal.classList.remove('active');
+                });
+            });
         });
     </script>
 </body>
