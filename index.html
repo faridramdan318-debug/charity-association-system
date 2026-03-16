@@ -2,8 +2,8 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
-    <title>نظام العطاء · نسخة مبسطة</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>نظام إدارة الجمعية الخيرية</title>
     
     <!-- Font Awesome 6 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
@@ -12,41 +12,79 @@
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
     
     <style>
-        :root {
-            --bg-primary: #0a0f1e;
-            --bg-secondary: #141b2b;
-            --bg-card: #1e2639;
-            --text-primary: #ffffff;
-            --text-secondary: #b0b9d0;
-            --accent: #6366f1;
-            --success: #10b981;
-            --warning: #f59e0b;
-            --danger: #ef4444;
-            --purple: #8b5cf6;
-            --border: #2d374b;
-            --shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-            --radius: 30px;
-        }
-
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
 
+        :root {
+            --primary: #2196f3;
+            --success: #4caf50;
+            --warning: #ff9800;
+            --danger: #f44336;
+            --purple: #9c27b0;
+            --dark: #1e1e2d;
+            --darker: #151521;
+            --card: #1e1e2d;
+            --text: #ffffff;
+            --text-secondary: #a2a3b7;
+            --border: #2b2b3c;
+        }
+
         body {
-            font-family: 'Tajawal', 'Cairo', sans-serif;
-            background: var(--bg-primary);
-            color: var(--text-primary);
+            font-family: 'Tajawal', sans-serif;
+            background: var(--darker);
+            color: var(--text);
             min-height: 100vh;
         }
 
-        /* الهيدر */
+        /* الهيدر الرئيسي */
+        .main-header {
+            background: linear-gradient(135deg, #1e1e2d, #2d2d3a);
+            padding: 20px 0;
+            border-bottom: 3px solid var(--primary);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+            margin-bottom: 20px;
+        }
+
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+            text-align: center;
+        }
+
+        .main-title {
+            font-size: 2.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #fff, var(--primary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .main-title i {
+            font-size: 3rem;
+            color: var(--primary);
+            -webkit-text-fill-color: initial;
+        }
+
+        .sub-title {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            letter-spacing: 1px;
+        }
+
+        /* الهيدر السفلي */
         .header {
-            background: rgba(20, 27, 43, 0.8);
-            backdrop-filter: blur(20px);
+            background: var(--dark);
+            padding: 15px 30px;
             border-bottom: 1px solid var(--border);
-            padding: 20px 30px;
             position: sticky;
             top: 0;
             z-index: 1000;
@@ -58,68 +96,56 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            flex-wrap: wrap;
-            gap: 20px;
         }
 
         .logo {
             display: flex;
             align-items: center;
-            gap: 15px;
+            gap: 10px;
         }
 
-        .logo-3d {
-            width: 60px;
-            height: 60px;
-            background: linear-gradient(135deg, var(--accent), #4f46e5);
-            border-radius: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+        .logo i {
             font-size: 30px;
-            color: white;
+            color: var(--primary);
         }
 
-        .logo-text h1 {
-            font-size: 1.8rem;
-            font-weight: 800;
-            background: linear-gradient(135deg, #fff, var(--accent));
+        .logo h1 {
+            font-size: 1.5rem;
+            background: linear-gradient(135deg, #fff, var(--primary));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
 
-        /* التبويبات */
         .tabs {
             display: flex;
-            gap: 10px;
-            background: rgba(30, 38, 57, 0.5);
+            gap: 5px;
+            background: rgba(255,255,255,0.05);
             padding: 5px;
             border-radius: 50px;
         }
 
         .tab-btn {
-            padding: 12px 30px;
+            padding: 10px 25px;
             border: none;
             border-radius: 50px;
             background: transparent;
             color: var(--text-secondary);
-            font-size: 1rem;
-            font-weight: 600;
             cursor: pointer;
             display: flex;
             align-items: center;
             gap: 8px;
+            font-size: 1rem;
         }
 
         .tab-btn.active {
-            background: linear-gradient(135deg, var(--accent), #4f46e5);
+            background: var(--primary);
             color: white;
         }
 
         .container {
             max-width: 1400px;
-            margin: 30px auto;
-            padding: 0 25px;
+            margin: 20px auto;
+            padding: 0 20px;
         }
 
         .tab-section {
@@ -130,246 +156,206 @@
             display: block;
         }
 
-        /* البطاقات */
-        .card {
-            background: linear-gradient(135deg, var(--bg-card), var(--bg-secondary));
-            border-radius: var(--radius);
-            padding: 30px;
-            margin-bottom: 30px;
-            border: 1px solid var(--border);
-        }
-
-        .card-title {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 20px;
-            font-size: 1.5rem;
-        }
-
-        .card-title i {
-            color: var(--accent);
-        }
-
-        /* الجداول */
-        .table-container {
-            overflow-x: auto;
-            background: rgba(0, 0, 0, 0.2);
-            border-radius: 20px;
-            padding: 5px;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-
-        th {
-            background: rgba(99, 102, 241, 0.2);
-            padding: 15px;
-            text-align: right;
-            font-weight: 700;
-        }
-
-        td {
-            padding: 15px;
-            border-bottom: 1px solid var(--border);
-        }
-
-        tr:hover {
-            background: rgba(255, 255, 255, 0.02);
-        }
-
-        /* النماذج */
-        .form-grid {
+        /* بطاقات الإحصائيات */
+        .stats-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 15px;
-            margin-bottom: 20px;
-        }
-
-        input, select, textarea {
-            background: rgba(0, 0, 0, 0.3);
-            border: 2px solid var(--border);
-            border-radius: 15px;
-            padding: 15px;
-            color: white;
-            font-size: 1rem;
-            width: 100%;
-        }
-
-        input:focus, select:focus, textarea:focus {
-            outline: none;
-            border-color: var(--accent);
-        }
-
-        button {
-            background: linear-gradient(135deg, var(--accent), #4f46e5);
-            border: none;
-            border-radius: 15px;
-            padding: 15px 25px;
-            color: white;
-            font-size: 1rem;
-            font-weight: bold;
-            cursor: pointer;
-            transition: 0.3s;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        button:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 20px -10px var(--accent);
-        }
-
-        .btn-danger {
-            background: linear-gradient(135deg, var(--danger), #dc2626);
-        }
-
-        .btn-warning {
-            background: linear-gradient(135deg, var(--warning), #d97706);
-        }
-
-        .btn-success {
-            background: linear-gradient(135deg, var(--success), #059669);
-        }
-
-        .btn-purple {
-            background: linear-gradient(135deg, var(--purple), #7c3aed);
-        }
-
-        /* شارات */
-        .badge {
-            padding: 5px 12px;
-            border-radius: 50px;
-            font-size: 0.85rem;
-            font-weight: bold;
-            display: inline-block;
-        }
-
-        .badge-success {
-            background: rgba(16, 185, 129, 0.2);
-            color: var(--success);
-            border: 1px solid var(--success);
-        }
-
-        .badge-warning {
-            background: rgba(245, 158, 11, 0.2);
-            color: var(--warning);
-            border: 1px solid var(--warning);
-        }
-
-        .badge-danger {
-            background: rgba(239, 68, 68, 0.2);
-            color: var(--danger);
-            border: 1px solid var(--danger);
-        }
-
-        .badge-purple {
-            background: rgba(139, 92, 246, 0.2);
-            color: var(--purple);
-            border: 1px solid var(--purple);
-        }
-
-        /* شبكة المستفيدين */
-        .beneficiaries-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             gap: 20px;
-            margin-top: 20px;
+            margin-bottom: 25px;
         }
 
-        .beneficiary-card {
-            background: linear-gradient(135deg, var(--bg-card), var(--bg-secondary));
+        .stat-card {
+            background: var(--card);
             border-radius: 20px;
             padding: 20px;
             border: 1px solid var(--border);
-            position: relative;
-        }
-
-        .beneficiary-card:hover {
-            transform: translateY(-5px);
-            border-color: var(--accent);
-        }
-
-        .beneficiary-id {
-            position: absolute;
-            top: 10px;
-            left: 10px;
-            font-size: 0.8rem;
-            color: var(--text-secondary);
-        }
-
-        .beneficiary-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
-            margin-top: 20px;
-            padding-bottom: 10px;
-            border-bottom: 1px solid var(--border);
-        }
-
-        .beneficiary-name {
-            font-size: 1.3rem;
-            font-weight: 700;
-        }
-
-        .beneficiary-info {
-            display: grid;
-            gap: 8px;
-            margin: 15px 0;
-        }
-
-        .info-row {
             display: flex;
             align-items: center;
-            gap: 8px;
-            color: var(--text-secondary);
+            gap: 15px;
         }
 
-        .info-row i {
-            width: 20px;
-            color: var(--accent);
-        }
-
-        .beneficiary-actions {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 8px;
-            margin-top: 15px;
-        }
-
-        .action-btn {
-            padding: 8px;
-            border: 1px solid var(--border);
-            background: rgba(255, 255, 255, 0.03);
-            border-radius: 10px;
-            color: var(--text-secondary);
-            cursor: pointer;
+        .stat-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 15px;
             display: flex;
             align-items: center;
             justify-content: center;
+            font-size: 30px;
+        }
+
+        .stat-info h3 {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            font-weight: normal;
+        }
+
+        .stat-info .number {
+            font-size: 2rem;
+            font-weight: 800;
+        }
+
+        /* قسم البحث */
+        .search-section {
+            background: var(--card);
+            border-radius: 20px;
+            padding: 25px;
+            margin-bottom: 25px;
+        }
+
+        .search-filters {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .filter-group {
+            display: flex;
+            flex-direction: column;
             gap: 5px;
         }
 
-        .action-btn:hover {
-            background: var(--accent);
+        .filter-group label {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .filter-input, .filter-group input, .filter-group select, .filter-group textarea {
+            background: rgba(0,0,0,0.3);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 12px;
             color: white;
+            width: 100%;
         }
 
-        /* البحث */
-        .search-box {
+        .filter-group input:focus, .filter-group select:focus, .filter-group textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        /* أزرار الإجراءات */
+        .action-btn {
+            padding: 12px 20px;
+            border: 1px solid var(--border);
+            background: rgba(255,255,255,0.03);
+            border-radius: 10px;
+            color: var(--text);
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 1rem;
+        }
+
+        .action-btn:hover {
+            background: var(--primary);
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            border: none;
+        }
+
+        .btn-success {
+            background: var(--success);
+            border: none;
+        }
+
+        .btn-warning {
+            background: var(--warning);
+            border: none;
+        }
+
+        .btn-danger {
+            background: var(--danger);
+            border: none;
+        }
+
+        /* جدول المستفيدين */
+        .beneficiaries-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: var(--card);
+            border-radius: 20px;
+            overflow: hidden;
+        }
+
+        .beneficiaries-table th {
+            background: rgba(33, 150, 243, 0.2);
+            padding: 15px;
+            text-align: right;
+            font-weight: 600;
+        }
+
+        .beneficiaries-table td {
+            padding: 15px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .beneficiaries-table tr {
+            transition: 0.3s;
+        }
+
+        .beneficiaries-table tr:hover {
+            background: rgba(255,255,255,0.02);
+        }
+
+        .status-badge {
+            padding: 5px 12px;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            display: inline-block;
+        }
+
+        .status-urgent {
+            background: rgba(244, 67, 54, 0.2);
+            color: #f44336;
+            border: 1px solid #f44336;
+        }
+
+        .status-normal {
+            background: rgba(76, 175, 80, 0.2);
+            color: #4caf50;
+            border: 1px solid #4caf50;
+        }
+
+        .status-follow {
+            background: rgba(255, 152, 0, 0.2);
+            color: #ff9800;
+            border: 1px solid #ff9800;
+        }
+
+        .help-indicator {
             display: flex;
-            gap: 10px;
-            margin-bottom: 20px;
-            flex-wrap: wrap;
+            align-items: center;
+            gap: 5px;
+            font-size: 0.9rem;
         }
 
-        .search-box input {
-            flex: 1;
-            min-width: 250px;
+        .helped-this-month {
+            color: var(--success);
+        }
+
+        .not-helped {
+            color: var(--warning);
+        }
+
+        .action-icons {
+            display: flex;
+            gap: 8px;
+        }
+
+        .action-icon {
+            padding: 8px;
+            border-radius: 8px;
+            cursor: pointer;
+            background: rgba(255,255,255,0.03);
+        }
+
+        .action-icon:hover {
+            background: var(--primary);
         }
 
         /* المودال */
@@ -380,7 +366,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.8);
+            background: rgba(0,0,0,0.8);
             backdrop-filter: blur(10px);
             align-items: center;
             justify-content: center;
@@ -392,11 +378,11 @@
         }
 
         .modal-content {
-            background: var(--bg-card);
+            background: var(--card);
             border-radius: 30px;
             width: 90%;
             max-width: 600px;
-            max-height: 80vh;
+            max-height: 90vh;
             overflow-y: auto;
             padding: 25px;
         }
@@ -408,19 +394,98 @@
             margin-bottom: 20px;
         }
 
+        .modal-header h2 {
+            font-size: 1.5rem;
+        }
+
         .close {
             width: 40px;
             height: 40px;
             border-radius: 50%;
-            background: rgba(255, 255, 255, 0.1);
+            background: rgba(255,255,255,0.1);
             display: flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
+            font-size: 20px;
         }
 
         .close:hover {
             background: var(--danger);
+        }
+
+        /* ملف المستفيد الشخصي */
+        .profile-card {
+            background: var(--card);
+            border-radius: 20px;
+            padding: 25px;
+            margin-bottom: 25px;
+            border: 1px solid var(--border);
+        }
+
+        .profile-header {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 20px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .profile-avatar {
+            width: 80px;
+            height: 80px;
+            background: var(--primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+        }
+
+        .profile-title h3 {
+            font-size: 1.8rem;
+            margin-bottom: 5px;
+        }
+
+        .profile-title p {
+            color: var(--text-secondary);
+        }
+
+        .profile-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+        }
+
+        .profile-item {
+            background: rgba(255,255,255,0.03);
+            padding: 15px;
+            border-radius: 10px;
+        }
+
+        .profile-item label {
+            display: block;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-bottom: 5px;
+        }
+
+        .profile-item .value {
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        .helps-timeline {
+            margin-top: 25px;
+        }
+
+        .timeline-item {
+            background: rgba(255,255,255,0.03);
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            border-right: 4px solid var(--success);
         }
 
         /* التوست */
@@ -428,11 +493,11 @@
             position: fixed;
             bottom: 30px;
             right: 30px;
-            background: var(--bg-card);
+            background: var(--card);
             border-right: 4px solid var(--success);
             border-radius: 50px;
             padding: 15px 30px;
-            box-shadow: var(--shadow);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
             z-index: 3000;
             animation: slideIn 0.3s;
         }
@@ -441,121 +506,130 @@
             from { transform: translateX(100px); opacity: 0; }
             to { transform: translateX(0); opacity: 1; }
         }
+
+        /* باقي التنسيقات */
+        .quick-actions {
+            margin: 20px 0;
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
     </style>
 </head>
 <body>
+    <!-- الهيدر الرئيسي -->
+    <div class="main-header">
+        <div class="header-content">
+            <div class="main-title">
+                <i class="fas fa-hand-holding-heart"></i>
+                منصة العطاء الخيري
+                <i class="fas fa-mosque"></i>
+            </div>
+            <div class="sub-title">
+                نظام متكامل لإدارة المستفيدين والمخزن والمساعدات
+            </div>
+        </div>
+    </div>
+
+    <!-- الهيدر السفلي -->
     <div class="header">
         <div class="header-content">
             <div class="logo">
-                <div class="logo-3d">
-                    <i class="fas fa-hand-holding-heart"></i>
-                </div>
-                <div class="logo-text">
-                    <h1>منصة العطاء</h1>
-                </div>
+                <i class="fas fa-heart"></i>
+                <h1>الجمعية الخيرية</h1>
             </div>
             
             <div class="tabs">
-                <button class="tab-btn active" onclick="switchTab('store')">
-                    <i class="fas fa-warehouse"></i>
-                    المخزن
+                <button class="tab-btn active" onclick="switchTab('dashboard')">
+                    <i class="fas fa-chart-pie"></i>
+                    الرئيسية
                 </button>
                 <button class="tab-btn" onclick="switchTab('beneficiaries')">
                     <i class="fas fa-users"></i>
                     المستفيدين
+                </button>
+                <button class="tab-btn" onclick="switchTab('inventory')">
+                    <i class="fas fa-warehouse"></i>
+                    المخزن
                 </button>
             </div>
         </div>
     </div>
 
     <div class="container">
-        <!-- ===== قسم المخزن ===== -->
-        <div id="storeSection" class="tab-section active">
-            <!-- إحصائيات سريعة -->
-            <div class="card">
-                <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px;">
-                    <div style="display: flex; align-items: center; gap: 15px;">
-                        <i class="fas fa-boxes" style="font-size: 40px; color: var(--accent);"></i>
-                        <div>
-                            <h2 style="color: var(--text-secondary);">إجمالي الأصناف</h2>
-                            <span style="font-size: 3rem; font-weight: 800;" id="totalItems">0</span>
-                        </div>
+        <!-- ===== الصفحة الرئيسية ===== -->
+        <div id="dashboardSection" class="tab-section active">
+            <!-- الإحصائيات -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon" style="background: rgba(33, 150, 243, 0.1); color: var(--primary);">
+                        <i class="fas fa-users"></i>
                     </div>
-                    <div style="display: flex; align-items: center; gap: 15px;">
-                        <i class="fas fa-weight-scale" style="font-size: 40px; color: var(--success);"></i>
-                        <div>
-                            <h2 style="color: var(--text-secondary);">إجمالي الوحدات</h2>
-                            <span style="font-size: 3rem; font-weight: 800;" id="totalUnits">0</span>
-                        </div>
+                    <div class="stat-info">
+                        <h3>إجمالي المستفيدين</h3>
+                        <div class="number" id="totalBeneficiaries">0</div>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon" style="background: rgba(76, 175, 80, 0.1); color: var(--success);">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3>تم الصرف هذا الشهر</h3>
+                        <div class="number" id="helpedThisMonth">0</div>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon" style="background: rgba(255, 152, 0, 0.1); color: var(--warning);">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3>في انتظار المساعدة</h3>
+                        <div class="number" id="waitingHelp">0</div>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon" style="background: rgba(156, 39, 176, 0.1); color: var(--purple);">
+                        <i class="fas fa-boxes"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3>أصناف المخزن</h3>
+                        <div class="number" id="totalInventoryItems">0</div>
                     </div>
                 </div>
             </div>
 
-            <!-- إضافة سلعة جديدة -->
-            <div class="card">
-                <div class="card-title">
-                    <i class="fas fa-plus-circle"></i>
-                    <h3>إضافة سلعة جديدة</h3>
-                </div>
-                <div class="form-grid">
-                    <input type="text" id="itemName" placeholder="اسم السلعة">
-                    <input type="number" id="itemQuantity" placeholder="الكمية">
-                    <select id="itemUnit">
-                        <option value="كيلو">كيلو</option>
-                        <option value="قطعة">قطعة</option>
-                        <option value="شنطة">شنطة</option>
-                        <option value="كرتونة">كرتونة</option>
-                    </select>
-                    <button onclick="addNewItem()">
-                        <i class="fas fa-save"></i>
-                        إضافة
-                    </button>
-                </div>
+            <!-- إجراءات سريعة -->
+            <div class="quick-actions">
+                <button class="action-btn btn-primary" onclick="openAddBeneficiaryModal()">
+                    <i class="fas fa-user-plus"></i>
+                    إضافة مستفيد جديد
+                </button>
+                <button class="action-btn btn-success" onclick="openQuickHelp()">
+                    <i class="fas fa-gift"></i>
+                    صرف مساعدة
+                </button>
             </div>
 
-            <!-- جدول المخزن -->
-            <div class="card">
-                <div class="card-title">
-                    <i class="fas fa-table"></i>
-                    <h3>جميع المواد في المخزن</h3>
-                </div>
-                <div class="table-container">
-                    <table>
+            <!-- آخر المستفيدين -->
+            <div class="search-section">
+                <h3 style="margin-bottom: 15px;">آخر المستفيدين المضافين</h3>
+                <div style="overflow-x: auto;">
+                    <table class="beneficiaries-table">
                         <thead>
                             <tr>
-                                <th>#</th>
                                 <th>الاسم</th>
-                                <th>الكمية</th>
-                                <th>الوحدة</th>
-                                <th>النوع</th>
+                                <th>رقم التليفون</th>
+                                <th>المحافظة</th>
+                                <th>العنوان</th>
                                 <th>الحالة</th>
-                                <th>التحكم</th>
+                                <th>الإجراءات</th>
                             </tr>
                         </thead>
-                        <tbody id="inventoryTable"></tbody>
-                    </table>
-                </div>
-            </div>
-
-            <!-- سجل الحركات -->
-            <div class="card">
-                <div class="card-title">
-                    <i class="fas fa-history"></i>
-                    <h3>آخر الحركات</h3>
-                </div>
-                <div class="table-container">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>التاريخ</th>
-                                <th>النوع</th>
-                                <th>المادة</th>
-                                <th>الكمية</th>
-                                <th>الوحدة</th>
-                                <th>ملاحظات</th>
-                            </tr>
-                        </thead>
-                        <tbody id="movementsTable"></tbody>
+                        <tbody id="latestBeneficiaries"></tbody>
                     </table>
                 </div>
             </div>
@@ -563,544 +637,844 @@
 
         <!-- ===== قسم المستفيدين ===== -->
         <div id="beneficiariesSection" class="tab-section">
-            <!-- إحصائيات المستفيدين -->
-            <div class="card">
-                <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px;">
-                    <div style="display: flex; align-items: center; gap: 15px;">
-                        <i class="fas fa-users" style="font-size: 40px; color: var(--accent);"></i>
-                        <div>
-                            <h2 style="color: var(--text-secondary);">إجمالي المستفيدين</h2>
-                            <span style="font-size: 3rem; font-weight: 800;" id="totalBeneficiaries">0</span>
-                        </div>
-                    </div>
-                    <div style="display: flex; align-items: center; gap: 15px;">
-                        <i class="fas fa-gift" style="font-size: 40px; color: var(--success);"></i>
-                        <div>
-                            <h2 style="color: var(--text-secondary);">إجمالي المساعدات</h2>
-                            <span style="font-size: 3rem; font-weight: 800;" id="totalHelps">0</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- إضافة مستفيد -->
-            <div class="card">
-                <div class="card-title">
+            <!-- إجراءات سريعة -->
+            <div class="quick-actions">
+                <button class="action-btn btn-primary" onclick="openAddBeneficiaryModal()">
                     <i class="fas fa-user-plus"></i>
-                    <h3>إضافة مستفيد جديد</h3>
-                </div>
-                <button class="btn-success" onclick="openAddBeneficiaryModal()" style="width: auto;">
-                    <i class="fas fa-plus"></i>
-                    إضافة مستفيد
+                    إضافة مستفيد جديد
                 </button>
             </div>
 
             <!-- البحث -->
-            <div class="card">
-                <div class="card-title">
-                    <i class="fas fa-search"></i>
-                    <h3>بحث عن مستفيد</h3>
+            <div class="search-section">
+                <h3 style="margin-bottom: 15px;">بحث عن مستفيد</h3>
+                <div class="search-filters">
+                    <div class="filter-group">
+                        <label>البحث</label>
+                        <input type="text" id="searchInput" placeholder="اسم المستفيد أو رقم التليفون" class="filter-input">
+                    </div>
+                    <div class="filter-group">
+                        <label>المحافظة</label>
+                        <select id="searchGovernorate" class="filter-input">
+                            <option value="">الكل</option>
+                            <option value="القاهرة">القاهرة</option>
+                            <option value="الجيزة">الجيزة</option>
+                            <option value="الإسكندرية">الإسكندرية</option>
+                            <option value="الشرقية">الشرقية</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label>حالة الصرف</label>
+                        <select id="searchHelpStatus" class="filter-input">
+                            <option value="all">الكل</option>
+                            <option value="helped">تم الصرف</option>
+                            <option value="not-helped">لم يصرف</option>
+                        </select>
+                    </div>
                 </div>
-                <div class="search-box">
-                    <input type="text" id="searchInput" placeholder="ابحث بالاسم أو المحافظة أو رقم البطاقة...">
-                    <select id="helpFilter">
-                        <option value="all">الكل</option>
-                        <option value="helped">تم صرف مساعدة</option>
-                        <option value="not-helped">لم يصرف</option>
-                    </select>
-                    <button onclick="applySearch()">
-                        <i class="fas fa-filter"></i>
-                        بحث
+                <div style="display: flex; gap: 10px; margin-top: 15px;">
+                    <button class="action-btn btn-primary" onclick="searchBeneficiaries()">
+                        <i class="fas fa-search"></i> بحث
                     </button>
-                    <button class="btn-warning" onclick="resetSearch()">
-                        <i class="fas fa-redo"></i>
-                        إعادة
+                    <button class="action-btn" onclick="resetSearch()">
+                        <i class="fas fa-redo"></i> إعادة تعيين
                     </button>
                 </div>
             </div>
 
-            <!-- شبكة المستفيدين -->
-            <div id="beneficiariesGrid" class="beneficiaries-grid"></div>
+            <!-- جدول المستفيدين -->
+            <div style="overflow-x: auto;">
+                <table class="beneficiaries-table">
+                    <thead>
+                        <tr>
+                            <th>الاسم</th>
+                            <th>رقم التليفون</th>
+                            <th>المحافظة</th>
+                            <th>العنوان</th>
+                            <th>الحالة</th>
+                            <th>آخر مساعدة</th>
+                            <th>الاحتياجات</th>
+                            <th>حالة الشهر</th>
+                            <th>الإجراءات</th>
+                        </tr>
+                    </thead>
+                    <tbody id="beneficiariesTableBody"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- ===== قسم المخزن ===== -->
+        <div id="inventorySection" class="tab-section">
+            <!-- إحصائيات المخزن -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon" style="background: rgba(33, 150, 243, 0.1);">
+                        <i class="fas fa-boxes"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3>إجمالي الأصناف</h3>
+                        <div class="number" id="inventoryTypes">0</div>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon" style="background: rgba(76, 175, 80, 0.1);">
+                        <i class="fas fa-weight-scale"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3>إجمالي الوحدات</h3>
+                        <div class="number" id="inventoryTotal">0</div>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon" style="background: rgba(255, 152, 0, 0.1);">
+                        <i class="fas fa-exclamation-triangle"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3>أصناف منخفضة</h3>
+                        <div class="number" id="lowInventory">0</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- إضافة صنف -->
+            <div class="search-section">
+                <h3 style="margin-bottom: 15px;">إضافة صنف جديد</h3>
+                <div class="search-filters">
+                    <div class="filter-group">
+                        <label>اسم الصنف</label>
+                        <input type="text" id="newItemName" class="filter-input" placeholder="اسم الصنف">
+                    </div>
+                    <div class="filter-group">
+                        <label>الكمية</label>
+                        <input type="number" id="newItemQuantity" class="filter-input" placeholder="الكمية">
+                    </div>
+                    <div class="filter-group">
+                        <label>الوحدة</label>
+                        <select id="newItemUnit" class="filter-input">
+                            <option value="كيلو">كيلو</option>
+                            <option value="قطعة">قطعة</option>
+                            <option value="علبة">علبة</option>
+                            <option value="زجاجة">زجاجة</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label>التصنيف</label>
+                        <select id="newItemCategory" class="filter-input">
+                            <option value="food">غذاء</option>
+                            <option value="clothes">ملابس</option>
+                            <option value="medical">أدوية</option>
+                            <option value="other">أخرى</option>
+                        </select>
+                    </div>
+                </div>
+                <button class="action-btn btn-success" onclick="addInventoryItem()">
+                    <i class="fas fa-plus"></i> إضافة
+                </button>
+            </div>
+
+            <!-- جدول المخزن -->
+            <div style="overflow-x: auto;">
+                <table class="beneficiaries-table">
+                    <thead>
+                        <tr>
+                            <th>الاسم</th>
+                            <th>الكمية</th>
+                            <th>الوحدة</th>
+                            <th>التصنيف</th>
+                            <th>الحالة</th>
+                        </tr>
+                    </thead>
+                    <tbody id="inventoryTableBody"></tbody>
+                </table>
+            </div>
         </div>
     </div>
 
-    <!-- مودال إضافة/تعديل مستفيد -->
+    <!-- ===== مودال إضافة/تعديل مستفيد ===== -->
     <div id="beneficiaryModal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
-                <h2 id="modalTitle">إضافة مستفيد</h2>
+                <h2 id="modalTitle">إضافة مستفيد جديد</h2>
                 <div class="close" onclick="closeModal('beneficiaryModal')">✕</div>
             </div>
-            <form onsubmit="saveBeneficiary(event)">
+            
+            <form id="beneficiaryForm" onsubmit="saveBeneficiary(event)">
                 <input type="hidden" id="beneficiaryId">
                 
-                <div class="form-grid" style="grid-template-columns: 1fr;">
-                    <input type="text" id="beneficiaryName" placeholder="الاسم الكامل" required>
-                    <input type="text" id="beneficiaryNationalId" placeholder="رقم البطاقة" required>
-                    <input type="tel" id="beneficiaryPhone" placeholder="رقم الموبايل" required>
-                    <input type="text" id="beneficiaryGovernorate" placeholder="المحافظة" required>
-                    <input type="text" id="beneficiaryAddress" placeholder="العنوان" required>
+                <div class="search-filters" style="grid-template-columns: 1fr;">
+                    <div class="filter-group">
+                        <label>الاسم الكامل</label>
+                        <input type="text" id="beneficiaryName" class="filter-input" required>
+                    </div>
                     
-                    <select id="beneficiaryStatus" required>
-                        <option value="critical">عاجل جداً</option>
-                        <option value="high">يحتاج مساعدة</option>
-                        <option value="medium">متابعة دورية</option>
-                        <option value="low">حالة مستقرة</option>
-                    </select>
+                    <div class="filter-group">
+                        <label>رقم التليفون</label>
+                        <input type="tel" id="beneficiaryPhone" class="filter-input" required placeholder="مثال: 01234567890">
+                    </div>
                     
-                    <textarea id="beneficiaryCondition" rows="3" placeholder="وصف الحالة" required></textarea>
-                    <textarea id="beneficiaryNotes" rows="2" placeholder="ملاحظات"></textarea>
+                    <div class="filter-group">
+                        <label>رقم البطاقة</label>
+                        <input type="text" id="beneficiaryNationalId" class="filter-input" required>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <label>المحافظة</label>
+                        <input type="text" id="beneficiaryGovernorate" class="filter-input" required>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <label>العنوان بالتفصيل</label>
+                        <input type="text" id="beneficiaryAddress" class="filter-input" required>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <label>الحالة</label>
+                        <select id="beneficiaryStatus" class="filter-input" required>
+                            <option value="urgent">🔴 عاجل جداً</option>
+                            <option value="follow">🟡 متابعة دورية</option>
+                            <option value="normal">🟢 حالة مستقرة</option>
+                        </select>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <label>الاحتياجات</label>
+                        <input type="text" id="beneficiaryNeeds" class="filter-input" placeholder="مثال: غذاء, علاج, مصاريف" required>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <label>عدد أفراد الأسرة</label>
+                        <input type="number" id="beneficiaryFamily" class="filter-input" value="1" min="1">
+                    </div>
+                    
+                    <div class="filter-group">
+                        <label>وصف الحالة</label>
+                        <textarea id="beneficiaryCondition" rows="3" class="filter-input" required></textarea>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <label>ملاحظات إضافية</label>
+                        <textarea id="beneficiaryNotes" rows="2" class="filter-input"></textarea>
+                    </div>
                 </div>
                 
-                <button type="submit" style="width: 100%; margin-top: 20px;">
-                    <i class="fas fa-save"></i>
-                    حفظ
-                </button>
+                <div style="display: flex; gap: 10px; margin-top: 20px;">
+                    <button type="submit" class="action-btn btn-primary" style="flex: 2;">
+                        <i class="fas fa-save"></i> حفظ
+                    </button>
+                    <button type="button" class="action-btn" onclick="closeModal('beneficiaryModal')" style="flex: 1;">
+                        <i class="fas fa-times"></i> إلغاء
+                    </button>
+                </div>
             </form>
         </div>
     </div>
 
-    <!-- مودال صرف مساعدة -->
+    <!-- ===== مودال عرض المستفيد ===== -->
+    <div id="viewBeneficiaryModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>ملف المستفيد</h2>
+                <div class="close" onclick="closeModal('viewBeneficiaryModal')">✕</div>
+            </div>
+            
+            <div id="beneficiaryProfile" class="profile-card">
+                <!-- هنا يتم عرض البيانات -->
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== مودال صرف مساعدة ===== -->
     <div id="helpModal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
                 <h2>صرف مساعدة</h2>
                 <div class="close" onclick="closeModal('helpModal')">✕</div>
             </div>
-            <form onsubmit="addHelp(event)">
-                <input type="hidden" id="helpBeneficiaryId">
-                
-                <div style="max-height: 300px; overflow-y: auto; margin: 20px 0;" id="helpItemsList">
-                    <!-- هنا تظهر المواد -->
+            
+            <input type="hidden" id="helpBeneficiaryPhone">
+            
+            <div class="filter-group" style="margin-bottom: 20px;">
+                <label>اختر مستفيد</label>
+                <select id="helpBeneficiarySelect" class="filter-input" required>
+                    <option value="">اختر...</option>
+                </select>
+            </div>
+            
+            <div class="filter-group" style="margin-bottom: 20px;">
+                <label>نوع المساعدة</label>
+                <select id="helpType" class="filter-input" onchange="toggleHelpType()">
+                    <option value="material">مواد من المخزن</option>
+                    <option value="money">فلوس</option>
+                    <option value="other">أخرى</option>
+                </select>
+            </div>
+            
+            <!-- قسم المواد -->
+            <div id="materialHelpSection">
+                <div class="filter-group">
+                    <label>اختر المواد</label>
+                    <div id="inventoryItemsList" style="max-height: 200px; overflow-y: auto;"></div>
                 </div>
-                
-                <input type="date" id="helpDate" class="input-3d" required>
-                <textarea id="helpNotes" rows="2" placeholder="ملاحظات" style="margin: 10px 0;"></textarea>
-                
-                <button type="submit" style="width: 100%;">
-                    <i class="fas fa-gift"></i>
-                    صرف المساعدة
+            </div>
+            
+            <!-- قسم الفلوس -->
+            <div id="moneyHelpSection" style="display: none;">
+                <div class="filter-group">
+                    <label>المبلغ</label>
+                    <input type="number" id="moneyAmount" class="filter-input" placeholder="أدخل المبلغ">
+                </div>
+                <div class="filter-group">
+                    <label>السبب</label>
+                    <input type="text" id="moneyReason" class="filter-input" placeholder="سبب المساعدة">
+                </div>
+            </div>
+            
+            <!-- قسم أخرى -->
+            <div id="otherHelpSection" style="display: none;">
+                <div class="filter-group">
+                    <label>وصف المساعدة</label>
+                    <textarea id="otherDescription" rows="3" class="filter-input" placeholder="اكتب وصف المساعدة"></textarea>
+                </div>
+            </div>
+            
+            <div class="filter-group">
+                <label>ملاحظات</label>
+                <textarea id="helpNotes" rows="2" class="filter-input" placeholder="ملاحظات إضافية"></textarea>
+            </div>
+            
+            <div style="display: flex; gap: 10px; margin-top: 20px;">
+                <button class="action-btn btn-success" onclick="addHelp()" style="flex: 2;">
+                    <i class="fas fa-check"></i> صرف
                 </button>
-            </form>
+                <button class="action-btn" onclick="closeModal('helpModal')" style="flex: 1;">
+                    <i class="fas fa-times"></i> إلغاء
+                </button>
+            </div>
         </div>
     </div>
 
     <script>
         // ========== البيانات ==========
-        let inventory = []; // كل المواد في المخزن
-        let movements = [];
         let beneficiaries = [];
+        let inventory = [];
         let helps = [];
+        let currentMonth = new Date().getMonth();
+        let currentYear = new Date().getFullYear();
 
         // تحميل البيانات
         function loadData() {
-            inventory = JSON.parse(localStorage.getItem('inventory')) || [];
-            movements = JSON.parse(localStorage.getItem('movements')) || [];
-            beneficiaries = JSON.parse(localStorage.getItem('beneficiaries')) || [];
-            helps = JSON.parse(localStorage.getItem('helps')) || [];
+            const savedBeneficiaries = localStorage.getItem('beneficiaries');
+            const savedInventory = localStorage.getItem('inventory');
+            const savedHelps = localStorage.getItem('helps');
 
-            // بيانات افتراضية
-            if (inventory.length === 0) {
-                inventory = [
-                    { id: '1', name: 'لحمة', quantity: 50, unit: 'كيلو', type: 'غذاء' },
-                    { id: '2', name: 'أرز', quantity: 100, unit: 'كيلو', type: 'غذاء' },
-                    { id: '3', name: 'شنطة رمضان', quantity: 30, unit: 'شنطة', type: 'موسمي' },
-                    { id: '4', name: 'زيت', quantity: 40, unit: 'زجاجة', type: 'غذاء' }
-                ];
-                saveData();
-            }
+            beneficiaries = savedBeneficiaries ? JSON.parse(savedBeneficiaries) : [];
+            inventory = savedInventory ? JSON.parse(savedInventory) : [];
+            helps = savedHelps ? JSON.parse(savedHelps) : [];
 
+            // بيانات افتراضية إذا كانت فارغة
             if (beneficiaries.length === 0) {
                 beneficiaries = [
-                    { id: generateId(), name: 'فريد رمضان', nationalId: '123456789', phone: '0123456789', governorate: 'القاهرة', address: 'شارع النصر', status: 'critical', condition: 'حالة عاجلة', notes: '' }
+                    {
+                        id: '01234567890',
+                        name: 'أحمد محمد السيد',
+                        phone: '01234567890',
+                        nationalId: '12345678901234',
+                        governorate: 'القاهرة',
+                        address: '15 شارع النصر، مدينة نصر',
+                        status: 'urgent',
+                        needs: 'غذاء، علاج',
+                        family: 5,
+                        condition: 'أسرة مكونة من 5 أفراد، الأب مريض ولا يعمل',
+                        notes: 'حالة عاجلة جداً',
+                        joinDate: '2024-01-15'
+                    },
+                    {
+                        id: '01234567891',
+                        name: 'فاطمة علي حسن',
+                        phone: '01234567891',
+                        nationalId: '12345678901235',
+                        governorate: 'الجيزة',
+                        address: '3 شارع الهرم، فيصل',
+                        status: 'follow',
+                        needs: 'مصاريف مدرسة',
+                        family: 3,
+                        condition: 'أرملة تعول 3 أطفال',
+                        notes: 'متابعة مستمرة',
+                        joinDate: '2024-01-20'
+                    }
                 ];
-                saveData();
-            }
-        }
-
-        function saveData() {
-            localStorage.setItem('inventory', JSON.stringify(inventory));
-            localStorage.setItem('movements', JSON.stringify(movements));
-            localStorage.setItem('beneficiaries', JSON.stringify(beneficiaries));
-            localStorage.setItem('helps', JSON.stringify(helps));
-        }
-
-        function generateId() {
-            return 'ID-' + Date.now() + '-' + Math.random().toString(36).substr(2, 5);
-        }
-
-        // ========== دوال المخزن ==========
-        function renderInventory() {
-            const tbody = document.getElementById('inventoryTable');
-            if (!tbody) return;
-
-            updateTotals();
-
-            tbody.innerHTML = inventory.map((item, index) => `
-                <tr>
-                    <td>${index + 1}</td>
-                    <td><strong>${item.name}</strong></td>
-                    <td>${item.quantity}</td>
-                    <td>${item.unit}</td>
-                    <td>
-                        <span class="badge ${item.type === 'موسمي' ? 'badge-purple' : 'badge-success'}">
-                            ${item.type || 'عادي'}
-                        </span>
-                    </td>
-                    <td>
-                        ${item.quantity <= 5 ? 
-                            '<span class="badge badge-danger">منخفض</span>' : 
-                            '<span class="badge badge-success">متوفر</span>'}
-                    </td>
-                    <td>
-                        <button class="btn-danger" onclick="deleteItem('${item.id}')" style="padding: 5px 10px;">
-                            <i class="fas fa-trash"></i>
-                        </button>
-                    </td>
-                </tr>
-            `).join('');
-
-            renderMovements();
-        }
-
-        function updateTotals() {
-            document.getElementById('totalItems').innerHTML = inventory.length;
-            document.getElementById('totalUnits').innerHTML = inventory.reduce((s, i) => s + i.quantity, 0);
-        }
-
-        function renderMovements() {
-            const tbody = document.getElementById('movementsTable');
-            if (!tbody) return;
-
-            const recent = [...movements].reverse().slice(0, 20);
-
-            tbody.innerHTML = recent.map(m => `
-                <tr>
-                    <td>${m.date}</td>
-                    <td>
-                        <span class="badge ${m.type === 'صرف' ? 'badge-warning' : 'badge-success'}">
-                            ${m.type}
-                        </span>
-                    </td>
-                    <td>${m.item}</td>
-                    <td>${m.quantity}</td>
-                    <td>${m.unit}</td>
-                    <td>${m.note || ''}</td>
-                </tr>
-            `).join('');
-        }
-
-        function addNewItem() {
-            const name = document.getElementById('itemName').value.trim();
-            const quantity = parseFloat(document.getElementById('itemQuantity').value);
-            const unit = document.getElementById('itemUnit').value;
-
-            if (!name || !quantity) {
-                showToast('الرجاء إدخال البيانات', 'warning');
-                return;
             }
 
-            const existing = inventory.find(i => i.name === name);
-            if (existing) {
-                existing.quantity += quantity;
-                movements.push({
-                    date: new Date().toLocaleDateString(),
-                    type: 'إضافة',
-                    item: name,
-                    quantity: quantity,
-                    unit: unit,
-                    note: 'إضافة للمخزن'
-                });
-                showToast(`تم إضافة ${quantity} ${unit} إلى ${name}`);
-            } else {
-                inventory.push({
-                    id: generateId(),
-                    name: name,
-                    quantity: quantity,
-                    unit: unit,
-                    type: unit === 'شنطة' ? 'موسمي' : 'عادي'
-                });
-                movements.push({
-                    date: new Date().toLocaleDateString(),
-                    type: 'إضافة',
-                    item: name,
-                    quantity: quantity,
-                    unit: unit,
-                    note: 'إضافة صنف جديد'
-                });
-                showToast(`تم إضافة ${name} جديد`);
+            if (inventory.length === 0) {
+                inventory = [
+                    { id: 1, name: 'أرز', quantity: 100, unit: 'كيلو', category: 'food' },
+                    { id: 2, name: 'زيت', quantity: 50, unit: 'زجاجة', category: 'food' },
+                    { id: 3, name: 'بطاطين', quantity: 20, unit: 'قطعة', category: 'clothes' }
+                ];
             }
 
             saveData();
-            renderInventory();
-            
-            document.getElementById('itemName').value = '';
-            document.getElementById('itemQuantity').value = '';
         }
 
-        function deleteItem(id) {
-            const item = inventory.find(i => i.id === id);
-            if (confirm(`حذف ${item.name}؟`)) {
-                inventory = inventory.filter(i => i.id !== id);
-                saveData();
-                renderInventory();
-                showToast(`تم حذف ${item.name}`);
-            }
+        function saveData() {
+            localStorage.setItem('beneficiaries', JSON.stringify(beneficiaries));
+            localStorage.setItem('inventory', JSON.stringify(inventory));
+            localStorage.setItem('helps', JSON.stringify(helps));
         }
 
-        // ========== دوال المستفيدين ==========
-        function renderBeneficiaries(filteredBeneficiaries = null) {
-            const grid = document.getElementById('beneficiariesGrid');
-            if (!grid) return;
-
+        // ========== تحديث الواجهة ==========
+        function updateUI() {
+            // تحديث الإحصائيات
             document.getElementById('totalBeneficiaries').innerHTML = beneficiaries.length;
-            document.getElementById('totalHelps').innerHTML = helps.length;
+            
+            const thisMonthHelps = helps.filter(h => {
+                const helpDate = new Date(h.date);
+                return helpDate.getMonth() === currentMonth && helpDate.getFullYear() === currentYear;
+            });
+            document.getElementById('helpedThisMonth').innerHTML = thisMonthHelps.length;
+            document.getElementById('waitingHelp').innerHTML = beneficiaries.length - thisMonthHelps.length;
+            document.getElementById('totalInventoryItems').innerHTML = inventory.length;
 
-            let list = filteredBeneficiaries || beneficiaries;
-
-            if (list.length === 0) {
-                grid.innerHTML = '<div style="text-align: center; padding: 50px;">لا يوجد مستفيدين</div>';
-                return;
+            // عرض آخر 5 مستفيدين في الصفحة الرئيسية
+            const latestTbody = document.getElementById('latestBeneficiaries');
+            if (latestTbody) {
+                const latest = [...beneficiaries].reverse().slice(0, 5);
+                latestTbody.innerHTML = latest.map(b => `
+                    <tr>
+                        <td><strong>${b.name}</strong></td>
+                        <td>${b.phone}</td>
+                        <td>${b.governorate}</td>
+                        <td>${b.address.substring(0, 30)}...</td>
+                        <td>
+                            <span class="status-badge ${b.status === 'urgent' ? 'status-urgent' : b.status === 'follow' ? 'status-follow' : 'status-normal'}">
+                                ${b.status === 'urgent' ? 'عاجل' : b.status === 'follow' ? 'متابعة' : 'طبيعي'}
+                            </span>
+                        </td>
+                        <td>
+                            <div class="action-icons">
+                                <i class="fas fa-eye action-icon" onclick="viewBeneficiary('${b.phone}')" title="عرض"></i>
+                            </div>
+                        </td>
+                    </tr>
+                `).join('');
             }
 
-            grid.innerHTML = list.map(b => {
-                const bHelps = helps.filter(h => h.beneficiaryId === b.id);
-                const hasHelped = bHelps.length > 0;
+            renderBeneficiariesTable();
+            renderInventory();
+        }
+
+        // ========== عرض جدول المستفيدين ==========
+        function renderBeneficiariesTable(filteredList = null) {
+            const tbody = document.getElementById('beneficiariesTableBody');
+            if (!tbody) return;
+
+            const list = filteredList || beneficiaries;
+            
+            const thisMonthHelps = helps.filter(h => {
+                const helpDate = new Date(h.date);
+                return helpDate.getMonth() === currentMonth && helpDate.getFullYear() === currentYear;
+            });
+            const helpedIds = new Set(thisMonthHelps.map(h => h.beneficiaryPhone));
+
+            tbody.innerHTML = list.map(b => {
+                const helped = helpedIds.has(b.phone);
+                const lastHelp = helps.filter(h => h.beneficiaryPhone === b.phone).sort((a,b) => new Date(b.date) - new Date(a.date))[0];
 
                 return `
-                    <div class="beneficiary-card">
-                        <div class="beneficiary-id">${b.id}</div>
-                        
-                        <div class="beneficiary-header">
-                            <span class="beneficiary-name">${b.name}</span>
-                            <span class="badge ${b.status === 'critical' ? 'badge-danger' : b.status === 'high' ? 'badge-warning' : 'badge-success'}">
-                                ${b.status}
+                    <tr>
+                        <td><strong>${b.name}</strong></td>
+                        <td>${b.phone}</td>
+                        <td>${b.governorate}</td>
+                        <td>${b.address}</td>
+                        <td>
+                            <span class="status-badge ${b.status === 'urgent' ? 'status-urgent' : b.status === 'follow' ? 'status-follow' : 'status-normal'}">
+                                ${b.status === 'urgent' ? 'عاجل' : b.status === 'follow' ? 'متابعة' : 'طبيعي'}
                             </span>
-                        </div>
-                        
-                        <div class="beneficiary-info">
-                            <div class="info-row"><i class="fas fa-id-card"></i> ${b.nationalId}</div>
-                            <div class="info-row"><i class="fas fa-phone"></i> ${b.phone}</div>
-                            <div class="info-row"><i class="fas fa-map-marker-alt"></i> ${b.governorate}</div>
-                        </div>
-
-                        <div style="background: rgba(0,0,0,0.2); padding: 10px; border-radius: 10px; margin: 10px 0;">
-                            ${b.condition}
-                        </div>
-
-                        ${bHelps.length > 0 ? `
-                            <div style="margin: 10px 0;">
-                                <small>آخر مساعدة: ${bHelps[0].date}</small>
+                        </td>
+                        <td>${lastHelp ? lastHelp.date : 'لا يوجد'}</td>
+                        <td>${b.needs || 'غير محدد'}</td>
+                        <td>
+                            <span class="help-indicator ${helped ? 'helped-this-month' : 'not-helped'}">
+                                <i class="fas ${helped ? 'fa-check-circle' : 'fa-clock'}"></i>
+                                ${helped ? 'تم الصرف' : 'لم يصرف'}
+                            </span>
+                        </td>
+                        <td>
+                            <div class="action-icons">
+                                <i class="fas fa-gift action-icon" onclick="openHelpModal('${b.phone}')" title="صرف مساعدة"></i>
+                                <i class="fas fa-edit action-icon" onclick="editBeneficiary('${b.phone}')" title="تعديل"></i>
+                                <i class="fas fa-eye action-icon" onclick="viewBeneficiary('${b.phone}')" title="عرض"></i>
+                                <i class="fas fa-trash action-icon" onclick="deleteBeneficiary('${b.phone}')" title="حذف"></i>
                             </div>
-                        ` : ''}
-
-                        <div class="beneficiary-actions">
-                            <button class="action-btn" onclick="openHelpModal('${b.id}')" title="صرف مساعدة">
-                                <i class="fas fa-gift"></i>
-                            </button>
-                            <button class="action-btn" onclick="openEditBeneficiaryModal('${b.id}')" title="تعديل">
-                                <i class="fas fa-edit"></i>
-                            </button>
-                            <button class="action-btn" onclick="deleteBeneficiary('${b.id}')" title="حذف">
-                                <i class="fas fa-trash"></i>
-                            </button>
-                        </div>
-                    </div>
+                        </td>
+                    </tr>
                 `;
             }).join('');
         }
 
-        function applySearch() {
-            const search = document.getElementById('searchInput').value.toLowerCase();
-            const filter = document.getElementById('helpFilter').value;
+        // ========== عرض المخزن ==========
+        function renderInventory() {
+            const tbody = document.getElementById('inventoryTableBody');
+            if (!tbody) return;
 
-            let filtered = beneficiaries;
+            document.getElementById('inventoryTypes').innerHTML = inventory.length;
+            document.getElementById('inventoryTotal').innerHTML = inventory.reduce((sum, i) => sum + i.quantity, 0);
+            document.getElementById('lowInventory').innerHTML = inventory.filter(i => i.quantity <= 10).length;
 
-            if (search) {
-                filtered = filtered.filter(b => 
-                    b.name.includes(search) || 
-                    b.governorate.includes(search) || 
-                    b.nationalId.includes(search)
-                );
-            }
-
-            if (filter === 'helped') {
-                filtered = filtered.filter(b => helps.some(h => h.beneficiaryId === b.id));
-            } else if (filter === 'not-helped') {
-                filtered = filtered.filter(b => !helps.some(h => h.beneficiaryId === b.id));
-            }
-
-            renderBeneficiaries(filtered);
+            tbody.innerHTML = inventory.map(item => `
+                <tr>
+                    <td><strong>${item.name}</strong></td>
+                    <td>${item.quantity}</td>
+                    <td>${item.unit}</td>
+                    <td>
+                        ${item.category === 'food' ? 'غذاء' : 
+                          item.category === 'clothes' ? 'ملابس' : 
+                          item.category === 'medical' ? 'أدوية' : 'أخرى'}
+                    </td>
+                    <td>
+                        <span class="status-badge ${item.quantity <= 10 ? 'status-urgent' : 'status-normal'}">
+                            ${item.quantity <= 10 ? 'منخفض' : 'متوفر'}
+                        </span>
+                    </td>
+                </tr>
+            `).join('');
         }
 
-        function resetSearch() {
-            document.getElementById('searchInput').value = '';
-            document.getElementById('helpFilter').value = 'all';
-            renderBeneficiaries();
-        }
-
-        // ========== دوال المستفيدين (مودالات) ==========
+        // ========== دوال المستفيدين ==========
         function openAddBeneficiaryModal() {
-            document.getElementById('modalTitle').innerHTML = 'إضافة مستفيد';
+            document.getElementById('modalTitle').innerHTML = 'إضافة مستفيد جديد';
             document.getElementById('beneficiaryId').value = '';
-            document.getElementById('beneficiaryName').value = '';
-            document.getElementById('beneficiaryNationalId').value = '';
-            document.getElementById('beneficiaryPhone').value = '';
-            document.getElementById('beneficiaryGovernorate').value = '';
-            document.getElementById('beneficiaryAddress').value = '';
-            document.getElementById('beneficiaryStatus').value = 'medium';
-            document.getElementById('beneficiaryCondition').value = '';
-            document.getElementById('beneficiaryNotes').value = '';
+            document.getElementById('beneficiaryForm').reset();
             document.getElementById('beneficiaryModal').classList.add('active');
         }
 
-        function openEditBeneficiaryModal(id) {
-            const b = beneficiaries.find(b => b.id === id);
-            if (!b) return;
+        function editBeneficiary(phone) {
+            const beneficiary = beneficiaries.find(b => b.phone === phone);
+            if (!beneficiary) return;
 
-            document.getElementById('modalTitle').innerHTML = 'تعديل بيانات';
-            document.getElementById('beneficiaryId').value = b.id;
-            document.getElementById('beneficiaryName').value = b.name;
-            document.getElementById('beneficiaryNationalId').value = b.nationalId;
-            document.getElementById('beneficiaryPhone').value = b.phone;
-            document.getElementById('beneficiaryGovernorate').value = b.governorate;
-            document.getElementById('beneficiaryAddress').value = b.address;
-            document.getElementById('beneficiaryStatus').value = b.status;
-            document.getElementById('beneficiaryCondition').value = b.condition;
-            document.getElementById('beneficiaryNotes').value = b.notes || '';
+            document.getElementById('modalTitle').innerHTML = 'تعديل بيانات المستفيد';
+            document.getElementById('beneficiaryId').value = beneficiary.phone;
+            document.getElementById('beneficiaryName').value = beneficiary.name;
+            document.getElementById('beneficiaryPhone').value = beneficiary.phone;
+            document.getElementById('beneficiaryNationalId').value = beneficiary.nationalId || '';
+            document.getElementById('beneficiaryGovernorate').value = beneficiary.governorate || '';
+            document.getElementById('beneficiaryAddress').value = beneficiary.address || '';
+            document.getElementById('beneficiaryStatus').value = beneficiary.status || 'normal';
+            document.getElementById('beneficiaryNeeds').value = beneficiary.needs || '';
+            document.getElementById('beneficiaryFamily').value = beneficiary.family || 1;
+            document.getElementById('beneficiaryCondition').value = beneficiary.condition || '';
+            document.getElementById('beneficiaryNotes').value = beneficiary.notes || '';
+
             document.getElementById('beneficiaryModal').classList.add('active');
         }
 
         function saveBeneficiary(e) {
             e.preventDefault();
 
-            const id = document.getElementById('beneficiaryId').value;
-            const data = {
+            const phone = document.getElementById('beneficiaryPhone').value.trim();
+            const existingIndex = beneficiaries.findIndex(b => b.phone === phone);
+
+            const beneficiaryData = {
+                phone: phone,
                 name: document.getElementById('beneficiaryName').value,
                 nationalId: document.getElementById('beneficiaryNationalId').value,
-                phone: document.getElementById('beneficiaryPhone').value,
                 governorate: document.getElementById('beneficiaryGovernorate').value,
                 address: document.getElementById('beneficiaryAddress').value,
                 status: document.getElementById('beneficiaryStatus').value,
+                needs: document.getElementById('beneficiaryNeeds').value,
+                family: parseInt(document.getElementById('beneficiaryFamily').value) || 1,
                 condition: document.getElementById('beneficiaryCondition').value,
-                notes: document.getElementById('beneficiaryNotes').value
+                notes: document.getElementById('beneficiaryNotes').value,
+                joinDate: new Date().toISOString().split('T')[0]
             };
 
-            if (id) {
-                const index = beneficiaries.findIndex(b => b.id === id);
-                if (index !== -1) {
-                    beneficiaries[index] = { ...beneficiaries[index], ...data };
-                    showToast('تم التعديل');
-                }
+            if (existingIndex !== -1 && document.getElementById('beneficiaryId').value) {
+                // تعديل
+                beneficiaries[existingIndex] = { ...beneficiaries[existingIndex], ...beneficiaryData };
+                showToast('✅ تم تعديل البيانات بنجاح');
             } else {
-                beneficiaries.push({ id: generateId(), ...data });
-                showToast('تم الإضافة');
+                // إضافة جديد
+                if (beneficiaries.some(b => b.phone === phone)) {
+                    showToast('⚠️ رقم التليفون موجود بالفعل', 'warning');
+                    return;
+                }
+                beneficiaries.push(beneficiaryData);
+                showToast('✅ تم إضافة المستفيد بنجاح');
             }
 
             saveData();
-            renderBeneficiaries();
+            updateUI();
             closeModal('beneficiaryModal');
         }
 
-        function deleteBeneficiary(id) {
-            if (confirm('حذف هذا المستفيد؟')) {
-                beneficiaries = beneficiaries.filter(b => b.id !== id);
-                helps = helps.filter(h => h.beneficiaryId !== id);
+        function viewBeneficiary(phone) {
+            const beneficiary = beneficiaries.find(b => b.phone === phone);
+            if (!beneficiary) return;
+
+            const beneficiaryHelps = helps.filter(h => h.beneficiaryPhone === phone);
+            const lastHelp = beneficiaryHelps[beneficiaryHelps.length - 1];
+            const totalHelps = beneficiaryHelps.length;
+
+            const profileHtml = `
+                <div class="profile-header">
+                    <div class="profile-avatar">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <div class="profile-title">
+                        <h3>${beneficiary.name}</h3>
+                        <p><i class="fas fa-phone"></i> ${beneficiary.phone}</p>
+                    </div>
+                </div>
+
+                <div class="profile-grid">
+                    <div class="profile-item">
+                        <label>رقم البطاقة</label>
+                        <div class="value">${beneficiary.nationalId || 'غير محدد'}</div>
+                    </div>
+                    <div class="profile-item">
+                        <label>المحافظة</label>
+                        <div class="value">${beneficiary.governorate || 'غير محدد'}</div>
+                    </div>
+                    <div class="profile-item">
+                        <label>العنوان</label>
+                        <div class="value">${beneficiary.address || 'غير محدد'}</div>
+                    </div>
+                    <div class="profile-item">
+                        <label>الحالة</label>
+                        <div class="value">
+                            <span class="status-badge ${beneficiary.status === 'urgent' ? 'status-urgent' : beneficiary.status === 'follow' ? 'status-follow' : 'status-normal'}">
+                                ${beneficiary.status === 'urgent' ? 'عاجل' : beneficiary.status === 'follow' ? 'متابعة' : 'مستقر'}
+                            </span>
+                        </div>
+                    </div>
+                    <div class="profile-item">
+                        <label>الاحتياجات</label>
+                        <div class="value">${beneficiary.needs || 'غير محدد'}</div>
+                    </div>
+                    <div class="profile-item">
+                        <label>عدد أفراد الأسرة</label>
+                        <div class="value">${beneficiary.family || 1}</div>
+                    </div>
+                    <div class="profile-item">
+                        <label>تاريخ التسجيل</label>
+                        <div class="value">${beneficiary.joinDate || 'غير محدد'}</div>
+                    </div>
+                    <div class="profile-item">
+                        <label>إجمالي المساعدات</label>
+                        <div class="value">${totalHelps}</div>
+                    </div>
+                </div>
+
+                <div class="profile-item">
+                    <label>وصف الحالة</label>
+                    <div class="value">${beneficiary.condition || 'لا يوجد'}</div>
+                </div>
+
+                ${beneficiary.notes ? `
+                    <div class="profile-item">
+                        <label>ملاحظات</label>
+                        <div class="value">${beneficiary.notes}</div>
+                    </div>
+                ` : ''}
+
+                <div class="helps-timeline">
+                    <h3 style="margin-bottom: 15px;">سجل المساعدات</h3>
+                    ${beneficiaryHelps.length === 0 ? 
+                        '<p>لا توجد مساعدات سابقة</p>' : 
+                        beneficiaryHelps.reverse().map(h => `
+                            <div class="timeline-item">
+                                <div style="display: flex; justify-content: space-between;">
+                                    <strong>${h.date}</strong>
+                                    <span class="status-badge ${h.type === 'money' ? 'status-success' : 'status-normal'}">
+                                        ${h.type === 'money' ? 'فلوس' : h.type === 'material' ? 'مواد' : 'أخرى'}
+                                    </span>
+                                </div>
+                                <div style="margin-top: 10px;">
+                                    ${h.items ? h.items.join(' - ') : ''}
+                                    ${h.amount ? h.amount + ' جنيه' : ''}
+                                    ${h.description || ''}
+                                </div>
+                                ${h.notes ? `<div style="color: var(--text-secondary); margin-top: 5px;">${h.notes}</div>` : ''}
+                            </div>
+                        `).join('')
+                    }
+                </div>
+            `;
+
+            document.getElementById('beneficiaryProfile').innerHTML = profileHtml;
+            document.getElementById('viewBeneficiaryModal').classList.add('active');
+        }
+
+        function deleteBeneficiary(phone) {
+            if (confirm('هل أنت متأكد من حذف هذا المستفيد؟')) {
+                beneficiaries = beneficiaries.filter(b => b.phone !== phone);
+                helps = helps.filter(h => h.beneficiaryPhone !== phone);
                 saveData();
-                renderBeneficiaries();
-                showToast('تم الحذف');
+                updateUI();
+                showToast('✅ تم حذف المستفيد');
             }
         }
 
-        // ========== دوال المساعدات ==========
-        function openHelpModal(beneficiaryId) {
-            const beneficiary = beneficiaries.find(b => b.id === beneficiaryId);
-            if (!beneficiary) return;
+        // ========== البحث ==========
+        function searchBeneficiaries() {
+            const searchText = document.getElementById('searchInput').value.toLowerCase();
+            const governorate = document.getElementById('searchGovernorate').value;
+            const helpStatus = document.getElementById('searchHelpStatus').value;
 
-            document.getElementById('helpBeneficiaryId').value = beneficiaryId;
-            document.getElementById('helpDate').value = new Date().toISOString().split('T')[0];
-            document.getElementById('helpNotes').value = '';
+            let filtered = beneficiaries;
 
-            const container = document.getElementById('helpItemsList');
-            
-            if (inventory.length === 0) {
-                container.innerHTML = '<p style="color: var(--warning);">⚠️ المخزن فارغ</p>';
-            } else {
-                container.innerHTML = inventory.map(item => `
-                    <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px; background: rgba(255,255,255,0.03); padding: 10px; border-radius: 10px;">
-                        <input type="checkbox" id="item_${item.id}" value="${item.id}">
-                        <label for="item_${item.id}" style="flex: 1;">
-                            ${item.name} 
-                            <span style="color: var(--text-secondary);">(المتوفر: ${item.quantity} ${item.unit})</span>
-                        </label>
-                        <input type="number" id="qty_${item.id}" class="input-3d" placeholder="الكمية" min="1" max="${item.quantity}" style="width: 100px; padding: 8px;">
-                    </div>
-                `).join('');
+            if (searchText) {
+                filtered = filtered.filter(b => 
+                    b.name.toLowerCase().includes(searchText) || 
+                    b.phone.includes(searchText)
+                );
             }
+
+            if (governorate) {
+                filtered = filtered.filter(b => b.governorate === governorate);
+            }
+
+            if (helpStatus !== 'all') {
+                const thisMonthHelps = helps.filter(h => {
+                    const helpDate = new Date(h.date);
+                    return helpDate.getMonth() === currentMonth && helpDate.getFullYear() === currentYear;
+                });
+                const helpedIds = new Set(thisMonthHelps.map(h => h.beneficiaryPhone));
+                
+                filtered = filtered.filter(b => 
+                    helpStatus === 'helped' ? helpedIds.has(b.phone) : !helpedIds.has(b.phone)
+                );
+            }
+
+            renderBeneficiariesTable(filtered);
+        }
+
+        function resetSearch() {
+            document.getElementById('searchInput').value = '';
+            document.getElementById('searchGovernorate').value = '';
+            document.getElementById('searchHelpStatus').value = 'all';
+            renderBeneficiariesTable(beneficiaries);
+        }
+
+        // ========== دوال المخزن ==========
+        function addInventoryItem() {
+            const name = document.getElementById('newItemName').value.trim();
+            const quantity = parseFloat(document.getElementById('newItemQuantity').value);
+            const unit = document.getElementById('newItemUnit').value;
+            const category = document.getElementById('newItemCategory').value;
+
+            if (!name || !quantity) {
+                showToast('⚠️ الرجاء إدخال البيانات', 'warning');
+                return;
+            }
+
+            inventory.push({
+                id: Date.now(),
+                name: name,
+                quantity: quantity,
+                unit: unit,
+                category: category
+            });
+
+            saveData();
+            renderInventory();
+            showToast('✅ تم إضافة الصنف بنجاح');
+            
+            document.getElementById('newItemName').value = '';
+            document.getElementById('newItemQuantity').value = '';
+        }
+
+        // ========== دوال المساعدات ==========
+        function openHelpModal(phone = '') {
+            // تعبئة قائمة المستفيدين
+            const select = document.getElementById('helpBeneficiarySelect');
+            select.innerHTML = '<option value="">اختر...</option>' + 
+                beneficiaries.map(b => `<option value="${b.phone}" ${b.phone === phone ? 'selected' : ''}>${b.name} - ${b.phone}</option>`).join('');
+
+            // تعبئة قائمة المواد
+            const itemsList = document.getElementById('inventoryItemsList');
+            itemsList.innerHTML = inventory.map(item => `
+                <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 8px;">
+                    <input type="checkbox" id="item_${item.id}" value="${item.id}">
+                    <label for="item_${item.id}" style="flex: 1;">${item.name} (متوفر: ${item.quantity} ${item.unit})</label>
+                    <input type="number" id="qty_${item.id}" value="1" min="1" max="${item.quantity}" style="width: 70px; padding: 5px; background: rgba(0,0,0,0.3); border: 1px solid var(--border); border-radius: 5px; color: white;">
+                </div>
+            `).join('');
 
             document.getElementById('helpModal').classList.add('active');
         }
 
-        function addHelp(e) {
-            e.preventDefault();
-
-            const beneficiaryId = document.getElementById('helpBeneficiaryId').value;
-            const date = document.getElementById('helpDate').value;
-            const notes = document.getElementById('helpNotes').value;
-            const beneficiary = beneficiaries.find(b => b.id === beneficiaryId);
-
-            const selectedItems = [];
+        function toggleHelpType() {
+            const type = document.getElementById('helpType').value;
             
-            // تجميع المواد المختارة
-            inventory.forEach(item => {
-                const checkbox = document.getElementById(`item_${item.id}`);
-                const qtyInput = document.getElementById(`qty_${item.id}`);
-                
-                if (checkbox && checkbox.checked && qtyInput && qtyInput.value) {
-                    const qty = parseFloat(qtyInput.value);
-                    if (qty > 0 && qty <= item.quantity) {
-                        // خصم الكمية من المخزن
-                        item.quantity -= qty;
-                        
-                        selectedItems.push({
-                            id: item.id,
-                            name: item.name,
-                            quantity: qty,
-                            unit: item.unit
-                        });
-                        
-                        // تسجيل الحركة
-                        movements.push({
-                            date: date,
-                            type: 'صرف',
-                            item: item.name,
-                            quantity: qty,
-                            unit: item.unit,
-                            note: `صرف لـ ${beneficiary?.name || beneficiaryId}`
-                        });
-                    }
-                }
-            });
+            document.getElementById('materialHelpSection').style.display = type === 'material' ? 'block' : 'none';
+            document.getElementById('moneyHelpSection').style.display = type === 'money' ? 'block' : 'none';
+            document.getElementById('otherHelpSection').style.display = type === 'other' ? 'block' : 'none';
+        }
 
-            if (selectedItems.length > 0) {
-                // حفظ المساعدة
-                helps.push({
-                    id: generateId(),
-                    beneficiaryId: beneficiaryId,
-                    date: date,
-                    items: selectedItems,
-                    notes: notes
+        function addHelp() {
+            const beneficiaryPhone = document.getElementById('helpBeneficiarySelect').value;
+            if (!beneficiaryPhone) {
+                showToast('⚠️ اختر المستفيد', 'warning');
+                return;
+            }
+
+            const beneficiary = beneficiaries.find(b => b.phone === beneficiaryPhone);
+            const type = document.getElementById('helpType').value;
+            const notes = document.getElementById('helpNotes').value;
+
+            let helpData = {
+                id: Date.now(),
+                beneficiaryPhone: beneficiaryPhone,
+                beneficiaryName: beneficiary.name,
+                date: new Date().toLocaleDateString('ar-EG'),
+                type: type,
+                notes: notes
+            };
+
+            if (type === 'material') {
+                const items = [];
+                inventory.forEach(item => {
+                    const checkbox = document.getElementById(`item_${item.id}`);
+                    const qtyInput = document.getElementById(`qty_${item.id}`);
+                    
+                    if (checkbox && checkbox.checked && qtyInput && qtyInput.value) {
+                        const qty = parseFloat(qtyInput.value);
+                        if (qty > 0 && qty <= item.quantity) {
+                            item.quantity -= qty;
+                            items.push(`${item.name} (${qty} ${item.unit})`);
+                        }
+                    }
                 });
 
-                saveData();
-                renderInventory();
-                renderBeneficiaries();
-                renderMovements();
-                closeModal('helpModal');
-                showToast('✅ تم صرف المساعدة');
+                if (items.length === 0) {
+                    showToast('⚠️ اختر المواد المطلوبة', 'warning');
+                    return;
+                }
+
+                helpData.items = items;
+            } else if (type === 'money') {
+                const amount = parseFloat(document.getElementById('moneyAmount').value);
+                if (!amount || amount <= 0) {
+                    showToast('⚠️ أدخل المبلغ', 'warning');
+                    return;
+                }
+                helpData.amount = amount;
+                helpData.reason = document.getElementById('moneyReason').value;
             } else {
-                showToast('⚠️ اختر المواد والكميات', 'warning');
+                const description = document.getElementById('otherDescription').value;
+                if (!description) {
+                    showToast('⚠️ اكتب وصف المساعدة', 'warning');
+                    return;
+                }
+                helpData.description = description;
             }
+
+            helps.push(helpData);
+            saveData();
+            updateUI();
+            closeModal('helpModal');
+            showToast('✅ تم صرف المساعدة بنجاح');
         }
 
         // ========== دوال عامة ==========
@@ -1108,14 +1482,18 @@
             document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
             document.querySelectorAll('.tab-section').forEach(s => s.classList.remove('active'));
             
-            if (tab === 'store') {
+            if (tab === 'dashboard') {
                 document.querySelectorAll('.tab-btn')[0].classList.add('active');
-                document.getElementById('storeSection').classList.add('active');
-                renderInventory();
-            } else {
+                document.getElementById('dashboardSection').classList.add('active');
+                updateUI();
+            } else if (tab === 'beneficiaries') {
                 document.querySelectorAll('.tab-btn')[1].classList.add('active');
                 document.getElementById('beneficiariesSection').classList.add('active');
-                renderBeneficiaries();
+                renderBeneficiariesTable();
+            } else if (tab === 'inventory') {
+                document.querySelectorAll('.tab-btn')[2].classList.add('active');
+                document.getElementById('inventorySection').classList.add('active');
+                renderInventory();
             }
         }
 
@@ -1126,16 +1504,20 @@
         function showToast(message, type = 'success') {
             const toast = document.createElement('div');
             toast.className = 'toast';
+            toast.style.borderRightColor = type === 'success' ? 'var(--success)' : 'var(--warning)';
             toast.innerHTML = message;
             document.body.appendChild(toast);
             setTimeout(() => toast.remove(), 3000);
         }
 
+        function openQuickHelp() {
+            openHelpModal();
+        }
+
         // بدء التشغيل
         document.addEventListener('DOMContentLoaded', () => {
             loadData();
-            renderInventory();
-            renderBeneficiaries();
+            updateUI();
         });
     </script>
 </body>
