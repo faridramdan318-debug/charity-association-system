@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>الجمعية الخيرية - النظام الأسطوري المتكامل</title>
+    <title>الجمعية الخيرية - النظام المتكامل</title>
     
     <!-- Font Awesome 6 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
@@ -11,1556 +11,51 @@
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
     
-    <!-- Chart.js -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        :root {
-            --primary: #1e4d8c;
-            --primary-light: #2e6ab3;
-            --primary-dark: #12315e;
-            --success: #27ae60;
-            --success-dark: #1e8449;
-            --warning: #f39c12;
-            --danger: #e74c3c;
-            --danger-dark: #c0392b;
-            --purple: #8e44ad;
-            --pink: #e83e8c;
-            --dark: #1a1a2e;
-            --darker: #16213e;
-            --card: #1e293b;
-            --light-card: #334155;
-            --text: #ffffff;
-            --text-secondary: #94a3b8;
-            --text-muted: #64748b;
-            --border: #2d3748;
-            --glow: 0 0 20px rgba(30, 77, 140, 0.3);
-            --shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
-            --radius: 20px;
-        }
-
-        body {
-            font-family: 'Tajawal', 'Cairo', sans-serif;
-            background: linear-gradient(135deg, var(--darker) 0%, var(--dark) 100%);
-            color: var(--text);
-            min-height: 100vh;
-            position: relative;
-        }
-
-        /* خلفية متحركة */
-        body::before {
-            content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: 
-                radial-gradient(circle at 20% 30%, rgba(30, 77, 140, 0.15) 0%, transparent 50%),
-                radial-gradient(circle at 80% 70%, rgba(39, 174, 96, 0.15) 0%, transparent 50%),
-                radial-gradient(circle at 40% 50%, rgba(142, 68, 173, 0.1) 0%, transparent 50%);
-            z-index: -1;
-            animation: gradientMove 25s ease infinite;
-        }
-
-        @keyframes gradientMove {
-            0%, 100% { opacity: 0.5; }
-            50% { opacity: 1; }
-        }
-
-        /* الهيدر الرئيسي المتحرك */
-        .main-header {
-            background: rgba(26, 26, 46, 0.95);
-            backdrop-filter: blur(10px);
-            border-bottom: 2px solid var(--primary);
-            padding: 15px 0;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-            box-shadow: var(--shadow);
-        }
-
-        .header-content {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 0 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 15px;
-        }
-
-        .logo-area {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-
-        .logo-3d {
-            width: 70px;
-            height: 70px;
-            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+        /* نفس التنسيقات السابقة مع إضافة تنسيق للصفحة الفاضية */
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            background: rgba(255,255,255,0.02);
             border-radius: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 35px;
-            color: white;
-            transform: rotate(5deg);
-            box-shadow: var(--glow);
-            animation: floatLogo 3s ease infinite;
+            border: 2px dashed var(--border);
         }
 
-        @keyframes floatLogo {
-            0%, 100% { transform: rotate(5deg) translateY(0); }
-            50% { transform: rotate(5deg) translateY(-10px); }
-        }
-
-        .title h1 {
-            font-size: 2.2rem;
-            font-weight: 800;
-            background: linear-gradient(135deg, #fff, var(--primary-light));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-bottom: 5px;
-        }
-
-        .title p {
-            color: var(--text-secondary);
-            font-size: 1rem;
-            letter-spacing: 1px;
-        }
-
-        /* التبويبات ثلاثية الأبعاد */
-        .tabs-3d {
-            display: flex;
-            gap: 10px;
-            background: rgba(0, 0, 0, 0.3);
-            padding: 8px;
-            border-radius: 60px;
-            backdrop-filter: blur(10px);
-            border: 1px solid var(--border);
-        }
-
-        .tab-btn-3d {
-            padding: 15px 35px;
-            border: none;
-            border-radius: 50px;
-            background: transparent;
-            color: var(--text-secondary);
-            font-size: 1.1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.4s ease;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .tab-btn-3d::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-            opacity: 0;
-            transition: 0.4s;
-            z-index: -1;
-        }
-
-        .tab-btn-3d:hover {
-            color: white;
-            transform: translateY(-3px);
-        }
-
-        .tab-btn-3d:hover::before {
-            opacity: 0.3;
-        }
-
-        .tab-btn-3d.active {
-            color: white;
-            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-            box-shadow: 0 10px 30px -5px var(--primary);
-        }
-
-        .container {
-            max-width: 1400px;
-            margin: 30px auto;
-            padding: 0 20px;
-        }
-
-        .tab-section {
-            display: none;
-            animation: fadeIn 0.6s ease;
-        }
-
-        .tab-section.active {
-            display: block;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* بطاقة الإحصائيات الرئيسية */
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 25px;
-            margin-bottom: 30px;
-        }
-
-        .stat-card-3d {
-            background: linear-gradient(135deg, var(--card), var(--light-card));
-            border-radius: var(--radius);
-            padding: 25px;
-            border: 1px solid var(--border);
-            box-shadow: var(--shadow);
-            display: flex;
-            align-items: center;
-            gap: 20px;
-            transition: 0.4s;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .stat-card-3d::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 4px;
-            background: linear-gradient(90deg, var(--primary), var(--success));
-        }
-
-        .stat-card-3d:hover {
-            transform: translateY(-10px) scale(1.02);
-            border-color: var(--primary);
-            box-shadow: 0 30px 50px rgba(0, 0, 0, 0.5);
-        }
-
-        .stat-icon-3d {
-            width: 80px;
-            height: 80px;
-            background: linear-gradient(135deg, rgba(30, 77, 140, 0.2), rgba(30, 77, 140, 0.1));
-            border-radius: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 40px;
+        .empty-state i {
+            font-size: 80px;
             color: var(--primary);
-            border: 1px solid var(--primary);
+            margin-bottom: 20px;
+            opacity: 0.5;
         }
 
-        .stat-info h3 {
+        .empty-state h3 {
+            font-size: 1.8rem;
             color: var(--text-secondary);
-            font-size: 1rem;
-            font-weight: normal;
-            margin-bottom: 5px;
+            margin-bottom: 15px;
         }
 
-        .stat-info .number {
-            font-size: 3rem;
-            font-weight: 800;
-            background: linear-gradient(135deg, #fff, var(--primary-light));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            line-height: 1;
+        .empty-state p {
+            color: var(--text-muted);
+            margin-bottom: 25px;
         }
 
-        .stat-info .label {
-            color: var(--text-secondary);
-            font-size: 0.9rem;
-        }
-
-        /* بطاقة التنبيهات */
-        .alerts-bar {
-            background: linear-gradient(135deg, var(--danger), var(--danger-dark));
-            border-radius: 60px;
-            padding: 20px 30px;
-            margin-bottom: 30px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            flex-wrap: wrap;
-            gap: 20px;
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-            0% { box-shadow: 0 0 0 0 rgba(231, 76, 60, 0.7); }
-            70% { box-shadow: 0 0 0 15px rgba(231, 76, 60, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(231, 76, 60, 0); }
-        }
-
-        .alerts-content {
-            display: flex;
-            align-items: center;
-            gap: 20px;
-        }
-
-        .alerts-content i {
-            font-size: 40px;
-        }
-
-        .alerts-text h3 {
-            font-size: 1.3rem;
-            margin-bottom: 5px;
-        }
-
-        .alerts-btn {
-            background: white;
-            color: var(--danger);
+        .empty-state button {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
             border: none;
             border-radius: 50px;
             padding: 15px 40px;
+            color: white;
             font-size: 1.1rem;
             font-weight: bold;
             cursor: pointer;
-            display: flex;
+            display: inline-flex;
             align-items: center;
             gap: 10px;
-            transition: 0.3s;
-        }
-
-        .alerts-btn:hover {
-            transform: scale(1.05);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-        }
-
-        /* أزرار الإجراءات السريعة */
-        .quick-actions-3d {
-            display: flex;
-            gap: 15px;
-            flex-wrap: wrap;
-            margin-bottom: 30px;
-        }
-
-        .quick-btn-3d {
-            padding: 18px 35px;
-            border: none;
-            border-radius: 60px;
-            background: linear-gradient(135deg, var(--card), var(--light-card));
-            color: var(--text);
-            font-size: 1.1rem;
-            font-weight: 600;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            border: 1px solid var(--border);
-            transition: 0.4s;
-            flex: 1;
-            min-width: 200px;
-            justify-content: center;
-        }
-
-        .quick-btn-3d:hover {
-            transform: translateY(-5px);
-            border-color: var(--primary);
-            box-shadow: var(--glow);
-        }
-
-        .quick-btn-3d i {
-            font-size: 1.3rem;
-            color: var(--primary);
-        }
-
-        /* قسم البحث المتقدم */
-        .search-advanced {
-            background: linear-gradient(135deg, var(--card), var(--light-card));
-            border-radius: var(--radius);
-            padding: 30px;
-            margin-bottom: 30px;
-            border: 1px solid var(--border);
-        }
-
-        .search-title {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            margin-bottom: 25px;
-        }
-
-        .search-title i {
-            font-size: 2.5rem;
-            color: var(--primary);
-        }
-
-        .search-title h2 {
-            font-size: 1.8rem;
-            background: linear-gradient(135deg, #fff, var(--primary-light));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .filters-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
-        }
-
-        .filter-item {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-
-        .filter-item label {
-            color: var(--text-secondary);
-            font-size: 0.9rem;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-
-        .filter-input-3d {
-            background: rgba(0, 0, 0, 0.3);
-            border: 2px solid var(--border);
-            border-radius: 15px;
-            padding: 15px;
-            color: white;
-            font-size: 1rem;
-            width: 100%;
-            transition: 0.3s;
-        }
-
-        .filter-input-3d:focus {
-            outline: none;
-            border-color: var(--primary);
-            box-shadow: 0 0 20px rgba(30, 77, 140, 0.3);
-        }
-
-        /* الجدول الرئيسي */
-        .table-container {
-            background: linear-gradient(135deg, var(--card), var(--light-card));
-            border-radius: var(--radius);
-            padding: 25px;
-            border: 1px solid var(--border);
-            overflow-x: auto;
-        }
-
-        .legend {
-            display: flex;
-            gap: 20px;
-            margin-bottom: 20px;
-            flex-wrap: wrap;
-        }
-
-        .legend-item {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            padding: 8px 15px;
-            background: rgba(255, 255, 255, 0.03);
-            border-radius: 50px;
-        }
-
-        .main-table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-
-        .main-table th {
-            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-            padding: 18px 15px;
-            text-align: right;
-            font-weight: 700;
-            font-size: 1rem;
-            white-space: nowrap;
-        }
-
-        .main-table td {
-            padding: 15px;
-            border-bottom: 1px solid var(--border);
-            vertical-align: middle;
-        }
-
-        .main-table tr {
-            transition: 0.3s;
-        }
-
-        .main-table tr:hover {
-            background: rgba(255, 255, 255, 0.03);
-            transform: scale(1.01);
-        }
-
-        /* شارات الحالة */
-        .status-super {
-            background: linear-gradient(135deg, #f39c12, #e67e22);
-            color: white;
-            padding: 6px 15px;
-            border-radius: 50px;
-            font-size: 0.85rem;
-            font-weight: 600;
-            display: inline-block;
-        }
-
-        .status-urgent {
-            background: linear-gradient(135deg, #e74c3c, #c0392b);
-            color: white;
-            padding: 6px 15px;
-            border-radius: 50px;
-            font-size: 0.85rem;
-            font-weight: 600;
-            display: inline-block;
-        }
-
-        .status-high {
-            background: linear-gradient(135deg, #f1c40f, #f39c12);
-            color: var(--dark);
-            padding: 6px 15px;
-            border-radius: 50px;
-            font-size: 0.85rem;
-            font-weight: 600;
-            display: inline-block;
-        }
-
-        .status-medium {
-            background: linear-gradient(135deg, #3498db, #2980b9);
-            color: white;
-            padding: 6px 15px;
-            border-radius: 50px;
-            font-size: 0.85rem;
-            font-weight: 600;
-            display: inline-block;
-        }
-
-        .status-low {
-            background: linear-gradient(135deg, #2ecc71, #27ae60);
-            color: white;
-            padding: 6px 15px;
-            border-radius: 50px;
-            font-size: 0.85rem;
-            font-weight: 600;
-            display: inline-block;
-        }
-
-        /* شارة المخزون */
-        .stock-badge {
-            padding: 6px 12px;
-            border-radius: 50px;
-            font-size: 0.85rem;
-            font-weight: 600;
-        }
-
-        .stock-critical {
-            background: rgba(231, 76, 60, 0.2);
-            color: #e74c3c;
-            border: 1px solid #e74c3c;
-        }
-
-        .stock-low {
-            background: rgba(241, 196, 15, 0.2);
-            color: #f1c40f;
-            border: 1px solid #f1c40f;
-        }
-
-        .stock-good {
-            background: rgba(46, 204, 113, 0.2);
-            color: #2ecc71;
-            border: 1px solid #2ecc71;
-        }
-
-        /* أيقونات الإجراءات */
-        .action-icons-3d {
-            display: flex;
-            gap: 8px;
-            flex-wrap: wrap;
-        }
-
-        .action-icon-3d {
-            width: 38px;
-            height: 38px;
-            border-radius: 12px;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid var(--border);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: 0.3s;
-            color: var(--text-secondary);
-        }
-
-        .action-icon-3d:hover {
-            background: var(--primary);
-            color: white;
-            transform: translateY(-3px) scale(1.1);
-            border-color: var(--primary);
-        }
-
-        .action-icon-3d.view:hover { background: var(--primary); }
-        .action-icon-3d.edit:hover { background: var(--warning); }
-        .action-icon-3d.delete:hover { background: var(--danger); }
-        .action-icon-3d.help:hover { background: var(--success); }
-        .action-icon-3d.history:hover { background: var(--purple); }
-
-        /* المودال المتحرك */
-        .modal-3d {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.8);
-            backdrop-filter: blur(15px);
-            align-items: center;
-            justify-content: center;
-            z-index: 2000;
-            animation: modalFade 0.4s;
-        }
-
-        @keyframes modalFade {
-            from { opacity: 0; transform: scale(0.9); }
-            to { opacity: 1; transform: scale(1); }
-        }
-
-        .modal-3d.active {
-            display: flex;
-        }
-
-        .modal-content-3d {
-            background: linear-gradient(135deg, var(--card), var(--light-card));
-            border-radius: 40px;
-            width: 90%;
-            max-width: 800px;
-            max-height: 90vh;
-            overflow-y: auto;
-            padding: 30px;
-            border: 1px solid var(--border);
-            box-shadow: var(--shadow);
-            position: relative;
-        }
-
-        .modal-header-3d {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 25px;
-            padding-bottom: 15px;
-            border-bottom: 2px solid var(--border);
-        }
-
-        .modal-header-3d h2 {
-            font-size: 2rem;
-            background: linear-gradient(135deg, #fff, var(--primary-light));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .close-3d {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.05);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            font-size: 24px;
-            border: 1px solid var(--border);
-            transition: 0.3s;
-        }
-
-        .close-3d:hover {
-            background: var(--danger);
-            transform: rotate(90deg);
-            border-color: var(--danger);
-        }
-
-        /* بطاقة الملف الشخصي */
-        .profile-card-3d {
-            background: linear-gradient(135deg, var(--card), var(--light-card));
-            border-radius: 30px;
-            overflow: hidden;
-        }
-
-        .profile-cover {
-            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-            height: 150px;
-            position: relative;
-        }
-
-        .profile-avatar-3d {
-            width: 120px;
-            height: 120px;
-            background: linear-gradient(135deg, #fff, #f0f0f0);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 60px;
-            color: var(--primary);
-            border: 5px solid white;
-            position: absolute;
-            bottom: -60px;
-            right: 30px;
-            box-shadow: var(--shadow);
-        }
-
-        .profile-stats-3d {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 15px;
-            padding: 80px 30px 30px;
-            background: rgba(0, 0, 0, 0.2);
-        }
-
-        /* التوست */
-        .toast-3d {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            background: linear-gradient(135deg, var(--card), var(--light-card));
-            border-right: 6px solid var(--success);
-            border-radius: 60px;
-            padding: 18px 35px;
-            box-shadow: var(--shadow);
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            z-index: 3000;
-            animation: toastSlide 0.4s;
-            border: 1px solid var(--border);
-        }
-
-        @keyframes toastSlide {
-            from { transform: translateX(100px); opacity: 0; }
-            to { transform: translateX(0); opacity: 1; }
-        }
-
-        /* رينسبونسيف */
-        @media (max-width: 1024px) {
-            .profile-stats-3d {
-                grid-template-columns: repeat(2, 1fr);
-            }
-            
-            .main-table {
-                font-size: 0.9rem;
-            }
-        }
-
-        @media (max-width: 768px) {
-            .tabs-3d {
-                flex-wrap: wrap;
-                justify-content: center;
-            }
-            
-            .tab-btn-3d {
-                padding: 12px 25px;
-            }
-            
-            .quick-btn-3d {
-                min-width: 100%;
-            }
-            
-            .profile-avatar-3d {
-                right: 50%;
-                transform: translateX(50%);
-            }
         }
     </style>
 </head>
 <body>
-    <div class="main-header">
-        <div class="header-content">
-            <div class="logo-area">
-                <div class="logo-3d">
-                    <i class="fas fa-hand-holding-heart"></i>
-                </div>
-                <div class="title">
-                    <h1>الجمعية الخيرية</h1>
-                    <p>النظام الأسطوري المتكامل</p>
-                </div>
-            </div>
-            
-            <div class="tabs-3d">
-                <button class="tab-btn-3d active" onclick="switchTab('dashboard')">
-                    <i class="fas fa-chart-pie"></i>
-                    الرئيسية
-                </button>
-                <button class="tab-btn-3d" onclick="switchTab('beneficiaries')">
-                    <i class="fas fa-users"></i>
-                    المستفيدين
-                </button>
-                <button class="tab-btn-3d" onclick="switchTab('inventory')">
-                    <i class="fas fa-warehouse"></i>
-                    المخزن
-                </button>
-                <button class="tab-btn-3d" onclick="switchTab('reports')">
-                    <i class="fas fa-file-alt"></i>
-                    التقارير
-                </button>
-            </div>
-        </div>
-    </div>
-
-    <div class="container">
-        <!-- ===== الصفحة الرئيسية ===== -->
-        <div id="dashboardSection" class="tab-section active">
-            <!-- الإحصائيات الرئيسية -->
-            <div class="stats-grid">
-                <div class="stat-card-3d">
-                    <div class="stat-icon-3d">
-                        <i class="fas fa-users"></i>
-                    </div>
-                    <div class="stat-info">
-                        <h3>إجمالي المستفيدين</h3>
-                        <div class="number" id="totalBeneficiaries">0</div>
-                        <div class="label">مسجل في النظام</div>
-                    </div>
-                </div>
-                
-                <div class="stat-card-3d">
-                    <div class="stat-icon-3d">
-                        <i class="fas fa-check-circle"></i>
-                    </div>
-                    <div class="stat-info">
-                        <h3>تم الصرف هذا الشهر</h3>
-                        <div class="number" id="helpedThisMonth">0</div>
-                        <div class="label">مستفيد</div>
-                    </div>
-                </div>
-                
-                <div class="stat-card-3d">
-                    <div class="stat-icon-3d">
-                        <i class="fas fa-clock"></i>
-                    </div>
-                    <div class="stat-info">
-                        <h3>في انتظار المساعدة</h3>
-                        <div class="number" id="waitingHelp">0</div>
-                        <div class="label">مستفيد</div>
-                    </div>
-                </div>
-                
-                <div class="stat-card-3d">
-                    <div class="stat-icon-3d">
-                        <i class="fas fa-boxes"></i>
-                    </div>
-                    <div class="stat-info">
-                        <h3>أصناف المخزن</h3>
-                        <div class="number" id="totalItems">0</div>
-                        <div class="label">مادة</div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- تنبيهات عاجلة -->
-            <div class="alerts-bar" id="urgentAlert" style="display: none;">
-                <div class="alerts-content">
-                    <i class="fas fa-exclamation-triangle"></i>
-                    <div class="alerts-text">
-                        <h3>تنبيه: هناك حالات عاجلة!</h3>
-                        <p id="urgentAlertText"></p>
-                    </div>
-                </div>
-                <button class="alerts-btn" onclick="showUrgentOnly()">
-                    <i class="fas fa-eye"></i>
-                    عرض الحالات
-                </button>
-            </div>
-
-            <!-- أزرار سريعة -->
-            <div class="quick-actions-3d">
-                <button class="quick-btn-3d" onclick="openAddBeneficiaryModal()">
-                    <i class="fas fa-user-plus"></i>
-                    إضافة مستفيد
-                </button>
-                <button class="quick-btn-3d" onclick="openAddItemModal()">
-                    <i class="fas fa-box"></i>
-                    إضافة مادة
-                </button>
-                <button class="quick-btn-3d" onclick="openQuickHelpModal()">
-                    <i class="fas fa-gift"></i>
-                    صرف مساعدة
-                </button>
-                <button class="quick-btn-3d" onclick="exportFullReport()">
-                    <i class="fas fa-file-pdf"></i>
-                    تقرير شامل
-                </button>
-            </div>
-
-            <!-- آخر المستفيدين -->
-            <div class="search-advanced">
-                <div class="search-title">
-                    <i class="fas fa-history"></i>
-                    <h2>آخر المستفيدين</h2>
-                </div>
-                <div style="overflow-x: auto;">
-                    <table class="main-table">
-                        <thead>
-                            <tr>
-                                <th>الاسم</th>
-                                <th>رقم التليفون</th>
-                                <th>المحافظة</th>
-                                <th>الحالة</th>
-                                <th>آخر مساعدة</th>
-                            </tr>
-                        </thead>
-                        <tbody id="recentBeneficiariesTable"></tbody>
-                    </table>
-                </div>
-            </div>
-
-            <!-- حركات المخزن الأخيرة -->
-            <div class="search-advanced">
-                <div class="search-title">
-                    <i class="fas fa-exchange-alt"></i>
-                    <h2>آخر حركات المخزن</h2>
-                </div>
-                <div style="overflow-x: auto;">
-                    <table class="main-table">
-                        <thead>
-                            <tr>
-                                <th>التاريخ</th>
-                                <th>النوع</th>
-                                <th>المادة</th>
-                                <th>الكمية</th>
-                                <th>المستفيد</th>
-                            </tr>
-                        </thead>
-                        <tbody id="recentMovementsTable"></tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-
-        <!-- ===== قسم المستفيدين ===== -->
-        <div id="beneficiariesSection" class="tab-section">
-            <!-- إحصائيات المستفيدين -->
-            <div class="stats-grid">
-                <div class="stat-card-3d">
-                    <div class="stat-icon-3d">
-                        <i class="fas fa-users"></i>
-                    </div>
-                    <div class="stat-info">
-                        <h3>إجمالي المستفيدين</h3>
-                        <div class="number" id="beneficiariesTotal">0</div>
-                    </div>
-                </div>
-                <div class="stat-card-3d">
-                    <div class="stat-icon-3d">
-                        <i class="fas fa-exclamation-triangle"></i>
-                    </div>
-                    <div class="stat-info">
-                        <h3>حالات عاجلة</h3>
-                        <div class="number" id="urgentTotal">0</div>
-                    </div>
-                </div>
-                <div class="stat-card-3d">
-                    <div class="stat-icon-3d">
-                        <i class="fas fa-star"></i>
-                    </div>
-                    <div class="stat-info">
-                        <h3>تم الصرف هذا الشهر</h3>
-                        <div class="number" id="beneficiariesHelped">0</div>
-                    </div>
-                </div>
-                <div class="stat-card-3d">
-                    <div class="stat-icon-3d">
-                        <i class="fas fa-city"></i>
-                    </div>
-                    <div class="stat-info">
-                        <h3>عدد المحافظات</h3>
-                        <div class="number" id="governoratesCount">0</div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- أزرار سريعة -->
-            <div class="quick-actions-3d">
-                <button class="quick-btn-3d" onclick="openAddBeneficiaryModal()">
-                    <i class="fas fa-user-plus"></i>
-                    إضافة مستفيد
-                </button>
-                <button class="quick-btn-3d" onclick="exportBeneficiaries()">
-                    <i class="fas fa-file-excel"></i>
-                    تصدير Excel
-                </button>
-                <button class="quick-btn-3d" onclick="printBeneficiaries()">
-                    <i class="fas fa-print"></i>
-                    طباعة
-                </button>
-            </div>
-
-            <!-- البحث المتقدم للمستفيدين -->
-            <div class="search-advanced">
-                <div class="search-title">
-                    <i class="fas fa-search"></i>
-                    <h2>بحث متقدم عن المستفيدين</h2>
-                </div>
-                
-                <div class="filters-grid">
-                    <div class="filter-item">
-                        <label><i class="fas fa-user"></i> الاسم</label>
-                        <input type="text" class="filter-input-3d" id="searchName" placeholder="بحث بالاسم">
-                    </div>
-                    <div class="filter-item">
-                        <label><i class="fas fa-phone"></i> رقم التليفون</label>
-                        <input type="text" class="filter-input-3d" id="searchPhone" placeholder="بحث بالتليفون">
-                    </div>
-                    <div class="filter-item">
-                        <label><i class="fas fa-id-card"></i> رقم البطاقة</label>
-                        <input type="text" class="filter-input-3d" id="searchNationalId" placeholder="بحث بالبطاقة">
-                    </div>
-                    <div class="filter-item">
-                        <label><i class="fas fa-map-marker-alt"></i> المحافظة</label>
-                        <select class="filter-input-3d" id="filterGov">
-                            <option value="all">كل المحافظات</option>
-                            <option value="القاهرة">القاهرة</option>
-                            <option value="الجيزة">الجيزة</option>
-                            <option value="الإسكندرية">الإسكندرية</option>
-                            <option value="الشرقية">الشرقية</option>
-                            <option value="الدقهلية">الدقهلية</option>
-                            <option value="البحيرة">البحيرة</option>
-                            <option value="المنيا">المنيا</option>
-                            <option value="أسيوط">أسيوط</option>
-                            <option value="سوهاج">سوهاج</option>
-                            <option value="قنا">قنا</option>
-                            <option value="الأقصر">الأقصر</option>
-                            <option value="أسوان">أسوان</option>
-                        </select>
-                    </div>
-                    <div class="filter-item">
-                        <label><i class="fas fa-heartbeat"></i> الحالة</label>
-                        <select class="filter-input-3d" id="filterStatus">
-                            <option value="all">كل الحالات</option>
-                            <option value="urgent">🔴 عاجل جداً</option>
-                            <option value="high">🟠 خطير</option>
-                            <option value="medium">🟡 متابعة</option>
-                            <option value="low">🟢 مستقر</option>
-                        </select>
-                    </div>
-                    <div class="filter-item">
-                        <label><i class="fas fa-calendar"></i> آخر مساعدة</label>
-                        <select class="filter-input-3d" id="filterLastHelp">
-                            <option value="all">الكل</option>
-                            <option value="today">اليوم</option>
-                            <option value="week">آخر أسبوع</option>
-                            <option value="month">آخر شهر</option>
-                            <option value="older">أقدم من شهر</option>
-                            <option value="never">لم يصرف من قبل</option>
-                        </select>
-                    </div>
-                    <div class="filter-item">
-                        <label><i class="fas fa-gift"></i> حالة الصرف</label>
-                        <select class="filter-input-3d" id="filterHelped">
-                            <option value="all">الكل</option>
-                            <option value="helped">تم الصرف هذا الشهر</option>
-                            <option value="not">لم يصرف هذا الشهر</option>
-                        </select>
-                    </div>
-                    <div class="filter-item">
-                        <label><i class="fas fa-users"></i> عدد الأسرة</label>
-                        <select class="filter-input-3d" id="filterFamily">
-                            <option value="all">الكل</option>
-                            <option value="1-3">1-3 أفراد</option>
-                            <option value="4-6">4-6 أفراد</option>
-                            <option value="7+">7+ أفراد</option>
-                        </select>
-                    </div>
-                </div>
-                
-                <div style="display: flex; gap: 15px; margin-top: 25px;">
-                    <button class="quick-btn-3d" onclick="filterBeneficiaries()" style="background: linear-gradient(135deg, var(--primary), var(--primary-dark));">
-                        <i class="fas fa-search"></i>
-                        بحث
-                    </button>
-                    <button class="quick-btn-3d" onclick="resetBeneficiaryFilters()">
-                        <i class="fas fa-redo-alt"></i>
-                        إعادة تعيين
-                    </button>
-                </div>
-            </div>
-
-            <!-- جدول المستفيدين -->
-            <div class="table-container">
-                <div class="legend">
-                    <span class="legend-item"><span class="status-super">🔴 عاجل جداً</span></span>
-                    <span class="legend-item"><span class="status-high">🟠 خطير</span></span>
-                    <span class="legend-item"><span class="status-medium">🔵 متابعة</span></span>
-                    <span class="legend-item"><span class="status-low">🟢 مستقر</span></span>
-                </div>
-                
-                <div style="overflow-x: auto;">
-                    <table class="main-table">
-                        <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>الاسم</th>
-                                <th>رقم التليفون</th>
-                                <th>رقم البطاقة</th>
-                                <th>المحافظة</th>
-                                <th>العنوان</th>
-                                <th>الحالة</th>
-                                <th>عدد الأسرة</th>
-                                <th>الاحتياجات</th>
-                                <th>آخر مساعدة</th>
-                                <th>حالة الشهر</th>
-                                <th>الإجراءات</th>
-                            </tr>
-                        </thead>
-                        <tbody id="beneficiariesTable"></tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-
-        <!-- ===== قسم المخزن ===== -->
-        <div id="inventorySection" class="tab-section">
-            <!-- إحصائيات المخزن -->
-            <div class="stats-grid">
-                <div class="stat-card-3d">
-                    <div class="stat-icon-3d">
-                        <i class="fas fa-boxes"></i>
-                    </div>
-                    <div class="stat-info">
-                        <h3>إجمالي الأصناف</h3>
-                        <div class="number" id="inventoryTotalItems">0</div>
-                    </div>
-                </div>
-                <div class="stat-card-3d">
-                    <div class="stat-icon-3d">
-                        <i class="fas fa-weight-scale"></i>
-                    </div>
-                    <div class="stat-info">
-                        <h3>إجمالي الوحدات</h3>
-                        <div class="number" id="inventoryTotalUnits">0</div>
-                    </div>
-                </div>
-                <div class="stat-card-3d">
-                    <div class="stat-icon-3d">
-                        <i class="fas fa-exclamation-triangle"></i>
-                    </div>
-                    <div class="stat-info">
-                        <h3>أصناف منخفضة</h3>
-                        <div class="number" id="inventoryLowStock">0</div>
-                    </div>
-                </div>
-                <div class="stat-card-3d">
-                    <div class="stat-icon-3d">
-                        <i class="fas fa-coins"></i>
-                    </div>
-                    <div class="stat-info">
-                        <h3>قيمة المخزن</h3>
-                        <div class="number" id="inventoryTotalValue">0</div>
-                        <div class="label">جنيه</div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- أزرار سريعة -->
-            <div class="quick-actions-3d">
-                <button class="quick-btn-3d" onclick="openAddItemModal()">
-                    <i class="fas fa-plus-circle"></i>
-                    إضافة مادة
-                </button>
-                <button class="quick-btn-3d" onclick="exportInventory()">
-                    <i class="fas fa-file-excel"></i>
-                    تصدير Excel
-                </button>
-                <button class="quick-btn-3d" onclick="printInventory()">
-                    <i class="fas fa-print"></i>
-                    طباعة
-                </button>
-                <button class="quick-btn-3d" onclick="checkLowStock()">
-                    <i class="fas fa-bell"></i>
-                    تنبيه المنخفض
-                </button>
-            </div>
-
-            <!-- بحث المخزن -->
-            <div class="search-advanced">
-                <div class="filters-grid">
-                    <div class="filter-item">
-                        <label><i class="fas fa-search"></i> بحث</label>
-                        <input type="text" class="filter-input-3d" id="searchItem" placeholder="اسم المادة" onkeyup="filterInventory()">
-                    </div>
-                    <div class="filter-item">
-                        <label><i class="fas fa-tag"></i> التصنيف</label>
-                        <select class="filter-input-3d" id="filterCategory" onchange="filterInventory()">
-                            <option value="all">كل التصنيفات</option>
-                            <option value="food">🍚 غذاء</option>
-                            <option value="clothes">👕 ملابس</option>
-                            <option value="medical">💊 أدوية</option>
-                            <option value="other">📦 أخرى</option>
-                        </select>
-                    </div>
-                    <div class="filter-item">
-                        <label><i class="fas fa-chart-line"></i> الحالة</label>
-                        <select class="filter-input-3d" id="filterStock" onchange="filterInventory()">
-                            <option value="all">الكل</option>
-                            <option value="low">منخفض فقط</option>
-                            <option value="critical">حرج جداً</option>
-                            <option value="good">متوفر</option>
-                        </select>
-                    </div>
-                </div>
-            </div>
-
-            <!-- جدول المخزن -->
-            <div class="table-container">
-                <div class="legend">
-                    <span class="legend-item"><span class="stock-critical">🔴 منخفض جداً</span></span>
-                    <span class="legend-item"><span class="stock-low">🟡 منخفض</span></span>
-                    <span class="legend-item"><span class="stock-good">🟢 متوفر</span></span>
-                </div>
-                
-                <div style="overflow-x: auto;">
-                    <table class="main-table">
-                        <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>المادة</th>
-                                <th>الكمية</th>
-                                <th>الوحدة</th>
-                                <th>التصنيف</th>
-                                <th>الحد الأدنى</th>
-                                <th>الحالة</th>
-                                <th>آخر تحديث</th>
-                                <th>الإجراءات</th>
-                            </tr>
-                        </thead>
-                        <tbody id="inventoryTable"></tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-
-        <!-- ===== قسم التقارير ===== -->
-        <div id="reportsSection" class="tab-section">
-            <div class="stats-grid">
-                <div class="stat-card-3d" onclick="generateReport('monthly')">
-                    <div class="stat-icon-3d">
-                        <i class="fas fa-calendar-alt"></i>
-                    </div>
-                    <div class="stat-info">
-                        <h3>تقرير شهري</h3>
-                        <div class="number">2024</div>
-                    </div>
-                </div>
-                <div class="stat-card-3d" onclick="generateReport('beneficiaries')">
-                    <div class="stat-icon-3d">
-                        <i class="fas fa-users"></i>
-                    </div>
-                    <div class="stat-info">
-                        <h3>تقرير المستفيدين</h3>
-                        <div class="number">شامل</div>
-                    </div>
-                </div>
-                <div class="stat-card-3d" onclick="generateReport('inventory')">
-                    <div class="stat-icon-3d">
-                        <i class="fas fa-boxes"></i>
-                    </div>
-                    <div class="stat-info">
-                        <h3>تقرير المخزن</h3>
-                        <div class="number">مفصل</div>
-                    </div>
-                </div>
-                <div class="stat-card-3d" onclick="generateReport('financial')">
-                    <div class="stat-icon-3d">
-                        <i class="fas fa-coins"></i>
-                    </div>
-                    <div class="stat-info">
-                        <h3>تقرير مالي</h3>
-                        <div class="number">إجمالي</div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="search-advanced" id="reportResult">
-                <div class="search-title">
-                    <i class="fas fa-chart-bar"></i>
-                    <h2>نتيجة التقرير</h2>
-                </div>
-                <div style="min-height: 300px;" id="reportContent">
-                    <p style="color: var(--text-secondary); text-align: center;">اختر نوع التقرير للعرض</p>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- مودال إضافة/تعديل مستفيد -->
-    <div id="beneficiaryModal" class="modal-3d">
-        <div class="modal-content-3d">
-            <div class="modal-header-3d">
-                <h2 id="beneficiaryModalTitle">إضافة مستفيد جديد</h2>
-                <div class="close-3d" onclick="closeModal('beneficiaryModal')">✕</div>
-            </div>
-            
-            <form id="beneficiaryForm" onsubmit="saveBeneficiary(event)">
-                <input type="hidden" id="beneficiaryId">
-                
-                <div class="filters-grid" style="grid-template-columns: repeat(2, 1fr);">
-                    <div class="filter-item" style="grid-column: span 2;">
-                        <label>الاسم الكامل</label>
-                        <input type="text" class="filter-input-3d" id="beneficiaryName" required>
-                    </div>
-                    
-                    <div class="filter-item">
-                        <label>رقم التليفون (ID)</label>
-                        <input type="tel" class="filter-input-3d" id="beneficiaryPhone" required>
-                    </div>
-                    
-                    <div class="filter-item">
-                        <label>رقم البطاقة</label>
-                        <input type="text" class="filter-input-3d" id="beneficiaryNationalId" required>
-                    </div>
-                    
-                    <div class="filter-item">
-                        <label>المحافظة</label>
-                        <select class="filter-input-3d" id="beneficiaryGovernorate" required>
-                            <option value="القاهرة">القاهرة</option>
-                            <option value="الجيزة">الجيزة</option>
-                            <option value="الإسكندرية">الإسكندرية</option>
-                            <option value="الشرقية">الشرقية</option>
-                        </select>
-                    </div>
-                    
-                    <div class="filter-item">
-                        <label>عدد أفراد الأسرة</label>
-                        <input type="number" class="filter-input-3d" id="beneficiaryFamily" min="1" value="1" required>
-                    </div>
-                    
-                    <div class="filter-item" style="grid-column: span 2;">
-                        <label>العنوان بالتفصيل</label>
-                        <input type="text" class="filter-input-3d" id="beneficiaryAddress" required>
-                    </div>
-                    
-                    <div class="filter-item">
-                        <label>الحالة</label>
-                        <select class="filter-input-3d" id="beneficiaryStatus" required>
-                            <option value="urgent">🔴 عاجل جداً</option>
-                            <option value="high">🟠 خطير</option>
-                            <option value="medium">🟡 متابعة دورية</option>
-                            <option value="low">🟢 حالة مستقرة</option>
-                        </select>
-                    </div>
-                    
-                    <div class="filter-item">
-                        <label>الاحتياجات</label>
-                        <input type="text" class="filter-input-3d" id="beneficiaryNeeds" placeholder="غذاء, علاج, ..." required>
-                    </div>
-                    
-                    <div class="filter-item" style="grid-column: span 2;">
-                        <label>وصف الحالة</label>
-                        <textarea class="filter-input-3d" id="beneficiaryCondition" rows="3" required></textarea>
-                    </div>
-                    
-                    <div class="filter-item" style="grid-column: span 2;">
-                        <label>ملاحظات إضافية</label>
-                        <textarea class="filter-input-3d" id="beneficiaryNotes" rows="2"></textarea>
-                    </div>
-                </div>
-                
-                <div style="display: flex; gap: 15px; margin-top: 25px;">
-                    <button type="submit" class="quick-btn-3d" style="background: linear-gradient(135deg, var(--success), var(--success-dark));">
-                        <i class="fas fa-save"></i>
-                        حفظ
-                    </button>
-                    <button type="button" class="quick-btn-3d" onclick="closeModal('beneficiaryModal')">
-                        <i class="fas fa-times"></i>
-                        إلغاء
-                    </button>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <!-- مودال إضافة/تعديل مادة -->
-    <div id="itemModal" class="modal-3d">
-        <div class="modal-content-3d">
-            <div class="modal-header-3d">
-                <h2 id="itemModalTitle">إضافة مادة جديدة</h2>
-                <div class="close-3d" onclick="closeModal('itemModal')">✕</div>
-            </div>
-            
-            <form id="itemForm" onsubmit="saveItem(event)">
-                <input type="hidden" id="itemId">
-                
-                <div class="filters-grid" style="grid-template-columns: repeat(2, 1fr);">
-                    <div class="filter-item" style="grid-column: span 2;">
-                        <label>اسم المادة</label>
-                        <input type="text" class="filter-input-3d" id="itemName" required>
-                    </div>
-                    
-                    <div class="filter-item">
-                        <label>الكمية</label>
-                        <input type="number" class="filter-input-3d" id="itemQuantity" min="0" step="0.5" required>
-                    </div>
-                    
-                    <div class="filter-item">
-                        <label>الوحدة</label>
-                        <select class="filter-input-3d" id="itemUnit" required>
-                            <option value="كيلو">كيلو</option>
-                            <option value="جرام">جرام</option>
-                            <option value="لتر">لتر</option>
-                            <option value="قطعة">قطعة</option>
-                            <option value="علبة">علبة</option>
-                            <option value="كرتونة">كرتونة</option>
-                        </select>
-                    </div>
-                    
-                    <div class="filter-item">
-                        <label>التصنيف</label>
-                        <select class="filter-input-3d" id="itemCategory" required>
-                            <option value="food">🍚 غذاء</option>
-                            <option value="clothes">👕 ملابس</option>
-                            <option value="medical">💊 أدوية</option>
-                            <option value="other">📦 أخرى</option>
-                        </select>
-                    </div>
-                    
-                    <div class="filter-item">
-                        <label>الحد الأدنى</label>
-                        <input type="number" class="filter-input-3d" id="itemMinStock" min="1" value="10" required>
-                    </div>
-                    
-                    <div class="filter-item">
-                        <label>سعر الوحدة</label>
-                        <input type="number" class="filter-input-3d" id="itemPrice" min="0" step="0.01" value="0">
-                    </div>
-                    
-                    <div class="filter-item" style="grid-column: span 2;">
-                        <label>ملاحظات</label>
-                        <textarea class="filter-input-3d" id="itemNotes" rows="2"></textarea>
-                    </div>
-                </div>
-                
-                <div style="display: flex; gap: 15px; margin-top: 25px;">
-                    <button type="submit" class="quick-btn-3d" style="background: linear-gradient(135deg, var(--success), var(--success-dark));">
-                        <i class="fas fa-save"></i>
-                        حفظ
-                    </button>
-                    <button type="button" class="quick-btn-3d" onclick="closeModal('itemModal')">
-                        <i class="fas fa-times"></i>
-                        إلغاء
-                    </button>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <!-- مودال عرض المستفيد -->
-    <div id="viewBeneficiaryModal" class="modal-3d">
-        <div class="modal-content-3d" style="max-width: 900px;">
-            <div class="modal-header-3d">
-                <h2>ملف المستفيد</h2>
-                <div class="close-3d" onclick="closeModal('viewBeneficiaryModal')">✕</div>
-            </div>
-            <div id="beneficiaryProfileContent"></div>
-        </div>
-    </div>
-
-    <!-- مودال صرف مساعدة -->
-    <div id="helpModal" class="modal-3d">
-        <div class="modal-content-3d">
-            <div class="modal-header-3d">
-                <h2>صرف مساعدة</h2>
-                <div class="close-3d" onclick="closeModal('helpModal')">✕</div>
-            </div>
-            
-            <input type="hidden" id="helpBeneficiaryId">
-            
-            <div class="filter-item">
-                <label>اختر المستفيد</label>
-                <select class="filter-input-3d" id="helpBeneficiarySelect" required>
-                    <option value="">اختر...</option>
-                </select>
-            </div>
-            
-            <div class="filter-item">
-                <label>نوع المساعدة</label>
-                <select class="filter-input-3d" id="helpType" onchange="toggleHelpType()">
-                    <option value="material">📦 مواد</option>
-                    <option value="money">💰 مبلغ مالي</option>
-                    <option value="other">🎁 أخرى</option>
-                </select>
-            </div>
-            
-            <div id="helpMaterialSection">
-                <div class="filter-item">
-                    <label>المواد المتوفرة</label>
-                    <div id="helpItemsList" style="max-height: 200px; overflow-y: auto;"></div>
-                </div>
-            </div>
-            
-            <div id="helpMoneySection" style="display: none;">
-                <div class="filter-item">
-                    <label>المبلغ</label>
-                    <input type="number" class="filter-input-3d" id="helpAmount" placeholder="أدخل المبلغ">
-                </div>
-                <div class="filter-item">
-                    <label>السبب</label>
-                    <input type="text" class="filter-input-3d" id="helpReason" placeholder="مصاريف مدرسة, علاج, ...">
-                </div>
-            </div>
-            
-            <div id="helpOtherSection" style="display: none;">
-                <div class="filter-item">
-                    <label>وصف المساعدة</label>
-                    <textarea class="filter-input-3d" id="helpDescription" rows="3" placeholder="اكتب وصف المساعدة"></textarea>
-                </div>
-            </div>
-            
-            <div class="filter-item">
-                <label>ملاحظات</label>
-                <textarea class="filter-input-3d" id="helpNotes" rows="2"></textarea>
-            </div>
-            
-            <div style="display: flex; gap: 15px; margin-top: 25px;">
-                <button class="quick-btn-3d" onclick="addHelp()" style="background: linear-gradient(135deg, var(--success), var(--success-dark));">
-                    <i class="fas fa-gift"></i>
-                    صرف
-                </button>
-                <button class="quick-btn-3d" onclick="closeModal('helpModal')">
-                    <i class="fas fa-times"></i>
-                    إلغاء
-                </button>
-            </div>
-        </div>
-    </div>
-
-    <!-- مودال تأكيد الحذف -->
-    <div id="deleteModal" class="modal-3d">
-        <div class="modal-content-3d" style="max-width: 400px;">
-            <div class="modal-header-3d">
-                <h2>تأكيد الحذف</h2>
-                <div class="close-3d" onclick="closeModal('deleteModal')">✕</div>
-            </div>
-            
-            <div style="text-align: center; padding: 20px;">
-                <i class="fas fa-exclamation-triangle" style="font-size: 60px; color: var(--danger); margin-bottom: 20px;"></i>
-                <p style="font-size: 1.2rem; margin-bottom: 25px;" id="deleteMessage"></p>
-                
-                <div style="display: flex; gap: 15px;">
-                    <button class="quick-btn-3d" onclick="confirmDelete()" style="background: linear-gradient(135deg, var(--danger), var(--danger-dark));">
-                        <i class="fas fa-trash"></i>
-                        حذف
-                    </button>
-                    <button class="quick-btn-3d" onclick="closeModal('deleteModal')">
-                        <i class="fas fa-times"></i>
-                        إلغاء
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
+    <!-- نفس هيكل HTML السابق مع إزالة كل البيانات التجريبية -->
 
     <script>
         // ========== البيانات الرئيسية ==========
@@ -1578,93 +73,22 @@
 
         // ========== تحميل البيانات ==========
         function loadData() {
-            beneficiaries = JSON.parse(localStorage.getItem('beneficiaries_epic')) || [];
-            inventory = JSON.parse(localStorage.getItem('inventory_epic')) || [];
-            movements = JSON.parse(localStorage.getItem('movements_epic')) || [];
-            helps = JSON.parse(localStorage.getItem('helps_epic')) || [];
+            // تحميل البيانات من localStorage فقط
+            beneficiaries = JSON.parse(localStorage.getItem('beneficiaries_final')) || [];
+            inventory = JSON.parse(localStorage.getItem('inventory_final')) || [];
+            movements = JSON.parse(localStorage.getItem('movements_final')) || [];
+            helps = JSON.parse(localStorage.getItem('helps_final')) || [];
 
-            // بيانات افتراضية للمستفيدين
-            if (beneficiaries.length === 0) {
-                beneficiaries = [
-                    {
-                        id: '01234567890',
-                        name: 'أحمد محمد السيد',
-                        phone: '01234567890',
-                        nationalId: '12345678901234',
-                        governorate: 'القاهرة',
-                        address: '15 شارع النصر، مدينة نصر',
-                        status: 'urgent',
-                        family: 5,
-                        needs: 'غذاء, علاج',
-                        condition: 'الأب مريض ولا يعمل، الأسرة في حالة حرجة',
-                        notes: 'حالة عاجلة جداً',
-                        joinDate: '2024-01-15'
-                    },
-                    {
-                        id: '01234567891',
-                        name: 'فاطمة علي حسن',
-                        phone: '01234567891',
-                        nationalId: '12345678901235',
-                        governorate: 'الجيزة',
-                        address: '3 شارع الهرم، فيصل',
-                        status: 'medium',
-                        family: 3,
-                        needs: 'مصاريف مدرسة',
-                        condition: 'أرملة تعول 3 أطفال',
-                        notes: 'متابعة دورية',
-                        joinDate: '2024-01-20'
-                    }
-                ];
-            }
-
-            // بيانات افتراضية للمخزن
-            if (inventory.length === 0) {
-                inventory = [
-                    { 
-                        id: 1, 
-                        name: 'أرز بسمة', 
-                        quantity: 100, 
-                        unit: 'كيلو', 
-                        category: 'food',
-                        minStock: 20,
-                        price: 30,
-                        notes: '',
-                        lastUpdate: '2024-01-15'
-                    },
-                    { 
-                        id: 2, 
-                        name: 'زيت عباد الشمس', 
-                        quantity: 45, 
-                        unit: 'زجاجة', 
-                        category: 'food',
-                        minStock: 15,
-                        price: 40,
-                        notes: '',
-                        lastUpdate: '2024-01-15'
-                    },
-                    { 
-                        id: 3, 
-                        name: 'بطاطين شتوي', 
-                        quantity: 8, 
-                        unit: 'قطعة', 
-                        category: 'clothes',
-                        minStock: 10,
-                        price: 150,
-                        notes: 'موسم شتاء',
-                        lastUpdate: '2024-01-10'
-                    }
-                ];
-            }
-
-            saveData();
+            // بدون أي بيانات افتراضية - نبدأ بصفحة فاضية تماماً
+            
             updateAllUI();
         }
 
         function saveData() {
-            localStorage.setItem('beneficiaries_epic', JSON.stringify(beneficiaries));
-            localStorage.setItem('inventory_epic', JSON.stringify(inventory));
-            localStorage.setItem('movements_epic', JSON.stringify(movements));
-            localStorage.setItem('helps_epic', JSON.stringify(helps));
+            localStorage.setItem('beneficiaries_final', JSON.stringify(beneficiaries));
+            localStorage.setItem('inventory_final', JSON.stringify(inventory));
+            localStorage.setItem('movements_final', JSON.stringify(movements));
+            localStorage.setItem('helps_final', JSON.stringify(helps));
         }
 
         // ========== تحديث شامل للواجهة ==========
@@ -1675,52 +99,92 @@
             renderInventoryTable();
             renderRecentBeneficiaries();
             renderRecentMovements();
+            
+            // رسائل فارغة إذا مفيش بيانات
+            checkEmptyStates();
+        }
+
+        function checkEmptyStates() {
+            // المستفيدين
+            const beneficiariesTable = document.getElementById('beneficiariesTable');
+            if (beneficiariesTable && beneficiaries.length === 0) {
+                beneficiariesTable.innerHTML = `
+                    <tr>
+                        <td colspan="12" style="text-align: center; padding: 50px;">
+                            <div class="empty-state">
+                                <i class="fas fa-users"></i>
+                                <h3>لا يوجد مستفيدين</h3>
+                                <p>قم بإضافة أول مستفيد الآن</p>
+                                <button onclick="openAddBeneficiaryModal()">
+                                    <i class="fas fa-user-plus"></i>
+                                    إضافة مستفيد
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+            }
+
+            // المخزن
+            const inventoryTable = document.getElementById('inventoryTable');
+            if (inventoryTable && inventory.length === 0) {
+                inventoryTable.innerHTML = `
+                    <tr>
+                        <td colspan="9" style="text-align: center; padding: 50px;">
+                            <div class="empty-state">
+                                <i class="fas fa-boxes"></i>
+                                <h3>المخزن فارغ</h3>
+                                <p>قم بإضافة أول مادة الآن</p>
+                                <button onclick="openAddItemModal()">
+                                    <i class="fas fa-plus-circle"></i>
+                                    إضافة مادة
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+            }
         }
 
         function updateStats() {
             // إحصائيات عامة
-            document.getElementById('totalBeneficiaries').innerHTML = beneficiaries.length;
-            document.getElementById('totalItems').innerHTML = inventory.length;
-            
-            const helpedThisMonth = helps.filter(h => {
-                const d = new Date(h.date);
-                return d.getMonth() === currentMonth && d.getFullYear() === currentYear;
-            }).length;
+            document.getElementById('totalBeneficiaries').innerHTML = beneficiaries.length || 0;
+            document.getElementById('totalItems').innerHTML = inventory.length || 0;
             
             const helpedIds = new Set(helps.filter(h => {
                 const d = new Date(h.date);
                 return d.getMonth() === currentMonth && d.getFullYear() === currentYear;
             }).map(h => h.beneficiaryId));
             
-            document.getElementById('helpedThisMonth').innerHTML = helpedIds.size;
-            document.getElementById('waitingHelp').innerHTML = beneficiaries.length - helpedIds.size;
+            document.getElementById('helpedThisMonth').innerHTML = helpedIds.size || 0;
+            document.getElementById('waitingHelp').innerHTML = (beneficiaries.length - helpedIds.size) || 0;
             
             // إحصائيات المستفيدين
-            document.getElementById('beneficiariesTotal').innerHTML = beneficiaries.length;
-            document.getElementById('urgentTotal').innerHTML = beneficiaries.filter(b => b.status === 'urgent').length;
-            document.getElementById('beneficiariesHelped').innerHTML = helpedIds.size;
+            document.getElementById('beneficiariesTotal').innerHTML = beneficiaries.length || 0;
+            document.getElementById('urgentTotal').innerHTML = beneficiaries.filter(b => b.status === 'urgent').length || 0;
+            document.getElementById('beneficiariesHelped').innerHTML = helpedIds.size || 0;
             
             const governorates = new Set(beneficiaries.map(b => b.governorate));
-            document.getElementById('governoratesCount').innerHTML = governorates.size;
+            document.getElementById('governoratesCount').innerHTML = governorates.size || 0;
             
             // إحصائيات المخزن
-            document.getElementById('inventoryTotalItems').innerHTML = inventory.length;
-            document.getElementById('inventoryTotalUnits').innerHTML = inventory.reduce((sum, i) => sum + i.quantity, 0).toFixed(1);
-            document.getElementById('inventoryLowStock').innerHTML = inventory.filter(i => i.quantity <= (i.minStock || 10)).length;
+            document.getElementById('inventoryTotalItems').innerHTML = inventory.length || 0;
+            document.getElementById('inventoryTotalUnits').innerHTML = inventory.reduce((sum, i) => sum + (i.quantity || 0), 0).toFixed(1) || 0;
+            document.getElementById('inventoryLowStock').innerHTML = inventory.filter(i => i.quantity <= (i.minStock || 10)).length || 0;
             
-            const totalValue = inventory.reduce((sum, i) => sum + (i.quantity * (i.price || 0)), 0);
-            document.getElementById('inventoryTotalValue').innerHTML = totalValue.toFixed(0);
+            const totalValue = inventory.reduce((sum, i) => sum + ((i.quantity || 0) * (i.price || 0)), 0);
+            document.getElementById('inventoryTotalValue').innerHTML = totalValue.toFixed(0) || 0;
         }
 
         function updateAlerts() {
             const urgent = beneficiaries.filter(b => b.status === 'urgent');
             const alertDiv = document.getElementById('urgentAlert');
             
-            if (urgent.length > 0) {
+            if (urgent.length > 0 && alertDiv) {
                 alertDiv.style.display = 'flex';
                 document.getElementById('urgentAlertText').innerHTML = 
                     `يوجد ${urgent.length} حالة عاجلة تحتاج إلى مساعدة فورية`;
-            } else {
+            } else if (alertDiv) {
                 alertDiv.style.display = 'none';
             }
         }
@@ -1731,6 +195,11 @@
             if (!tbody) return;
 
             const list = filtered || beneficiaries;
+            
+            if (list.length === 0) {
+                checkEmptyStates();
+                return;
+            }
             
             const helpedThisMonth = new Set(helps.filter(h => {
                 const d = new Date(h.date);
@@ -1746,11 +215,11 @@
                 return `
                     <tr>
                         <td>${index + 1}</td>
-                        <td><strong>${b.name}</strong></td>
-                        <td>${b.phone}</td>
+                        <td><strong>${b.name || ''}</strong></td>
+                        <td>${b.phone || ''}</td>
                         <td>${b.nationalId || '---'}</td>
-                        <td>${b.governorate}</td>
-                        <td>${b.address.substring(0, 20)}...</td>
+                        <td>${b.governorate || ''}</td>
+                        <td>${b.address ? b.address.substring(0, 20) + '...' : '---'}</td>
                         <td>
                             <span class="${b.status === 'urgent' ? 'status-urgent' : 
                                          b.status === 'high' ? 'status-high' :
@@ -1783,18 +252,18 @@
         }
 
         function filterBeneficiaries() {
-            const name = document.getElementById('searchName').value.toLowerCase();
-            const phone = document.getElementById('searchPhone').value;
-            const nationalId = document.getElementById('searchNationalId').value;
-            const gov = document.getElementById('filterGov').value;
-            const status = document.getElementById('filterStatus').value;
-            const lastHelp = document.getElementById('filterLastHelp').value;
-            const helped = document.getElementById('filterHelped').value;
-            const family = document.getElementById('filterFamily').value;
+            const name = document.getElementById('searchName')?.value.toLowerCase() || '';
+            const phone = document.getElementById('searchPhone')?.value || '';
+            const nationalId = document.getElementById('searchNationalId')?.value || '';
+            const gov = document.getElementById('filterGov')?.value || 'all';
+            const status = document.getElementById('filterStatus')?.value || 'all';
+            const lastHelp = document.getElementById('filterLastHelp')?.value || 'all';
+            const helped = document.getElementById('filterHelped')?.value || 'all';
+            const family = document.getElementById('filterFamily')?.value || 'all';
 
             let filtered = beneficiaries.filter(b => {
-                if (name && !b.name.toLowerCase().includes(name)) return false;
-                if (phone && !b.phone.includes(phone)) return false;
+                if (name && !b.name?.toLowerCase().includes(name)) return false;
+                if (phone && !b.phone?.includes(phone)) return false;
                 if (nationalId && b.nationalId !== nationalId) return false;
                 if (gov !== 'all' && b.governorate !== gov) return false;
                 if (status !== 'all' && b.status !== status) return false;
@@ -1870,13 +339,13 @@
 
             document.getElementById('beneficiaryModalTitle').innerHTML = 'تعديل بيانات المستفيد';
             document.getElementById('beneficiaryId').value = b.id;
-            document.getElementById('beneficiaryName').value = b.name;
-            document.getElementById('beneficiaryPhone').value = b.phone;
+            document.getElementById('beneficiaryName').value = b.name || '';
+            document.getElementById('beneficiaryPhone').value = b.phone || '';
             document.getElementById('beneficiaryNationalId').value = b.nationalId || '';
-            document.getElementById('beneficiaryGovernorate').value = b.governorate;
+            document.getElementById('beneficiaryGovernorate').value = b.governorate || '';
             document.getElementById('beneficiaryFamily').value = b.family || 1;
-            document.getElementById('beneficiaryAddress').value = b.address;
-            document.getElementById('beneficiaryStatus').value = b.status;
+            document.getElementById('beneficiaryAddress').value = b.address || '';
+            document.getElementById('beneficiaryStatus').value = b.status || 'medium';
             document.getElementById('beneficiaryNeeds').value = b.needs || '';
             document.getElementById('beneficiaryCondition').value = b.condition || '';
             document.getElementById('beneficiaryNotes').value = b.notes || '';
@@ -1991,11 +460,11 @@
                                     <i class="fas fa-id-card"></i> البيانات الشخصية
                                 </h3>
                                 <div style="display: grid; gap: 10px;">
-                                    <div><strong>الاسم:</strong> ${b.name}</div>
-                                    <div><strong>رقم التليفون:</strong> ${b.phone}</div>
+                                    <div><strong>الاسم:</strong> ${b.name || ''}</div>
+                                    <div><strong>رقم التليفون:</strong> ${b.phone || ''}</div>
                                     <div><strong>رقم البطاقة:</strong> ${b.nationalId || '---'}</div>
-                                    <div><strong>المحافظة:</strong> ${b.governorate}</div>
-                                    <div><strong>العنوان:</strong> ${b.address}</div>
+                                    <div><strong>المحافظة:</strong> ${b.governorate || ''}</div>
+                                    <div><strong>العنوان:</strong> ${b.address || ''}</div>
                                 </div>
                             </div>
                             
@@ -2035,6 +504,11 @@
             const tbody = document.getElementById('inventoryTable');
             if (!tbody) return;
 
+            if (inventory.length === 0) {
+                checkEmptyStates();
+                return;
+            }
+
             let filtered = [...inventory];
             
             const search = document.getElementById('searchItem')?.value.toLowerCase() || '';
@@ -2042,7 +516,7 @@
             const stock = document.getElementById('filterStock')?.value || 'all';
 
             if (search) {
-                filtered = filtered.filter(i => i.name.toLowerCase().includes(search));
+                filtered = filtered.filter(i => i.name?.toLowerCase().includes(search));
             }
             if (category !== 'all') {
                 filtered = filtered.filter(i => i.category === category);
@@ -2064,9 +538,9 @@
                 return `
                     <tr>
                         <td>${index + 1}</td>
-                        <td><strong>${item.name}</strong></td>
-                        <td><strong style="font-size: 1.2rem;">${item.quantity}</strong></td>
-                        <td>${item.unit}</td>
+                        <td><strong>${item.name || ''}</strong></td>
+                        <td><strong style="font-size: 1.2rem;">${item.quantity || 0}</strong></td>
+                        <td>${item.unit || ''}</td>
                         <td>
                             <span class="status-medium">
                                 ${item.category === 'food' ? '🍚 غذاء' :
@@ -2111,10 +585,10 @@
 
             document.getElementById('itemModalTitle').innerHTML = 'تعديل المادة';
             document.getElementById('itemId').value = item.id;
-            document.getElementById('itemName').value = item.name;
-            document.getElementById('itemQuantity').value = item.quantity;
-            document.getElementById('itemUnit').value = item.unit;
-            document.getElementById('itemCategory').value = item.category;
+            document.getElementById('itemName').value = item.name || '';
+            document.getElementById('itemQuantity').value = item.quantity || 0;
+            document.getElementById('itemUnit').value = item.unit || 'كيلو';
+            document.getElementById('itemCategory').value = item.category || 'food';
             document.getElementById('itemMinStock').value = item.minStock || 10;
             document.getElementById('itemPrice').value = item.price || 0;
             document.getElementById('itemNotes').value = item.notes || '';
@@ -2129,10 +603,10 @@
             const itemData = {
                 id: id ? parseInt(id) : Date.now(),
                 name: document.getElementById('itemName').value,
-                quantity: parseFloat(document.getElementById('itemQuantity').value),
+                quantity: parseFloat(document.getElementById('itemQuantity').value) || 0,
                 unit: document.getElementById('itemUnit').value,
                 category: document.getElementById('itemCategory').value,
-                minStock: parseInt(document.getElementById('itemMinStock').value),
+                minStock: parseInt(document.getElementById('itemMinStock').value) || 10,
                 price: parseFloat(document.getElementById('itemPrice').value) || 0,
                 notes: document.getElementById('itemNotes').value,
                 lastUpdate: new Date().toLocaleDateString('ar-EG')
@@ -2180,7 +654,7 @@
                 return;
             }
 
-            item.quantity += num;
+            item.quantity = (item.quantity || 0) + num;
             item.lastUpdate = new Date().toLocaleDateString('ar-EG');
             
             movements.push({
@@ -2193,7 +667,7 @@
 
             saveData();
             updateAllUI();
-            showToast(`✅ تم إضافة ${num} ${item.unit}`);
+            showToast(`✅ تم إضافة ${num} ${item.unit || ''}`);
         }
 
         function removeItemQuantity(id) {
@@ -2204,7 +678,7 @@
             if (!qty) return;
 
             const num = parseFloat(qty);
-            if (isNaN(num) || num <= 0 || num > item.quantity) {
+            if (isNaN(num) || num <= 0 || num > (item.quantity || 0)) {
                 showToast('⚠️ كمية غير صالحة', 'warning');
                 return;
             }
@@ -2222,7 +696,7 @@
 
             saveData();
             updateAllUI();
-            showToast(`✅ تم خصم ${num} ${item.unit}`);
+            showToast(`✅ تم خصم ${num} ${item.unit || ''}`);
         }
 
         function checkLowStock() {
@@ -2242,16 +716,26 @@
         }
 
         function openHelpModal(beneficiaryId) {
+            if (beneficiaries.length === 0) {
+                showToast('⚠️ لا يوجد مستفيدين', 'warning');
+                return;
+            }
+            
+            if (inventory.length === 0) {
+                showToast('⚠️ المخزن فارغ', 'warning');
+                return;
+            }
+
             const select = document.getElementById('helpBeneficiarySelect');
             select.innerHTML = '<option value="">اختر...</option>' + 
-                beneficiaries.map(b => `<option value="${b.id}" ${b.id === beneficiaryId ? 'selected' : ''}>${b.name} - ${b.phone}</option>`).join('');
+                beneficiaries.map(b => `<option value="${b.id}" ${b.id === beneficiaryId ? 'selected' : ''}>${b.name || ''} - ${b.phone || ''}</option>`).join('');
 
             const itemsList = document.getElementById('helpItemsList');
             itemsList.innerHTML = inventory.map(item => `
                 <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 8px; padding: 8px; background: rgba(255,255,255,0.03); border-radius: 10px;">
                     <input type="checkbox" id="item_${item.id}">
-                    <label for="item_${item.id}" style="flex: 1;">${item.name} (${item.quantity} ${item.unit})</label>
-                    <input type="number" id="qty_${item.id}" value="1" min="1" max="${item.quantity}" style="width: 70px; padding: 5px; background: rgba(0,0,0,0.3); border: 1px solid var(--border); border-radius: 5px; color: white;">
+                    <label for="item_${item.id}" style="flex: 1;">${item.name || ''} (${item.quantity || 0} ${item.unit || ''})</label>
+                    <input type="number" id="qty_${item.id}" value="1" min="1" max="${item.quantity || 0}" style="width: 70px; padding: 5px; background: rgba(0,0,0,0.3); border: 1px solid var(--border); border-radius: 5px; color: white;">
                 </div>
             `).join('');
 
@@ -2279,7 +763,7 @@
             let helpData = {
                 id: Date.now(),
                 beneficiaryId: beneficiaryId,
-                beneficiaryName: beneficiary.name,
+                beneficiaryName: beneficiary?.name || '',
                 date: new Date().toLocaleDateString('ar-EG'),
                 type: type,
                 notes: notes
@@ -2293,16 +777,16 @@
                     
                     if (checkbox && checkbox.checked && qtyInput && qtyInput.value) {
                         const qty = parseFloat(qtyInput.value);
-                        if (qty > 0 && qty <= item.quantity) {
+                        if (qty > 0 && qty <= (item.quantity || 0)) {
                             item.quantity -= qty;
-                            items.push(`${item.name} (${qty} ${item.unit})`);
+                            items.push(`${item.name || ''} (${qty} ${item.unit || ''})`);
                             
                             movements.push({
                                 id: Date.now(),
                                 type: 'صرف',
                                 item: item.name,
                                 quantity: qty,
-                                beneficiary: beneficiary.name,
+                                beneficiary: beneficiary?.name || '',
                                 date: new Date().toLocaleDateString('ar-EG')
                             });
                         }
@@ -2327,7 +811,7 @@
                     id: Date.now(),
                     type: 'صرف مالي',
                     amount: amount,
-                    beneficiary: beneficiary.name,
+                    beneficiary: beneficiary?.name || '',
                     date: new Date().toLocaleDateString('ar-EG')
                 });
             } else {
@@ -2342,7 +826,7 @@
                     id: Date.now(),
                     type: 'صرف أخرى',
                     description: desc,
-                    beneficiary: beneficiary.name,
+                    beneficiary: beneficiary?.name || '',
                     date: new Date().toLocaleDateString('ar-EG')
                 });
             }
@@ -2359,6 +843,11 @@
             const tbody = document.getElementById('recentBeneficiariesTable');
             if (!tbody) return;
 
+            if (beneficiaries.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="5" style="text-align: center;">لا يوجد مستفيدين</td></tr>';
+                return;
+            }
+
             const recent = beneficiaries.slice(-5).reverse();
             tbody.innerHTML = recent.map(b => {
                 const lastHelp = helps.filter(h => h.beneficiaryId === b.id)
@@ -2366,9 +855,9 @@
                 
                 return `
                     <tr>
-                        <td><strong>${b.name}</strong></td>
-                        <td>${b.phone}</td>
-                        <td>${b.governorate}</td>
+                        <td><strong>${b.name || ''}</strong></td>
+                        <td>${b.phone || ''}</td>
+                        <td>${b.governorate || ''}</td>
                         <td>
                             <span class="${b.status === 'urgent' ? 'status-urgent' : 
                                          b.status === 'high' ? 'status-high' :
@@ -2388,15 +877,20 @@
             const tbody = document.getElementById('recentMovementsTable');
             if (!tbody) return;
 
+            if (movements.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="5" style="text-align: center;">لا توجد حركات</td></tr>';
+                return;
+            }
+
             const recent = movements.slice(-5).reverse();
             tbody.innerHTML = recent.map(m => `
                 <tr>
-                    <td>${m.date}</td>
+                    <td>${m.date || ''}</td>
                     <td>
                         <span class="${m.type === 'إضافة' ? 'status-low' : 
                                      m.type === 'خصم' ? 'status-high' : 
                                      m.type === 'صرف' ? 'status-medium' : 'status-warning'}">
-                            ${m.type}
+                            ${m.type || ''}
                         </span>
                     </td>
                     <td>${m.item || m.amount || m.description || '---'}</td>
@@ -2419,10 +913,10 @@
             let msg = '';
             if (type === 'beneficiary') {
                 const b = beneficiaries.find(b => b.id === id);
-                msg = `هل أنت متأكد من حذف "${b?.name}"؟`;
+                msg = `هل أنت متأكد من حذف "${b?.name || ''}"؟`;
             } else if (type === 'item') {
                 const item = inventory.find(i => i.id === id);
-                msg = `هل أنت متأكد من حذف "${item?.name}"؟`;
+                msg = `هل أنت متأكد من حذف "${item?.name || ''}"؟`;
             }
             
             document.getElementById('deleteMessage').innerHTML = msg;
@@ -2497,12 +991,12 @@
                         </div>
                         <div style="grid-column: span 2; background: rgba(255,255,255,0.03); padding: 20px; border-radius: 15px;">
                             <h4>التوزيع حسب المحافظة</h4>
-                            ${govHtml}
+                            ${govHtml || 'لا يوجد بيانات'}
                         </div>
                     </div>
                 `;
             } else if (type === 'inventory') {
-                const totalValue = inventory.reduce((sum, i) => sum + (i.quantity * (i.price || 0)), 0);
+                const totalValue = inventory.reduce((sum, i) => sum + ((i.quantity || 0) * (i.price || 0)), 0);
                 const lowStock = inventory.filter(i => i.quantity <= (i.minStock || 10));
                 
                 content.innerHTML = `
@@ -2518,7 +1012,7 @@
                         </div>
                         <div style="grid-column: span 2; background: rgba(255,255,255,0.03); padding: 20px; border-radius: 15px;">
                             <h4>أصناف تحتاج لإعادة توريد (${lowStock.length})</h4>
-                            ${lowStock.map(i => `<div>• ${i.name}: ${i.quantity} ${i.unit}</div>`).join('')}
+                            ${lowStock.map(i => `<div>• ${i.name}: ${i.quantity} ${i.unit}</div>`).join('') || 'لا توجد'}
                         </div>
                     </div>
                 `;
@@ -2538,7 +1032,7 @@
                         </div>
                         <div style="background: rgba(255,255,255,0.03); padding: 20px; border-radius: 15px;">
                             <h4>قيمة المخزن</h4>
-                            <div style="font-size: 2rem;">${inventory.reduce((s, i) => s + (i.quantity * (i.price || 0)), 0).toFixed(0)} ج.م</div>
+                            <div style="font-size: 2rem;">${inventory.reduce((s, i) => s + ((i.quantity || 0) * (i.price || 0)), 0).toFixed(0)} ج.م</div>
                         </div>
                     </div>
                 `;
@@ -2547,9 +1041,14 @@
 
         // ========== تصدير وطباعة ==========
         function exportBeneficiaries() {
+            if (beneficiaries.length === 0) {
+                showToast('⚠️ لا يوجد بيانات للتصدير', 'warning');
+                return;
+            }
+            
             let csv = "الاسم,رقم التليفون,رقم البطاقة,المحافظة,العنوان,الحالة,عدد الأسرة,الاحتياجات,تاريخ التسجيل\n";
             beneficiaries.forEach(b => {
-                csv += `${b.name},${b.phone},${b.nationalId || ''},${b.governorate},${b.address},${b.status},${b.family || 1},${b.needs || ''},${b.joinDate || ''}\n`;
+                csv += `${b.name || ''},${b.phone || ''},${b.nationalId || ''},${b.governorate || ''},${b.address || ''},${b.status || ''},${b.family || 1},${b.needs || ''},${b.joinDate || ''}\n`;
             });
             
             const blob = new Blob(["\uFEFF" + csv], { type: 'text/csv;charset=utf-8;' });
@@ -2562,9 +1061,14 @@
         }
 
         function exportInventory() {
+            if (inventory.length === 0) {
+                showToast('⚠️ لا يوجد بيانات للتصدير', 'warning');
+                return;
+            }
+            
             let csv = "المادة,الكمية,الوحدة,التصنيف,الحد الأدنى,السعر,آخر تحديث\n";
             inventory.forEach(i => {
-                csv += `${i.name},${i.quantity},${i.unit},${i.category},${i.minStock || 10},${i.price || 0},${i.lastUpdate || ''}\n`;
+                csv += `${i.name || ''},${i.quantity || 0},${i.unit || ''},${i.category || ''},${i.minStock || 10},${i.price || 0},${i.lastUpdate || ''}\n`;
             });
             
             const blob = new Blob(["\uFEFF" + csv], { type: 'text/csv;charset=utf-8;' });
@@ -2589,7 +1093,7 @@
             window.print();
         }
 
-        // ========== دوال عامة ==========
+        // ========== دوال التنقل ==========
         function switchTab(tab) {
             document.querySelectorAll('.tab-btn-3d').forEach(b => b.classList.remove('active'));
             document.querySelectorAll('.tab-section').forEach(s => s.classList.remove('active'));
