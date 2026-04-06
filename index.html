@@ -1592,1118 +1592,235 @@
         </div>
     </div>
 
-    <script>
-        // ========== البيانات الرئيسية ==========
-        // كل المصفوفات تبدأ فاضية - لا يوجد أي بيانات افتراضية
-        let beneficiaries = [];
-        let inventory = [];
-        let movements = [];
-        let helps = [];
-        
-        let currentMonth = new Date().getMonth();
-        let currentYear = new Date().getFullYear();
-        
-        // متغيرات للحذف
-        let deleteType = null;
-        let deleteId = null;
+ // ==============================================
+// عرض كل المصروفات من أول يوم - بدون حذف أبداً
+// ==============================================
+function showAllExpenses(carId) {
+    const car = cars.find(c => c.id === carId);
+    const carExpenses = expenses.filter(e => e.carId === carId);
+    
+    // ترتيب من الأقدم إلى الأحدث أو العكس (هنا من الأحدث للأقدم)
+    const sortedExpenses = [...carExpenses].sort((a, b) => new Date(b.date) - new Date(a.date));
+    
+    let message = `📋 مصروفات ${car?.number || 'السيارة'} (${car?.model || ''})\n`;
+    message += `═`.repeat(40) + '\n';
+    message += `📅 إجمالي المصروفات: ${carExpenses.reduce((sum, e) => sum + (e.amount || 0), 0).toLocaleString()} جنيه\n`;
+    message += `📊 عدد العمليات: ${carExpenses.length}\n`;
+    message += `═`.repeat(40) + '\n\n`;
+    
+    if (sortedExpenses.length === 0) {
+        message += '✨ لا توجد مصروفات مسجلة لهذه السيارة';
+    } else {
+        sortedExpenses.forEach((expense, index) => {
+            message += `${index + 1}. 📅 ${expense.date || 'بدون تاريخ'}\n`;
+            message += `   💰 المبلغ: ${(expense.amount || 0).toLocaleString()} جنيه\n`;
+            message += `   📝 ملاحظات: ${expense.note || 'لا توجد ملاحظات'}\n`;
+            message += `   🆔 معرف العملية: ${expense.id}\n`;
+            message += `   ─────────────────────\n\n`;
+        });
+    }
+    
+    // عرض في نافذة منبثقة
+    alert(message);
+    
+    // بدلاً من alert، ممكن نستخدم نافذة أفضل (اختياري)
+    showExpensesInModal(car, sortedExpenses);
+}
 
-        // ========== تحميل البيانات من localStorage فقط ==========
-        function loadData() {
-            // نحاول نحمل البيانات المخزنة مسبقاً
-            const savedBeneficiaries = localStorage.getItem('beneficiaries_epic');
-            const savedInventory = localStorage.getItem('inventory_epic');
-            const savedMovements = localStorage.getItem('movements_epic');
-            const savedHelps = localStorage.getItem('helps_epic');
+// ==============================================
+// عرض كل الأرباح من أول يوم - بدون حذف أبداً
+// ==============================================
+function showAllWork(carId) {
+    const car = cars.find(c => c.id === carId);
+    const carWork = workEarnings.filter(w => w.carId === carId);
+    
+    // ترتيب من الأحدث إلى الأقدم
+    const sortedWork = [...carWork].sort((a, b) => new Date(b.date) - new Date(a.date));
+    
+    let message = `💰 أرباح ${car?.number || 'السيارة'} (${car?.model || ''})\n`;
+    message += `═`.repeat(40) + '\n';
+    message += `📅 إجمالي الأرباح: ${carWork.reduce((sum, w) => sum + (w.amount || 0), 0).toLocaleString()} جنيه\n`;
+    message += `📊 عدد العمليات: ${carWork.length}\n`;
+    message += `═`.repeat(40) + '\n\n';
+    
+    if (sortedWork.length === 0) {
+        message += '✨ لا توجد أرباح مسجلة لهذه السيارة';
+    } else {
+        sortedWork.forEach((work, index) => {
+            message += `${index + 1}. 📅 ${work.date || 'بدون تاريخ'}\n`;
+            message += `   💰 المبلغ: ${(work.amount || 0).toLocaleString()} جنيه\n`;
+            message += `   📝 ملاحظات: ${work.note || 'لا توجد ملاحظات'}\n`;
+            message += `   🆔 معرف العملية: ${work.id}\n`;
+            message += `   ─────────────────────\n\n`;
+        });
+    }
+    
+    alert(message);
+    showWorkInModal(car, sortedWork);
+}
 
-            // إذا في بيانات محفوظة نستخدمها، إذا لأ نبدأ بمصفوفات فاضية
-            beneficiaries = savedBeneficiaries ? JSON.parse(savedBeneficiaries) : [];
-            inventory = savedInventory ? JSON.parse(savedInventory) : [];
-            movements = savedMovements ? JSON.parse(savedMovements) : [];
-            helps = savedHelps ? JSON.parse(savedHelps) : [];
-
-            // لا توجد أي بيانات افتراضية - نبدأ من الصفر
-            
-            // تحديث الواجهة
-            updateAllUI();
-            
-            // التحقق من الحالة الفارغة
-            checkEmptyStates();
-        }
-
-        function saveData() {
-            localStorage.setItem('beneficiaries_epic', JSON.stringify(beneficiaries));
-            localStorage.setItem('inventory_epic', JSON.stringify(inventory));
-            localStorage.setItem('movements_epic', JSON.stringify(movements));
-            localStorage.setItem('helps_epic', JSON.stringify(helps));
-        }
-
-        // ========== التحقق من الحالة الفارغة ==========
-        function checkEmptyStates() {
-            // التحقق من جدول المستفيدين
-            const beneficiariesTable = document.getElementById('beneficiariesTable');
-            if (beneficiariesTable && beneficiaries.length === 0) {
-                beneficiariesTable.innerHTML = `
-                    <tr>
-                        <td colspan="12" style="text-align: center; padding: 50px;">
-                            <div class="empty-state">
-                                <i class="fas fa-users"></i>
-                                <h3>لا يوجد مستفيدين</h3>
-                                <p>قم بإضافة أول مستفيد الآن</p>
-                                <button onclick="openAddBeneficiaryModal()">
-                                    <i class="fas fa-user-plus"></i>
-                                    إضافة مستفيد
-                                </button>
-                            </div>
-                        </td>
-                    </tr>
-                `;
-            }
-
-            // التحقق من جدول المخزن
-            const inventoryTable = document.getElementById('inventoryTable');
-            if (inventoryTable && inventory.length === 0) {
-                inventoryTable.innerHTML = `
-                    <tr>
-                        <td colspan="9" style="text-align: center; padding: 50px;">
-                            <div class="empty-state">
-                                <i class="fas fa-boxes"></i>
-                                <h3>المخزن فارغ</h3>
-                                <p>قم بإضافة أول مادة الآن</p>
-                                <button onclick="openAddItemModal()">
-                                    <i class="fas fa-plus-circle"></i>
-                                    إضافة مادة
-                                </button>
-                            </div>
-                        </td>
-                    </tr>
-                `;
-            }
-
-            // التحقق من آخر المستفيدين
-            const recentTable = document.getElementById('recentBeneficiariesTable');
-            if (recentTable && beneficiaries.length === 0) {
-                recentTable.innerHTML = '<tr><td colspan="5" style="text-align: center; padding: 30px;">لا يوجد مستفيدين بعد</td></tr>';
-            }
-
-            // التحقق من آخر الحركات
-            const movementsTable = document.getElementById('recentMovementsTable');
-            if (movementsTable && movements.length === 0) {
-                movementsTable.innerHTML = '<tr><td colspan="5" style="text-align: center; padding: 30px;">لا توجد حركات بعد</td></tr>';
-            }
-        }
-
-        // ========== تحديث شامل للواجهة ==========
-        function updateAllUI() {
-            updateStats();
-            updateAlerts();
-            renderBeneficiariesTable();
-            renderInventoryTable();
-            renderRecentBeneficiaries();
-            renderRecentMovements();
-        }
-
-        function updateStats() {
-            // إحصائيات عامة
-            document.getElementById('totalBeneficiaries').innerHTML = beneficiaries.length || 0;
-            document.getElementById('totalItems').innerHTML = inventory.length || 0;
-            
-            const helpedIds = new Set(helps.filter(h => {
-                const d = new Date(h.date);
-                return d.getMonth() === currentMonth && d.getFullYear() === currentYear;
-            }).map(h => h.beneficiaryId));
-            
-            document.getElementById('helpedThisMonth').innerHTML = helpedIds.size || 0;
-            document.getElementById('waitingHelp').innerHTML = (beneficiaries.length - helpedIds.size) || 0;
-            
-            // إحصائيات المستفيدين
-            document.getElementById('beneficiariesTotal').innerHTML = beneficiaries.length || 0;
-            document.getElementById('urgentTotal').innerHTML = beneficiaries.filter(b => b.status === 'urgent').length || 0;
-            document.getElementById('beneficiariesHelped').innerHTML = helpedIds.size || 0;
-            
-            const governorates = new Set(beneficiaries.map(b => b.governorate));
-            document.getElementById('governoratesCount').innerHTML = governorates.size || 0;
-            
-            // إحصائيات المخزن
-            document.getElementById('inventoryTotalItems').innerHTML = inventory.length || 0;
-            document.getElementById('inventoryTotalUnits').innerHTML = inventory.reduce((sum, i) => sum + (i.quantity || 0), 0).toFixed(1) || 0;
-            document.getElementById('inventoryLowStock').innerHTML = inventory.filter(i => i.quantity <= (i.minStock || 10)).length || 0;
-            
-            const totalValue = inventory.reduce((sum, i) => sum + ((i.quantity || 0) * (i.price || 0)), 0);
-            document.getElementById('inventoryTotalValue').innerHTML = totalValue.toFixed(0) || 0;
-        }
-
-        function updateAlerts() {
-            const urgent = beneficiaries.filter(b => b.status === 'urgent');
-            const alertDiv = document.getElementById('urgentAlert');
-            
-            if (urgent.length > 0) {
-                alertDiv.style.display = 'flex';
-                document.getElementById('urgentAlertText').innerHTML = 
-                    `يوجد ${urgent.length} حالة عاجلة تحتاج إلى مساعدة فورية`;
-            } else {
-                alertDiv.style.display = 'none';
-            }
-        }
-
-        // ========== دوال المستفيدين ==========
-        function renderBeneficiariesTable(filtered = null) {
-            const tbody = document.getElementById('beneficiariesTable');
-            if (!tbody) return;
-
-            if (beneficiaries.length === 0) {
-                checkEmptyStates();
-                return;
-            }
-
-            const list = filtered || beneficiaries;
-            
-            const helpedThisMonth = new Set(helps.filter(h => {
-                const d = new Date(h.date);
-                return d.getMonth() === currentMonth && d.getFullYear() === currentYear;
-            }).map(h => h.beneficiaryId));
-
-            tbody.innerHTML = list.map((b, index) => {
-                const lastHelp = helps.filter(h => h.beneficiaryId === b.id)
-                    .sort((a, b) => new Date(b.date) - new Date(a.date))[0];
-                
-                const helped = helpedThisMonth.has(b.id);
-
-                return `
-                    <tr>
-                        <td>${index + 1}</td>
-                        <td><strong>${b.name || ''}</strong></td>
-                        <td>${b.phone || ''}</td>
-                        <td>${b.nationalId || '---'}</td>
-                        <td>${b.governorate || ''}</td>
-                        <td>${b.address ? b.address.substring(0, 20) + '...' : '---'}</td>
-                        <td>
-                            <span class="${b.status === 'urgent' ? 'status-urgent' : 
-                                         b.status === 'high' ? 'status-high' :
-                                         b.status === 'medium' ? 'status-medium' : 'status-low'}">
-                                ${b.status === 'urgent' ? '🔴 عاجل' :
-                                  b.status === 'high' ? '🟠 خطير' :
-                                  b.status === 'medium' ? '🔵 متابعة' : '🟢 مستقر'}
-                            </span>
-                        </td>
-                        <td>${b.family || 1}</td>
-                        <td>${b.needs ? b.needs.substring(0, 20) : '---'}</td>
-                        <td>${lastHelp ? lastHelp.date : 'لا يوجد'}</td>
-                        <td>
-                            <span class="${helped ? 'status-low' : 'status-high'}" style="padding: 5px 10px;">
-                                ${helped ? '✅ تم الصرف' : '⏳ لم يصرف'}
-                            </span>
-                        </td>
-                        <td>
-                            <div class="action-icons-3d">
-                                <i class="fas fa-eye action-icon-3d view" onclick="viewBeneficiary('${b.id}')" title="عرض"></i>
-                                <i class="fas fa-edit action-icon-3d edit" onclick="editBeneficiary('${b.id}')" title="تعديل"></i>
-                                <i class="fas fa-gift action-icon-3d help" onclick="openHelpModal('${b.id}')" title="صرف مساعدة"></i>
-                                <i class="fas fa-history action-icon-3d history" onclick="viewBeneficiary('${b.id}')" title="السجل"></i>
-                                <i class="fas fa-trash action-icon-3d delete" onclick="openDeleteModal('beneficiary', '${b.id}')" title="حذف"></i>
-                            </div>
-                        </td>
-                    </tr>
-                `;
-            }).join('');
-        }
-
-        // بقية الدوال كما هي - لم يتم تغييرها
-        // [جميع الدوال الأخرى تبقى كما هي تماماً]
-
-        function filterBeneficiaries() {
-            const name = document.getElementById('searchName')?.value.toLowerCase() || '';
-            const phone = document.getElementById('searchPhone')?.value || '';
-            const nationalId = document.getElementById('searchNationalId')?.value || '';
-            const gov = document.getElementById('filterGov')?.value || 'all';
-            const status = document.getElementById('filterStatus')?.value || 'all';
-            const lastHelp = document.getElementById('filterLastHelp')?.value || 'all';
-            const helped = document.getElementById('filterHelped')?.value || 'all';
-            const family = document.getElementById('filterFamily')?.value || 'all';
-
-            let filtered = beneficiaries.filter(b => {
-                if (name && !b.name?.toLowerCase().includes(name)) return false;
-                if (phone && !b.phone?.includes(phone)) return false;
-                if (nationalId && b.nationalId !== nationalId) return false;
-                if (gov !== 'all' && b.governorate !== gov) return false;
-                if (status !== 'all' && b.status !== status) return false;
-                
-                if (family !== 'all') {
-                    const f = b.family || 1;
-                    if (family === '1-3' && (f < 1 || f > 3)) return false;
-                    if (family === '4-6' && (f < 4 || f > 6)) return false;
-                    if (family === '7+' && f < 7) return false;
-                }
-                
-                return true;
-            });
-
-            // فلتر المساعدات
-            if (helped !== 'all' || lastHelp !== 'all') {
-                const today = new Date();
-                const weekAgo = new Date(today.getTime() - 7 * 24 * 60 * 60 * 1000);
-                const monthAgo = new Date(today.getTime() - 30 * 24 * 60 * 60 * 1000);
-                
-                const helpedThisMonth = new Set(helps.filter(h => {
-                    const d = new Date(h.date);
-                    return d.getMonth() === currentMonth && d.getFullYear() === currentYear;
-                }).map(h => h.beneficiaryId));
-
-                filtered = filtered.filter(b => {
-                    if (helped === 'helped' && !helpedThisMonth.has(b.id)) return false;
-                    if (helped === 'not' && helpedThisMonth.has(b.id)) return false;
-                    
-                    if (lastHelp !== 'all') {
-                        const last = helps.filter(h => h.beneficiaryId === b.id)
-                            .sort((a, b) => new Date(b.date) - new Date(a.date))[0];
-                        
-                        if (!last) return lastHelp === 'never';
-                        
-                        const lastDate = new Date(last.date);
-                        
-                        if (lastHelp === 'today' && lastDate.toDateString() !== today.toDateString()) return false;
-                        if (lastHelp === 'week' && lastDate < weekAgo) return false;
-                        if (lastHelp === 'month' && lastDate < monthAgo) return false;
-                        if (lastHelp === 'older' && lastDate >= monthAgo) return false;
-                    }
-                    
-                    return true;
-                });
-            }
-
-            renderBeneficiariesTable(filtered);
-        }
-
-        function resetBeneficiaryFilters() {
-            document.getElementById('searchName').value = '';
-            document.getElementById('searchPhone').value = '';
-            document.getElementById('searchNationalId').value = '';
-            document.getElementById('filterGov').value = 'all';
-            document.getElementById('filterStatus').value = 'all';
-            document.getElementById('filterLastHelp').value = 'all';
-            document.getElementById('filterHelped').value = 'all';
-            document.getElementById('filterFamily').value = 'all';
-            renderBeneficiariesTable();
-        }
-
-        function openAddBeneficiaryModal() {
-            document.getElementById('beneficiaryModalTitle').innerHTML = 'إضافة مستفيد جديد';
-            document.getElementById('beneficiaryId').value = '';
-            document.getElementById('beneficiaryForm').reset();
-            document.getElementById('beneficiaryModal').classList.add('active');
-        }
-
-        function editBeneficiary(id) {
-            const b = beneficiaries.find(b => b.id === id);
-            if (!b) return;
-
-            document.getElementById('beneficiaryModalTitle').innerHTML = 'تعديل بيانات المستفيد';
-            document.getElementById('beneficiaryId').value = b.id;
-            document.getElementById('beneficiaryName').value = b.name || '';
-            document.getElementById('beneficiaryPhone').value = b.phone || '';
-            document.getElementById('beneficiaryNationalId').value = b.nationalId || '';
-            document.getElementById('beneficiaryGovernorate').value = b.governorate || '';
-            document.getElementById('beneficiaryFamily').value = b.family || 1;
-            document.getElementById('beneficiaryAddress').value = b.address || '';
-            document.getElementById('beneficiaryStatus').value = b.status || 'medium';
-            document.getElementById('beneficiaryNeeds').value = b.needs || '';
-            document.getElementById('beneficiaryCondition').value = b.condition || '';
-            document.getElementById('beneficiaryNotes').value = b.notes || '';
-
-            document.getElementById('beneficiaryModal').classList.add('active');
-        }
-
-        function saveBeneficiary(e) {
-            e.preventDefault();
-
-            const id = document.getElementById('beneficiaryId').value;
-            const phone = document.getElementById('beneficiaryPhone').value.trim();
-
-            const data = {
-                id: id || phone,
-                phone: phone,
-                name: document.getElementById('beneficiaryName').value,
-                nationalId: document.getElementById('beneficiaryNationalId').value,
-                governorate: document.getElementById('beneficiaryGovernorate').value,
-                family: parseInt(document.getElementById('beneficiaryFamily').value) || 1,
-                address: document.getElementById('beneficiaryAddress').value,
-                status: document.getElementById('beneficiaryStatus').value,
-                needs: document.getElementById('beneficiaryNeeds').value,
-                condition: document.getElementById('beneficiaryCondition').value,
-                notes: document.getElementById('beneficiaryNotes').value,
-                joinDate: new Date().toISOString().split('T')[0]
-            };
-
-            if (id) {
-                // تعديل
-                const index = beneficiaries.findIndex(b => b.id === id);
-                if (index !== -1) {
-                    beneficiaries[index] = { ...beneficiaries[index], ...data };
-                    showToast('✅ تم تعديل البيانات بنجاح');
-                }
-            } else {
-                // إضافة
-                if (beneficiaries.some(b => b.phone === phone)) {
-                    showToast('⚠️ رقم التليفون موجود بالفعل', 'warning');
-                    return;
-                }
-                beneficiaries.push(data);
-                showToast('✅ تم إضافة المستفيد بنجاح');
-            }
-
-            saveData();
-            updateAllUI();
-            closeModal('beneficiaryModal');
-        }
-
-        function viewBeneficiary(id) {
-            const b = beneficiaries.find(b => b.id === id);
-            if (!b) return;
-
-            const bHelps = helps.filter(h => h.beneficiaryId === id);
-            const totalHelps = bHelps.length;
-            const lastHelp = bHelps[bHelps.length - 1];
-
-            let helpsHtml = '';
-            if (bHelps.length === 0) {
-                helpsHtml = '<p style="color: var(--text-secondary);">لا توجد مساعدات سابقة</p>';
-            } else {
-                helpsHtml = bHelps.reverse().map(h => `
-                    <div style="background: rgba(255,255,255,0.03); padding: 15px; border-radius: 15px; margin-bottom: 10px; border-right: 4px solid ${h.type === 'money' ? 'var(--warning)' : 'var(--success)'}">
-                        <div style="display: flex; justify-content: space-between;">
-                            <strong>${h.date}</strong>
-                            <span class="${h.type === 'money' ? 'status-high' : 'status-low'}" style="padding: 3px 10px;">
-                                ${h.type === 'money' ? '💰 مبلغ مالي' : h.type === 'material' ? '📦 مواد' : '🎁 أخرى'}
-                            </span>
-                        </div>
-                        <div style="margin-top: 10px;">
-                            ${h.items ? h.items.join(' - ') : ''}
-                            ${h.amount ? h.amount + ' جنيه' : ''}
-                            ${h.description || ''}
-                        </div>
-                        ${h.notes ? `<div style="color: var(--text-secondary); margin-top: 5px;">${h.notes}</div>` : ''}
+// ==============================================
+// عرض المصروفات في نافذة منبثقة أفضل (اختياري)
+// ==============================================
+function showExpensesInModal(car, expensesList) {
+    // إنشاء نافذة div مؤقتة لعرض البيانات بشكل منظم
+    const modal = document.createElement('div');
+    modal.style.position = 'fixed';
+    modal.style.top = '0';
+    modal.style.left = '0';
+    modal.style.width = '100%';
+    modal.style.height = '100%';
+    modal.style.backgroundColor = 'rgba(0,0,0,0.8)';
+    modal.style.zIndex = '10000';
+    modal.style.display = 'flex';
+    modal.style.alignItems = 'center';
+    modal.style.justifyContent = 'center';
+    modal.style.overflow = 'auto';
+    
+    const content = document.createElement('div');
+    content.style.backgroundColor = 'white';
+    content.style.borderRadius = '30px';
+    content.style.padding = '25px';
+    content.style.maxWidth = '500px';
+    content.style.width = '90%';
+    content.style.maxHeight = '80vh';
+    content.style.overflow = 'auto';
+    content.style.direction = 'rtl';
+    
+    let html = `
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 2px solid #1e3c72; padding-bottom: 15px;">
+            <h2 style="color: #1e3c72; margin: 0;">
+                <i class="fas fa-wrench"></i> مصروفات ${car?.number || 'السيارة'}
+            </h2>
+            <button onclick="this.closest('div').parentElement.remove()" style="background: #f44336; color: white; border: none; width: 35px; height: 35px; border-radius: 50%; cursor: pointer; font-size: 20px;">✕</button>
+        </div>
+        <div style="background: #f8f9fa; padding: 15px; border-radius: 20px; margin-bottom: 20px;">
+            <div><strong>🚗 السيارة:</strong> ${car?.number || 'غير معروف'} - ${car?.model || ''}</div>
+            <div><strong>💰 إجمالي المصروفات:</strong> <span style="color: #c62828;">${expensesList.reduce((s, e) => s + (e.amount || 0), 0).toLocaleString()} جنيه</span></div>
+            <div><strong>📊 عدد العمليات:</strong> ${expensesList.length}</div>
+        </div>
+    `;
+    
+    if (expensesList.length === 0) {
+        html += `<div style="text-align: center; padding: 40px; color: #999;">✨ لا توجد مصروفات مسجلة</div>`;
+    } else {
+        html += `<div style="max-height: 400px; overflow-y: auto;">`;
+        expensesList.forEach((expense, index) => {
+            html += `
+                <div style="background: ${index % 2 === 0 ? '#fff' : '#f5f5f5'}; padding: 15px; border-radius: 15px; margin-bottom: 10px; border-right: 4px solid #c62828;">
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                        <strong>#${index + 1}</strong>
+                        <span style="color: #c62828; font-weight: bold;">-${(expense.amount || 0).toLocaleString()} جنيه</span>
                     </div>
-                `).join('');
-            }
-
-            const profileHtml = `
-                <div class="profile-card-3d">
-                    <div class="profile-cover">
-                        <div class="profile-avatar-3d">
-                            <i class="fas fa-user"></i>
-                        </div>
+                    <div style="color: #666; font-size: 0.9rem; margin-bottom: 5px;">
+                        <i class="fas fa-calendar"></i> ${expense.date || 'بدون تاريخ'}
                     </div>
-                    
-                    <div class="profile-stats-3d">
-                        <div style="text-align: center;">
-                            <div style="font-size: 2rem; font-weight: 800; color: var(--primary);">${totalHelps}</div>
-                            <div style="color: var(--text-secondary);">إجمالي المساعدات</div>
-                        </div>
-                        <div style="text-align: center;">
-                            <div style="font-size: 2rem; font-weight: 800; color: var(--primary);">${b.family || 1}</div>
-                            <div style="color: var(--text-secondary);">عدد الأسرة</div>
-                        </div>
-                        <div style="text-align: center;">
-                            <div style="font-size: 2rem; font-weight: 800; color: var(--primary);">${lastHelp ? '✅' : '❌'}</div>
-                            <div style="color: var(--text-secondary);">آخر مساعدة</div>
-                        </div>
-                        <div style="text-align: center;">
-                            <div style="font-size: 2rem; font-weight: 800; color: var(--primary);">${b.joinDate || '---'}</div>
-                            <div style="color: var(--text-secondary);">تاريخ التسجيل</div>
-                        </div>
+                    <div style="color: #666; font-size: 0.9rem;">
+                        <i class="fas fa-pencil-alt"></i> ${expense.note || 'لا توجد ملاحظات'}
                     </div>
-                    
-                    <div style="padding: 30px;">
-                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; margin-bottom: 30px;">
-                            <div style="background: rgba(255,255,255,0.03); padding: 20px; border-radius: 20px;">
-                                <h3 style="display: flex; align-items: center; gap: 10px; color: var(--text-secondary); margin-bottom: 15px;">
-                                    <i class="fas fa-id-card"></i> البيانات الشخصية
-                                </h3>
-                                <div style="display: grid; gap: 10px;">
-                                    <div><strong>الاسم:</strong> ${b.name}</div>
-                                    <div><strong>رقم التليفون:</strong> ${b.phone}</div>
-                                    <div><strong>رقم البطاقة:</strong> ${b.nationalId || '---'}</div>
-                                    <div><strong>المحافظة:</strong> ${b.governorate}</div>
-                                    <div><strong>العنوان:</strong> ${b.address}</div>
-                                </div>
-                            </div>
-                            
-                            <div style="background: rgba(255,255,255,0.03); padding: 20px; border-radius: 20px;">
-                                <h3 style="display: flex; align-items: center; gap: 10px; color: var(--text-secondary); margin-bottom: 15px;">
-                                    <i class="fas fa-heartbeat"></i> الحالة الاجتماعية
-                                </h3>
-                                <div style="display: grid; gap: 10px;">
-                                    <div><strong>التقييم:</strong> 
-                                        <span class="${b.status === 'urgent' ? 'status-urgent' : 
-                                                      b.status === 'high' ? 'status-high' :
-                                                      b.status === 'medium' ? 'status-medium' : 'status-low'}">
-                                            ${b.status === 'urgent' ? 'عاجل جداً' :
-                                              b.status === 'high' ? 'خطير' :
-                                              b.status === 'medium' ? 'متابعة' : 'مستقر'}
-                                        </span>
-                                    </div>
-                                    <div><strong>الاحتياجات:</strong> ${b.needs || '---'}</div>
-                                    <div><strong>الوصف:</strong> ${b.condition || '---'}</div>
-                                    <div><strong>ملاحظات:</strong> ${b.notes || '---'}</div>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <h3 style="margin-bottom: 20px;"><i class="fas fa-history"></i> سجل المساعدات</h3>
-                        ${helpsHtml}
+                    <div style="color: #999; font-size: 0.7rem; margin-top: 5px;">
+                        <i class="fas fa-id-card"></i> معرف: ${expense.id.substring(0, 8)}...
                     </div>
                 </div>
             `;
-
-            document.getElementById('beneficiaryProfileContent').innerHTML = profileHtml;
-            document.getElementById('viewBeneficiaryModal').classList.add('active');
-        }
-
-        // ========== دوال المخزن ==========
-        function renderInventoryTable() {
-            const tbody = document.getElementById('inventoryTable');
-            if (!tbody) return;
-
-            if (inventory.length === 0) {
-                checkEmptyStates();
-                return;
-            }
-
-            let filtered = [...inventory];
-            
-            const search = document.getElementById('searchItem')?.value.toLowerCase() || '';
-            const category = document.getElementById('filterCategory')?.value || 'all';
-            const stock = document.getElementById('filterStock')?.value || 'all';
-
-            if (search) {
-                filtered = filtered.filter(i => i.name?.toLowerCase().includes(search));
-            }
-            if (category !== 'all') {
-                filtered = filtered.filter(i => i.category === category);
-            }
-            if (stock !== 'all') {
-                if (stock === 'low') {
-                    filtered = filtered.filter(i => i.quantity <= (i.minStock || 10));
-                } else if (stock === 'critical') {
-                    filtered = filtered.filter(i => i.quantity <= (i.minStock || 10) * 0.5);
-                } else if (stock === 'good') {
-                    filtered = filtered.filter(i => i.quantity > (i.minStock || 10));
-                }
-            }
-
-            tbody.innerHTML = filtered.map((item, index) => {
-                const lowStock = item.quantity <= (item.minStock || 10);
-                const critical = item.quantity <= (item.minStock || 10) * 0.5;
-
-                return `
-                    <tr>
-                        <td>${index + 1}</td>
-                        <td><strong>${item.name || ''}</strong></td>
-                        <td><strong style="font-size: 1.2rem;">${item.quantity || 0}</strong></td>
-                        <td>${item.unit || ''}</td>
-                        <td>
-                            <span class="status-medium">
-                                ${item.category === 'food' ? '🍚 غذاء' :
-                                  item.category === 'clothes' ? '👕 ملابس' :
-                                  item.category === 'medical' ? '💊 أدوية' : '📦 أخرى'}
-                            </span>
-                        </td>
-                        <td>${item.minStock || 10}</td>
-                        <td>
-                            <span class="stock-badge ${critical ? 'stock-critical' : lowStock ? 'stock-low' : 'stock-good'}">
-                                ${critical ? '🔴 حرج' : lowStock ? '🟡 منخفض' : '🟢 متوفر'}
-                            </span>
-                        </td>
-                        <td>${item.lastUpdate || '---'}</td>
-                        <td>
-                            <div class="action-icons-3d">
-                                <i class="fas fa-plus-circle action-icon-3d add" onclick="addItemQuantity(${item.id})" title="إضافة كمية"></i>
-                                <i class="fas fa-minus-circle action-icon-3d" onclick="removeItemQuantity(${item.id})" title="خصم كمية"></i>
-                                <i class="fas fa-edit action-icon-3d edit" onclick="editItem(${item.id})" title="تعديل"></i>
-                                <i class="fas fa-trash action-icon-3d delete" onclick="openDeleteModal('item', ${item.id})" title="حذف"></i>
-                            </div>
-                        </td>
-                    </tr>
-                `;
-            }).join('');
-        }
-
-        function filterInventory() {
-            renderInventoryTable();
-        }
-
-        function openAddItemModal() {
-            document.getElementById('itemModalTitle').innerHTML = 'إضافة مادة جديدة';
-            document.getElementById('itemId').value = '';
-            document.getElementById('itemForm').reset();
-            document.getElementById('itemModal').classList.add('active');
-        }
-
-        function editItem(id) {
-            const item = inventory.find(i => i.id === id);
-            if (!item) return;
-
-            document.getElementById('itemModalTitle').innerHTML = 'تعديل المادة';
-            document.getElementById('itemId').value = item.id;
-            document.getElementById('itemName').value = item.name || '';
-            document.getElementById('itemQuantity').value = item.quantity || 0;
-            document.getElementById('itemUnit').value = item.unit || 'كيلو';
-            document.getElementById('itemCategory').value = item.category || 'food';
-            document.getElementById('itemMinStock').value = item.minStock || 10;
-            document.getElementById('itemPrice').value = item.price || 0;
-            document.getElementById('itemNotes').value = item.notes || '';
-
-            document.getElementById('itemModal').classList.add('active');
-        }
-
-        function saveItem(e) {
-            e.preventDefault();
-
-            const id = document.getElementById('itemId').value;
-            const itemData = {
-                id: id ? parseInt(id) : Date.now(),
-                name: document.getElementById('itemName').value,
-                quantity: parseFloat(document.getElementById('itemQuantity').value) || 0,
-                unit: document.getElementById('itemUnit').value,
-                category: document.getElementById('itemCategory').value,
-                minStock: parseInt(document.getElementById('itemMinStock').value) || 10,
-                price: parseFloat(document.getElementById('itemPrice').value) || 0,
-                notes: document.getElementById('itemNotes').value,
-                lastUpdate: new Date().toLocaleDateString('ar-EG')
-            };
-
-            if (id) {
-                const index = inventory.findIndex(i => i.id == id);
-                if (index !== -1) {
-                    inventory[index] = { ...inventory[index], ...itemData };
-                    movements.push({
-                        id: Date.now(),
-                        type: 'تعديل',
-                        item: itemData.name,
-                        date: new Date().toLocaleDateString('ar-EG')
-                    });
-                    showToast('✅ تم تعديل المادة');
-                }
-            } else {
-                inventory.push(itemData);
-                movements.push({
-                    id: Date.now(),
-                    type: 'إضافة',
-                    item: itemData.name,
-                    quantity: itemData.quantity,
-                    date: new Date().toLocaleDateString('ar-EG')
-                });
-                showToast('✅ تم إضافة المادة');
-            }
-
-            saveData();
-            updateAllUI();
-            closeModal('itemModal');
-        }
-
-        function addItemQuantity(id) {
-            const item = inventory.find(i => i.id === id);
-            if (!item) return;
-
-            const qty = prompt('أدخل الكمية المراد إضافتها:', '1');
-            if (!qty) return;
-
-            const num = parseFloat(qty);
-            if (isNaN(num) || num <= 0) {
-                showToast('⚠️ كمية غير صالحة', 'warning');
-                return;
-            }
-
-            item.quantity = (item.quantity || 0) + num;
-            item.lastUpdate = new Date().toLocaleDateString('ar-EG');
-            
-            movements.push({
-                id: Date.now(),
-                type: 'إضافة',
-                item: item.name,
-                quantity: num,
-                date: new Date().toLocaleDateString('ar-EG')
-            });
-
-            saveData();
-            updateAllUI();
-            showToast(`✅ تم إضافة ${num} ${item.unit || ''}`);
-        }
-
-        function removeItemQuantity(id) {
-            const item = inventory.find(i => i.id === id);
-            if (!item) return;
-
-            const qty = prompt('أدخل الكمية المراد خصمها:', '1');
-            if (!qty) return;
-
-            const num = parseFloat(qty);
-            if (isNaN(num) || num <= 0 || num > (item.quantity || 0)) {
-                showToast('⚠️ كمية غير صالحة', 'warning');
-                return;
-            }
-
-            item.quantity -= num;
-            item.lastUpdate = new Date().toLocaleDateString('ar-EG');
-            
-            movements.push({
-                id: Date.now(),
-                type: 'خصم',
-                item: item.name,
-                quantity: num,
-                date: new Date().toLocaleDateString('ar-EG')
-            });
-
-            saveData();
-            updateAllUI();
-            showToast(`✅ تم خصم ${num} ${item.unit || ''}`);
-        }
-
-        function checkLowStock() {
-            const lowItems = inventory.filter(i => i.quantity <= (i.minStock || 10));
-            if (lowItems.length === 0) {
-                showToast('✅ كل الأصناف متوفرة');
-            } else {
-                let msg = 'الأصناف المنخفضة:\n';
-                lowItems.forEach(i => msg += `- ${i.name}: ${i.quantity} ${i.unit}\n`);
-                alert(msg);
-            }
-        }
-
-        // ========== دوال المساعدات ==========
-        function openQuickHelpModal() {
-            openHelpModal('');
-        }
-
-        function openHelpModal(beneficiaryId) {
-            if (beneficiaries.length === 0) {
-                showToast('⚠️ لا يوجد مستفيدين', 'warning');
-                return;
-            }
-            
-            if (inventory.length === 0) {
-                showToast('⚠️ المخزن فارغ', 'warning');
-                return;
-            }
-
-            const select = document.getElementById('helpBeneficiarySelect');
-            select.innerHTML = '<option value="">اختر...</option>' + 
-                beneficiaries.map(b => `<option value="${b.id}" ${b.id === beneficiaryId ? 'selected' : ''}>${b.name || ''} - ${b.phone || ''}</option>`).join('');
-
-            const itemsList = document.getElementById('helpItemsList');
-            itemsList.innerHTML = inventory.map(item => `
-                <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 8px; padding: 8px; background: rgba(255,255,255,0.03); border-radius: 10px;">
-                    <input type="checkbox" id="item_${item.id}">
-                    <label for="item_${item.id}" style="flex: 1;">${item.name || ''} (${item.quantity || 0} ${item.unit || ''})</label>
-                    <input type="number" id="qty_${item.id}" value="1" min="1" max="${item.quantity || 0}" style="width: 70px; padding: 5px; background: rgba(0,0,0,0.3); border: 1px solid var(--border); border-radius: 5px; color: white;">
-                </div>
-            `).join('');
-
-            document.getElementById('helpModal').classList.add('active');
-        }
-
-        function toggleHelpType() {
-            const type = document.getElementById('helpType').value;
-            document.getElementById('helpMaterialSection').style.display = type === 'material' ? 'block' : 'none';
-            document.getElementById('helpMoneySection').style.display = type === 'money' ? 'block' : 'none';
-            document.getElementById('helpOtherSection').style.display = type === 'other' ? 'block' : 'none';
-        }
-
-        function addHelp() {
-            const beneficiaryId = document.getElementById('helpBeneficiarySelect').value;
-            if (!beneficiaryId) {
-                showToast('⚠️ اختر المستفيد', 'warning');
-                return;
-            }
-
-            const type = document.getElementById('helpType').value;
-            const notes = document.getElementById('helpNotes').value;
-            const beneficiary = beneficiaries.find(b => b.id === beneficiaryId);
-
-            let helpData = {
-                id: Date.now(),
-                beneficiaryId: beneficiaryId,
-                beneficiaryName: beneficiary?.name || '',
-                date: new Date().toLocaleDateString('ar-EG'),
-                type: type,
-                notes: notes
-            };
-
-            if (type === 'material') {
-                const items = [];
-                inventory.forEach(item => {
-                    const checkbox = document.getElementById(`item_${item.id}`);
-                    const qtyInput = document.getElementById(`qty_${item.id}`);
-                    
-                    if (checkbox && checkbox.checked && qtyInput && qtyInput.value) {
-                        const qty = parseFloat(qtyInput.value);
-                        if (qty > 0 && qty <= (item.quantity || 0)) {
-                            item.quantity -= qty;
-                            items.push(`${item.name || ''} (${qty} ${item.unit || ''})`);
-                            
-                            movements.push({
-                                id: Date.now(),
-                                type: 'صرف',
-                                item: item.name,
-                                quantity: qty,
-                                beneficiary: beneficiary?.name || '',
-                                date: new Date().toLocaleDateString('ar-EG')
-                            });
-                        }
-                    }
-                });
-                
-                if (items.length === 0) {
-                    showToast('⚠️ اختر المواد', 'warning');
-                    return;
-                }
-                helpData.items = items;
-            } else if (type === 'money') {
-                const amount = document.getElementById('helpAmount').value;
-                if (!amount) {
-                    showToast('⚠️ أدخل المبلغ', 'warning');
-                    return;
-                }
-                helpData.amount = amount;
-                helpData.reason = document.getElementById('helpReason').value;
-                
-                movements.push({
-                    id: Date.now(),
-                    type: 'صرف مالي',
-                    amount: amount,
-                    beneficiary: beneficiary?.name || '',
-                    date: new Date().toLocaleDateString('ar-EG')
-                });
-            } else {
-                const desc = document.getElementById('helpDescription').value;
-                if (!desc) {
-                    showToast('⚠️ اكتب وصف المساعدة', 'warning');
-                    return;
-                }
-                helpData.description = desc;
-                
-                movements.push({
-                    id: Date.now(),
-                    type: 'صرف أخرى',
-                    description: desc,
-                    beneficiary: beneficiary?.name || '',
-                    date: new Date().toLocaleDateString('ar-EG')
-                });
-            }
-
-            helps.push(helpData);
-            saveData();
-            updateAllUI();
-            closeModal('helpModal');
-            showToast('✅ تم صرف المساعدة');
-        }
-
-        // ========== دوال عامة ==========
-        function renderRecentBeneficiaries() {
-            const tbody = document.getElementById('recentBeneficiariesTable');
-            if (!tbody) return;
-
-            if (beneficiaries.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="5" style="text-align: center; padding: 30px;">لا يوجد مستفيدين بعد</td></tr>';
-                return;
-            }
-
-            const recent = beneficiaries.slice(-5).reverse();
-            tbody.innerHTML = recent.map(b => {
-                const lastHelp = helps.filter(h => h.beneficiaryId === b.id)
-                    .sort((a, b) => new Date(b.date) - new Date(a.date))[0];
-                
-                return `
-                    <tr>
-                        <td><strong>${b.name || ''}</strong></td>
-                        <td>${b.phone || ''}</td>
-                        <td>${b.governorate || ''}</td>
-                        <td>
-                            <span class="${b.status === 'urgent' ? 'status-urgent' : 
-                                         b.status === 'high' ? 'status-high' :
-                                         b.status === 'medium' ? 'status-medium' : 'status-low'}">
-                                ${b.status === 'urgent' ? 'عاجل' :
-                                  b.status === 'high' ? 'خطير' :
-                                  b.status === 'medium' ? 'متابعة' : 'مستقر'}
-                            </span>
-                        </td>
-                        <td>${lastHelp ? lastHelp.date : 'لا يوجد'}</td>
-                    </tr>
-                `;
-            }).join('');
-        }
-
-        function renderRecentMovements() {
-            const tbody = document.getElementById('recentMovementsTable');
-            if (!tbody) return;
-
-            if (movements.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="5" style="text-align: center; padding: 30px;">لا توجد حركات بعد</td></tr>';
-                return;
-            }
-
-            const recent = movements.slice(-5).reverse();
-            tbody.innerHTML = recent.map(m => `
-                <tr>
-                    <td>${m.date || ''}</td>
-                    <td>
-                        <span class="${m.type === 'إضافة' ? 'status-low' : 
-                                     m.type === 'خصم' ? 'status-high' : 
-                                     m.type === 'صرف' ? 'status-medium' : 'status-warning'}">
-                            ${m.type || ''}
-                        </span>
-                    </td>
-                    <td>${m.item || m.amount || m.description || '---'}</td>
-                    <td>${m.quantity || m.amount || ''}</td>
-                    <td>${m.beneficiary || '---'}</td>
-                </tr>
-            `).join('');
-        }
-
-        function showUrgentOnly() {
-            switchTab('beneficiaries');
-            document.getElementById('filterStatus').value = 'urgent';
-            filterBeneficiaries();
-        }
-
-        function openDeleteModal(type, id) {
-            deleteType = type;
-            deleteId = id;
-            
-            let msg = '';
-            if (type === 'beneficiary') {
-                const b = beneficiaries.find(b => b.id === id);
-                msg = `هل أنت متأكد من حذف "${b?.name || ''}"؟`;
-            } else if (type === 'item') {
-                const item = inventory.find(i => i.id === id);
-                msg = `هل أنت متأكد من حذف "${item?.name || ''}"؟`;
-            }
-            
-            document.getElementById('deleteMessage').innerHTML = msg;
-            document.getElementById('deleteModal').classList.add('active');
-        }
-
-        function confirmDelete() {
-            if (deleteType === 'beneficiary') {
-                beneficiaries = beneficiaries.filter(b => b.id !== deleteId);
-                helps = helps.filter(h => h.beneficiaryId !== deleteId);
-                showToast('✅ تم حذف المستفيد');
-            } else if (deleteType === 'item') {
-                inventory = inventory.filter(i => i.id !== deleteId);
-                showToast('✅ تم حذف المادة');
-            }
-            
-            saveData();
-            updateAllUI();
-            closeModal('deleteModal');
-            deleteType = null;
-            deleteId = null;
-        }
-
-        // ========== التقارير ==========
-        function generateReport(type) {
-            const content = document.getElementById('reportContent');
-            
-            if (beneficiaries.length === 0 && inventory.length === 0 && helps.length === 0) {
-                content.innerHTML = `
-                    <div class="empty-state">
-                        <i class="fas fa-chart-bar"></i>
-                        <h3>لا توجد بيانات</h3>
-                        <p>قم بإضافة مستفيدين ومواد أولاً</p>
-                    </div>
-                `;
-                return;
-            }
-            
-            if (type === 'monthly') {
-                const helped = helps.filter(h => {
-                    const d = new Date(h.date);
-                    return d.getMonth() === currentMonth && d.getFullYear() === currentYear;
-                });
-                
-                content.innerHTML = `
-                    <h3 style="margin-bottom: 20px;">تقرير شهر ${new Date().toLocaleDateString('ar-EG', { month: 'long' })}</h3>
-                    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;">
-                        <div style="background: rgba(255,255,255,0.03); padding: 20px; border-radius: 15px;">
-                            <h4>إجمالي المساعدات</h4>
-                            <div style="font-size: 2rem;">${helped.length}</div>
-                        </div>
-                        <div style="background: rgba(255,255,255,0.03); padding: 20px; border-radius: 15px;">
-                            <h4>مستفيدين</h4>
-                            <div style="font-size: 2rem;">${new Set(helped.map(h => h.beneficiaryId)).size}</div>
-                        </div>
-                        <div style="background: rgba(255,255,255,0.03); padding: 20px; border-radius: 15px;">
-                            <h4>إجمالي المبالغ</h4>
-                            <div style="font-size: 2rem;">${helped.filter(h => h.amount).reduce((s, h) => s + parseFloat(h.amount || 0), 0)} ج.م</div>
-                        </div>
-                    </div>
-                `;
-            } else if (type === 'beneficiaries') {
-                const governorates = {};
-                beneficiaries.forEach(b => {
-                    governorates[b.governorate] = (governorates[b.governorate] || 0) + 1;
-                });
-                
-                let govHtml = '';
-                for (let [gov, count] of Object.entries(governorates)) {
-                    govHtml += `<div>${gov}: <strong>${count}</strong> مستفيد</div>`;
-                }
-                
-                content.innerHTML = `
-                    <h3 style="margin-bottom: 20px;">تقرير المستفيدين</h3>
-                    <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px;">
-                        <div style="background: rgba(255,255,255,0.03); padding: 20px; border-radius: 15px;">
-                            <h4>إجمالي المستفيدين</h4>
-                            <div style="font-size: 2rem;">${beneficiaries.length}</div>
-                        </div>
-                        <div style="background: rgba(255,255,255,0.03); padding: 20px; border-radius: 15px;">
-                            <h4>عدد المحافظات</h4>
-                            <div style="font-size: 2rem;">${Object.keys(governorates).length}</div>
-                        </div>
-                        <div style="grid-column: span 2; background: rgba(255,255,255,0.03); padding: 20px; border-radius: 15px;">
-                            <h4>التوزيع حسب المحافظة</h4>
-                            ${govHtml || 'لا يوجد بيانات'}
-                        </div>
-                    </div>
-                `;
-            } else if (type === 'inventory') {
-                const totalValue = inventory.reduce((sum, i) => sum + ((i.quantity || 0) * (i.price || 0)), 0);
-                const lowStock = inventory.filter(i => i.quantity <= (i.minStock || 10));
-                
-                content.innerHTML = `
-                    <h3 style="margin-bottom: 20px;">تقرير المخزن</h3>
-                    <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px;">
-                        <div style="background: rgba(255,255,255,0.03); padding: 20px; border-radius: 15px;">
-                            <h4>إجمالي الأصناف</h4>
-                            <div style="font-size: 2rem;">${inventory.length}</div>
-                        </div>
-                        <div style="background: rgba(255,255,255,0.03); padding: 20px; border-radius: 15px;">
-                            <h4>القيمة التقديرية</h4>
-                            <div style="font-size: 2rem;">${totalValue.toFixed(0)} ج.م</div>
-                        </div>
-                        <div style="grid-column: span 2; background: rgba(255,255,255,0.03); padding: 20px; border-radius: 15px;">
-                            <h4>أصناف تحتاج لإعادة توريد (${lowStock.length})</h4>
-                            ${lowStock.map(i => `<div>• ${i.name}: ${i.quantity} ${i.unit}</div>`).join('') || 'لا توجد'}
-                        </div>
-                    </div>
-                `;
-            } else {
-                const totalMoney = helps.filter(h => h.amount).reduce((s, h) => s + parseFloat(h.amount || 0), 0);
-                
-                content.innerHTML = `
-                    <h3 style="margin-bottom: 20px;">تقرير مالي</h3>
-                    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;">
-                        <div style="background: rgba(255,255,255,0.03); padding: 20px; border-radius: 15px;">
-                            <h4>إجمالي المساعدات</h4>
-                            <div style="font-size: 2rem;">${helps.length}</div>
-                        </div>
-                        <div style="background: rgba(255,255,255,0.03); padding: 20px; border-radius: 15px;">
-                            <h4>إجمالي المبالغ</h4>
-                            <div style="font-size: 2rem;">${totalMoney} ج.م</div>
-                        </div>
-                        <div style="background: rgba(255,255,255,0.03); padding: 20px; border-radius: 15px;">
-                            <h4>قيمة المخزن</h4>
-                            <div style="font-size: 2rem;">${inventory.reduce((s, i) => s + ((i.quantity || 0) * (i.price || 0)), 0).toFixed(0)} ج.م</div>
-                        </div>
-                    </div>
-                `;
-            }
-        }
-
-        // ========== تصدير وطباعة ==========
-        function exportBeneficiaries() {
-            if (beneficiaries.length === 0) {
-                showToast('⚠️ لا يوجد بيانات للتصدير', 'warning');
-                return;
-            }
-            
-            let csv = "الاسم,رقم التليفون,رقم البطاقة,المحافظة,العنوان,الحالة,عدد الأسرة,الاحتياجات,تاريخ التسجيل\n";
-            beneficiaries.forEach(b => {
-                csv += `${b.name || ''},${b.phone || ''},${b.nationalId || ''},${b.governorate || ''},${b.address || ''},${b.status || ''},${b.family || 1},${b.needs || ''},${b.joinDate || ''}\n`;
-            });
-            
-            const blob = new Blob(["\uFEFF" + csv], { type: 'text/csv;charset=utf-8;' });
-            const url = window.URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = 'المستفيدين.csv';
-            a.click();
-            showToast('✅ تم تصدير الملف');
-        }
-
-        function exportInventory() {
-            if (inventory.length === 0) {
-                showToast('⚠️ لا يوجد بيانات للتصدير', 'warning');
-                return;
-            }
-            
-            let csv = "المادة,الكمية,الوحدة,التصنيف,الحد الأدنى,السعر,آخر تحديث\n";
-            inventory.forEach(i => {
-                csv += `${i.name || ''},${i.quantity || 0},${i.unit || ''},${i.category || ''},${i.minStock || 10},${i.price || 0},${i.lastUpdate || ''}\n`;
-            });
-            
-            const blob = new Blob(["\uFEFF" + csv], { type: 'text/csv;charset=utf-8;' });
-            const url = window.URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = 'المخزن.csv';
-            a.click();
-            showToast('✅ تم تصدير الملف');
-        }
-
-        function exportFullReport() {
-            generateReport('monthly');
-            switchTab('reports');
-        }
-
-        function printBeneficiaries() {
-            window.print();
-        }
-
-        function printInventory() {
-            window.print();
-        }
-
-        // ========== دوال التنقل ==========
-        function switchTab(tab) {
-            document.querySelectorAll('.tab-btn-3d').forEach(b => b.classList.remove('active'));
-            document.querySelectorAll('.tab-section').forEach(s => s.classList.remove('active'));
-            
-            if (tab === 'dashboard') {
-                document.querySelectorAll('.tab-btn-3d')[0].classList.add('active');
-                document.getElementById('dashboardSection').classList.add('active');
-                renderRecentBeneficiaries();
-                renderRecentMovements();
-            } else if (tab === 'beneficiaries') {
-                document.querySelectorAll('.tab-btn-3d')[1].classList.add('active');
-                document.getElementById('beneficiariesSection').classList.add('active');
-                renderBeneficiariesTable();
-            } else if (tab === 'inventory') {
-                document.querySelectorAll('.tab-btn-3d')[2].classList.add('active');
-                document.getElementById('inventorySection').classList.add('active');
-                renderInventoryTable();
-            } else {
-                document.querySelectorAll('.tab-btn-3d')[3].classList.add('active');
-                document.getElementById('reportsSection').classList.add('active');
-            }
-        }
-
-        function closeModal(modalId) {
-            document.getElementById(modalId).classList.remove('active');
-        }
-
-        function showToast(message, type = 'success') {
-            const toast = document.createElement('div');
-            toast.className = 'toast-3d';
-            toast.style.borderRightColor = type === 'success' ? 'var(--success)' : 'var(--warning)';
-            toast.innerHTML = `<i class="fas ${type === 'success' ? 'fa-check-circle' : 'fa-exclamation-circle'}"></i> ${message}`;
-            document.body.appendChild(toast);
-            setTimeout(() => toast.remove(), 3000);
-        }
-
-        // بدء التشغيل
-        document.addEventListener('DOMContentLoaded', () => {
-            loadData();
         });
-    </script>
-</body>
-</html>
+        html += `</div>`;
+    }
+    
+    html += `
+        <div style="margin-top: 20px; text-align: center; padding-top: 15px; border-top: 1px solid #ddd;">
+            <small style="color: #999;">📌 هذه قائمة بجميع المصروفات من أول يوم - لا يتم حذف أي شيء تلقائياً</small>
+        </div>
+    `;
+    
+    content.innerHTML = html;
+    modal.appendChild(content);
+    document.body.appendChild(modal);
+    
+    // إغلاق عند الضغط خارج المحتوى
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) modal.remove();
+    });
+}
+
+// ==============================================
+// عرض الأرباح في نافذة منبثقة أفضل
+// ==============================================
+function showWorkInModal(car, workList) {
+    const modal = document.createElement('div');
+    modal.style.position = 'fixed';
+    modal.style.top = '0';
+    modal.style.left = '0';
+    modal.style.width = '100%';
+    modal.style.height = '100%';
+    modal.style.backgroundColor = 'rgba(0,0,0,0.8)';
+    modal.style.zIndex = '10000';
+    modal.style.display = 'flex';
+    modal.style.alignItems = 'center';
+    modal.style.justifyContent = 'center';
+    modal.style.overflow = 'auto';
+    
+    const content = document.createElement('div');
+    content.style.backgroundColor = 'white';
+    content.style.borderRadius = '30px';
+    content.style.padding = '25px';
+    content.style.maxWidth = '500px';
+    content.style.width = '90%';
+    content.style.maxHeight = '80vh';
+    content.style.overflow = 'auto';
+    content.style.direction = 'rtl';
+    
+    let html = `
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 2px solid #00b09b; padding-bottom: 15px;">
+            <h2 style="color: #00b09b; margin: 0;">
+                <i class="fas fa-briefcase"></i> أرباح ${car?.number || 'السيارة'}
+            </h2>
+            <button onclick="this.closest('div').parentElement.remove()" style="background: #f44336; color: white; border: none; width: 35px; height: 35px; border-radius: 50%; cursor: pointer; font-size: 20px;">✕</button>
+        </div>
+        <div style="background: #e8f5e9; padding: 15px; border-radius: 20px; margin-bottom: 20px;">
+            <div><strong>🚗 السيارة:</strong> ${car?.number || 'غير معروف'} - ${car?.model || ''}</div>
+            <div><strong>💰 إجمالي الأرباح:</strong> <span style="color: #2e7d32;">${workList.reduce((s, w) => s + (w.amount || 0), 0).toLocaleString()} جنيه</span></div>
+            <div><strong>📊 عدد العمليات:</strong> ${workList.length}</div>
+        </div>
+    `;
+    
+    if (workList.length === 0) {
+        html += `<div style="text-align: center; padding: 40px; color: #999;">✨ لا توجد أرباح مسجلة</div>`;
+    } else {
+        html += `<div style="max-height: 400px; overflow-y: auto;">`;
+        workList.forEach((work, index) => {
+            html += `
+                <div style="background: ${index % 2 === 0 ? '#fff' : '#f0f9f7'}; padding: 15px; border-radius: 15px; margin-bottom: 10px; border-right: 4px solid #00b09b;">
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                        <strong>#${index + 1}</strong>
+                        <span style="color: #00b09b; font-weight: bold;">+${(work.amount || 0).toLocaleString()} جنيه</span>
+                    </div>
+                    <div style="color: #666; font-size: 0.9rem; margin-bottom: 5px;">
+                        <i class="fas fa-calendar"></i> ${work.date || 'بدون تاريخ'}
+                    </div>
+                    <div style="color: #666; font-size: 0.9rem;">
+                        <i class="fas fa-pencil-alt"></i> ${work.note || 'لا توجد ملاحظات'}
+                    </div>
+                    <div style="color: #999; font-size: 0.7rem; margin-top: 5px;">
+                        <i class="fas fa-id-card"></i> معرف: ${work.id.substring(0, 8)}...
+                    </div>
+                </div>
+            `;
+        });
+        html += `</div>`;
+    }
+    
+    html += `
+        <div style="margin-top: 20px; text-align: center; padding-top: 15px; border-top: 1px solid #ddd;">
+            <small style="color: #999;">📌 هذه قائمة بجميع الأرباح من أول يوم - لا يتم حذف أي شيء تلقائياً</small>
+        </div>
+    `;
+    
+    content.innerHTML = html;
+    modal.appendChild(content);
+    document.body.appendChild(modal);
+    
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) modal.remove();
+    });
+}
